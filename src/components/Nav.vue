@@ -1,14 +1,14 @@
 <template>
   <div class="nav-main">
     <div class="left-side">
-      <span>电影点评</span>
+      <router-link to="/">电影点评</router-link>
     </div>
     <div class="right-side">
       <ul>
         <router-link v-for="(item, index) in links" :key="index" :to="item.href">
           {{ item.name }}
         </router-link>
-        <i class="iconfont icon-search"></i>
+      <i class="iconfont icon-search"></i>
       </ul>
     </div>
   </div>
@@ -21,7 +21,7 @@ export default {
     return {
       links: [
         { name: '发布影评', href: '/' },
-        { name: '精彩影评', href: '/' },
+        { name: '精彩影评', href: '/article' },
         { name: '电影排行', href: '/' },
         { name: '电影推荐', href: '/' }
       ]
@@ -36,6 +36,12 @@ export default {
   padding: 10px 60px;
   justify-content: space-between;
   background-color: #0077FF;
+  a{
+    padding-right: 30px;
+    color: #FFF;
+    letter-spacing: 0.1px;
+    text-decoration: none;
+  }
   .left-side {
     margin: auto 0;
     color: #FFF;
@@ -45,12 +51,6 @@ export default {
   .right-side {
     ul {
       display: flex;
-      a{
-        padding-right: 30px;
-        color: #FFF;
-        letter-spacing: 0.1px;
-        text-decoration: none;
-      }
       i {
         margin-top: 3.4px;
         padding-right: 30px;
