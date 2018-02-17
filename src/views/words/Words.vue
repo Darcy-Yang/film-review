@@ -2,29 +2,31 @@
   <div class="words-main">
     <Nav/>
     <div class="list">
-      <div class="content" v-for="(item, index) in contents" :key="index">
-        <div class="words">
-          <span>精彩台词-精彩台词-精彩台词-精彩台词-精彩台词-精彩台词-精彩台词-精彩台词-精彩台词-精彩台词-精彩台词-精彩台词-精彩台词-精彩台词-精彩台词</span>
-          <div class="features">
+      <div class="content" v-for="(item, index) in words" :key="index">
+        <div class="paper">
+          <div class="words">
+            <span class="film-words">如果你有梦想，就要守护它。当人们做不到一些事情的时候，他们就会对你说你也同样不可能。有了目标就要全力以赴。</span><br>
+            <span class="film-name">——《当幸福来敲门》</span>
+          </div>
+          <div class="feature">
             <div class="unit">
               <i class="iconfont icon-xihuan"></i>
-              <span>喜欢</span>
+              <span>32</span>
             </div>
             <div class="unit">
               <i class="iconfont icon-pinglun"></i>
-              <span>评论</span>
+              <span>3</span>
             </div>
             <div class="unit">
-              <i class="iconfont icon-shoucang"></i>
-              <span>收藏</span>
+              <i class="iconfont icon-share"></i>
             </div>
-            <span class="source">——《XXXXXX》</span>
+          </div>
+          <div class="user-info">
+            <img src="static/images/avatar.jpg" alt="avatar"/>
+            <span>user_name</span>
           </div>
         </div>
-        <div class="user">
-          <img src="static/images/avatar.jpg" alt="avatar"/>
-          <span>user_name</span>
-          <!-- <span>user_name_user_name_user_name</span> -->
+        <div class="paper-shadow" style="background-image: url(static/images/paper-shadow.png);">
         </div>
       </div>
     </div>
@@ -41,67 +43,69 @@ export default {
   },
   data () {
     return {
-      contents: []
+      words: []
     }
   },
   created () {
-    this.contents.length = 10
+    this.words.length = 6
   }
 }
 </script>
 
 <style lang="less" scoped>
 .words-main {
-  display: flex;
-  flex-direction: column;
+  height: 100%;
   background-color: #F6F6F6;
   .list {
-    margin: 40px auto;
-    padding: 20px;
-    width: 52%;
-
-    background-color: #FFF;
-    border-radius: 4px;
-    box-shadow: 0 0 10px;
+    margin: 48px 0;
     .content {
       display: flex;
-      margin-bottom: 20px;
-      justify-content: space-between;
-      .words {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 10px 20px 5px 20px;
-        width: 80%;
-        background-color: #F6F6F6;
-        border-radius: 4px;
-        .features {
-          margin-top: 12px;
-          font-size: 14px;
-          .unit {
-            float: left;
-            margin-right: 20px;
-            cursor: pointer;
+      flex-direction: column;
+      align-items: center;
+      .paper {
+        padding: 32px;
+        padding-bottom: 12px;
+        width: 736px;
+        background-color: #FFF;
+        border: 1px solid #BDBDBD;
+        .words {
+          padding-bottom: 28px;
+          border-bottom: 1px solid #BDBDBD;
+          .film-words {
+            font-size: 18px;
+            font-weight: 600;
           }
-          .source {
+          .film-name {
             float: right;
           }
         }
-      }
-      .user {
-        display: flex;
-        padding-left: 12px;
-        width: 14%;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        word-break: break-all;
-        img {
-          margin: 0 auto;
-          width: 42px;
-          height: 42px;
-          border-radius: 50%;
+        .feature {
+          margin-top: 10px;
+          .unit {
+            margin-top: 10px;
+            margin-right: 16px;
+            float: left;
+            cursor: pointer;
+          }
         }
+        .user-info {
+          display: flex;
+          float: right;
+          align-items: center;
+          img {
+            margin-right: 8px;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+          }
+          img, span {
+            cursor: pointer;
+          }
+        }
+      }
+      .paper-shadow {
+        width: 800px;
+        height: 32px;
       }
     }
   }
