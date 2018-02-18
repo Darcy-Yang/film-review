@@ -2,7 +2,7 @@
   <div class="article-main">
     <Nav/>
     <div class="article">
-      <img class="title-img" src="static/images/title_img.jpg" alt="images"/>
+      <img class="title-img" src="static/images/title_img.jpg" alt="image"/>
       <div class="info">
         <div class="title">
           <span>文章标题</span>
@@ -32,7 +32,7 @@
             <span>收藏</span>
           </div>
           <div class="share">
-            <i class="iconfont icon-fenxiang"></i>
+            <i class="iconfont icon-share"></i>
             <span>分享</span>
           </div>
         </div>

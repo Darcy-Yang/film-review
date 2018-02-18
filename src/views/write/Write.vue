@@ -4,14 +4,13 @@
     <div class="area">
       <div class="upload-area">
         <i class="iconfont icon-xiangji"></i>
-        <span class="description">添加题图</span>
+        <span class="description">添加背景图</span>
         <input type="file"/>
       </div>
       <div class="title-area">
-        <textarea placeholder="请输入标题..."></textarea>
+        <textarea placeholder="请输入标题"></textarea>
       </div>
-      <div class="editor-area">
-        <span>富文本编辑器</span>
+      <div class="separator">
       </div>
       <div class="content-area">
         <textarea placeholder="请输入正文"></textarea>
@@ -27,6 +26,13 @@ export default {
   name: 'Write',
   components: {
     Nav
+  },
+  data () {
+    return {
+      contents: ''
+    }
+  },
+  methods: {
   }
 }
 </script>
@@ -95,17 +101,19 @@ export default {
         font-weight: 600;
         line-height: 1.4;
       }
+      // 设置提示字符串颜色；(chrome)
       textarea::-webkit-input-placeholder {
         color: #A4A4A4;
       }
     }
-    .editor-area {
-      padding: 20px;
+    .separator {
       width: 100%;
       color: gray;
       text-align: left;
+      border-bottom: 1px solid #A4A4A4;
     }
     .content-area{
+      margin-top: 20px;
       width: 100%;
       textarea {
         min-height: 300px;

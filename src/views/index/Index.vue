@@ -14,50 +14,56 @@
     </div>
     <div class="pointer">
       <li v-for="(item, index) in images" :key="index" ref="pointer" @click="replace(index)"></li>
+      <span style="color: red;">太幼稚</span>
     </div>
     <div class="content">
       <div class="left-content">
-        <div class="reviews" v-for="(item, index) in images" :key="index">
-          <div class="top">
-            <div class="review">
-              <span class="title">记一次XXX影评</span><br>
-              <span>这部电影很不错～这部电影很不错～这部电影很不错～这部电影很不错～这部电影很不错～</span>
-              <div class="timeline">
-                <span>1,17 17:30</span>
+        <div class="reviews" v-for="(item, index) in images" :key="index"
+          style="background-image: url(https://img1.doubanio.com/view/photo/s_ratio_poster/public/p1312700628.jpg);">
+          <div class="review-content">
+            <div class="top">
+              <div class="review">
+                <span class="title">记一次XXX影评</span><br>
+                <span>这部电影很不错～这部电影很不错～这部电影很不错～这部电影很不错～这部电影很不错～</span>
+                <div class="timeline">
+                  <span>1,17 17:30</span>
+                </div>
+              </div>
+              <div class="user-info">
+                <img src="static/images/avatar.jpg" alt="avatar"/>
+                <span>user_name</span>
               </div>
             </div>
-            <div class="user-info">
-              <img src="static/images/avatar.jpg" alt="avatar"/>
-              <span>user_name</span>
-            </div>
-          </div>
-          <div class="bottom">
-            <div class="unit">
-              <i class="iconfont icon-like"></i>
-              <span>146</span>
-            </div>
-            <div class="unit">
-              <i class="iconfont icon-dislike"></i>
-              <span>23</span>
-            </div>
-            <div class="unit">
-              <i class="iconfont icon-pinglun"></i>
-              <span>2</span>
-            </div>
-            <div class="unit">
-              <i class="iconfont icon-share"></i>
-              <span>分享</span>
+            <div class="bottom">
+              <div class="unit">
+                <i class="iconfont icon-like"></i>
+                <span>146</span>
+              </div>
+              <div class="unit">
+                <i class="iconfont icon-dislike"></i>
+                <span>23</span>
+              </div>
+              <div class="unit">
+                <i class="iconfont icon-pinglun"></i>
+                <span>2</span>
+              </div>
+              <div class="unit">
+                <i class="iconfont icon-share"></i>
+                <span>分享</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="right-content">
+        <!-- 设计一个样式，冠军、亚军、季军 -->
         <div class="tip">
           <span>电影排行榜</span>
           <router-link to="/">查看更多</router-link>
         </div>
-        <div class="classic" v-for="index in recommend" :key="index">
+        <div class="classic" v-for="(item, index) in recommend" :key="index">
           <div class="top">
+            <span>{{ index + 1 }}.</span>
             <img src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p1312700628.jpg" alt="image"/>
             <div class="film-info">
               <span>当幸福来敲门</span>
@@ -180,53 +186,59 @@ export default {
       .reviews {
         margin-top: 20px;
         padding: 10px 20px;
-        .top {
-          display: flex;
-          justify-content: space-between;
-          .review {
-            padding: 10px;
-            width: 78%;
-            span {
-              line-height: 24px;
-            }
-            .title {
-              font-size: 18px;
-              font-weight: 600;
-            }
-            .timeline {
-              text-align: right;
-            }
-          }
-          .user-info {
+        .review-content {
+          padding-bottom: 8px;
+          color: #FFF;
+          background-color: rgba(128, 128, 128, .42);
+          border-radius: 3px;
+          .top {
             display: flex;
-            width: 20%;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            word-break: break-word;
-            img {
-              width: 42px;
-              height: 42px;
-              border-radius: 50%;
-              cursor: pointer;
+            justify-content: space-between;
+            .review {
+              padding: 10px;
+              width: 78%;
+              span {
+                line-height: 24px;
+              }
+              .title {
+                font-size: 18px;
+                font-weight: 600;
+              }
+              .timeline {
+                text-align: right;
+              }
             }
-            span {
-              cursor: pointer;
-              &:hover {
-                color: orange;
+            .user-info {
+              display: flex;
+              width: 20%;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              word-break: break-word;
+              img {
+                width: 42px;
+                height: 42px;
+                border-radius: 50%;
+                cursor: pointer;
+              }
+              span {
+                cursor: pointer;
+                &:hover {
+                  color: orange;
+                }
               }
             }
           }
-        }
-        .bottom {
-          margin: 8px 0 0 10px;
-          height: 20px;
-          .unit {
-            float: left;
-            margin-right: 12px;
-            cursor: pointer;
-            &:hover {
-              color: blue;
+          .bottom {
+            margin: 8px 0 0 10px;
+            height: 20px;
+            .unit {
+              float: left;
+              margin-right: 12px;
+              cursor: pointer;
+              &:hover {
+                color: blue;
+              }
             }
           }
         }
@@ -254,6 +266,7 @@ export default {
         .top {
           display: flex;
           img {
+            margin-left: 3px;
             width: 100px;
             height: 120px;
           }

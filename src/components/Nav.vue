@@ -1,6 +1,6 @@
 <template>
   <div class="nav-main">
-    <div class="left-side">
+    <div class="left-side" :style="leftStyle">
       <router-link to="/">电影点评</router-link>
     </div>
     <div class="right-side">
@@ -17,11 +17,17 @@
 <script>
 export default {
   name: 'Nav',
+  props: {
+    leftStyle: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       links: [
-        { name: '发布影评', href: '/' },
-        { name: '精彩影评', href: '/article' },
+        { name: '发布影评', href: '/write' },
+        { name: '我爱台词', href: '/words' },
         { name: '电影排行', href: '/' },
         { name: '电影推荐', href: '/' }
       ]
@@ -44,6 +50,7 @@ export default {
   }
   .left-side {
     margin: auto 0;
+    margin-left: 183px;
     color: #FFF;
     letter-spacing: 0.1px;
     cursor: pointer;

@@ -1,5 +1,5 @@
 <template>
-  <div class="words-main">
+  <div class="words-main" ref="body">
     <Nav :leftStyle="leftStyle"/>
     <div class="whole-content">
       <div class="list">
