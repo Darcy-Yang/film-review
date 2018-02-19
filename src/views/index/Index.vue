@@ -14,44 +14,15 @@
     </div>
     <div class="pointer">
       <li v-for="(item, index) in images" :key="index" ref="pointer" @click="replace(index)"></li>
-      <span style="color: red;">太幼稚</span>
+      <span style="color: red;">轮播图上加说明文字</span>
     </div>
     <div class="content">
       <div class="left-content">
-        <div class="reviews" v-for="(item, index) in images" :key="index"
-          style="background-image: url(https://img1.doubanio.com/view/photo/s_ratio_poster/public/p1312700628.jpg);">
-          <div class="review-content">
-            <div class="top">
-              <div class="review">
-                <span class="title">记一次XXX影评</span><br>
-                <span>这部电影很不错～这部电影很不错～这部电影很不错～这部电影很不错～这部电影很不错～</span>
-                <div class="timeline">
-                  <span>1,17 17:30</span>
-                </div>
-              </div>
-              <div class="user-info">
-                <img src="static/images/avatar.jpg" alt="avatar"/>
-                <span>user_name</span>
-              </div>
-            </div>
-            <div class="bottom">
-              <div class="unit">
-                <i class="iconfont icon-like"></i>
-                <span>146</span>
-              </div>
-              <div class="unit">
-                <i class="iconfont icon-dislike"></i>
-                <span>23</span>
-              </div>
-              <div class="unit">
-                <i class="iconfont icon-pinglun"></i>
-                <span>2</span>
-              </div>
-              <div class="unit">
-                <i class="iconfont icon-share"></i>
-                <span>分享</span>
-              </div>
-            </div>
+        <div class="review" v-for="(item, index) in images" :key="index">
+          <img src="static/images/bg.jpg" alt="image"/>
+          <div class="title">
+            <span class="deck"></span>
+            <span>标题标题标题标题标题</span>
           </div>
         </div>
       </div>
@@ -177,78 +148,58 @@ export default {
   .content {
     display: flex;
     margin: 0 auto;
-    width: 70%;
+    // width: 70%;
     justify-content: center;
     .left-content {
-      padding: 20px;
-      padding-top: 10px;
-      width: 70%;
-      .reviews {
-        margin-top: 20px;
-        padding: 10px 20px;
-        .review-content {
-          padding-bottom: 8px;
-          color: #FFF;
-          background-color: rgba(128, 128, 128, .42);
+      display: flex;
+      flex-wrap: wrap;
+      margin: 30px 0;
+      width: 75%;
+      .review {
+        // position: relative;
+        margin-right: 20px;
+        img {
+          width: 340px;
+          height: 220px;
           border-radius: 3px;
-          .top {
-            display: flex;
-            justify-content: space-between;
-            .review {
-              padding: 10px;
-              width: 78%;
-              span {
-                line-height: 24px;
-              }
-              .title {
-                font-size: 18px;
-                font-weight: 600;
-              }
-              .timeline {
-                text-align: right;
-              }
-            }
-            .user-info {
-              display: flex;
-              width: 20%;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              word-break: break-word;
-              img {
-                width: 42px;
-                height: 42px;
-                border-radius: 50%;
-                cursor: pointer;
-              }
-              span {
-                cursor: pointer;
-                &:hover {
-                  color: orange;
-                }
-              }
-            }
-          }
-          .bottom {
-            margin: 8px 0 0 10px;
-            height: 20px;
-            .unit {
-              float: left;
-              margin-right: 12px;
-              cursor: pointer;
-              &:hover {
-                color: blue;
-              }
-            }
+          box-shadow: 0 1px 3px rgba(26, 26, 26, .6);
+          cursor: pointer;
+        }
+        .title {
+          position: relative;
+          bottom: 50px;
+          width: 100%;
+          height: 45px;
+          line-height: 45px;
+
+          text-align: left;
+          letter-spacing: 1px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          color: #FFF;
+          background-color: rgba(128, 128, 128, .66);
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+          cursor: pointer;
+          .deck {
+            position: relative;
+            margin-right: 8px;
+            width: 10px;
+            height: 16px;
+            border-left: 4px solid #8692A6;
           }
         }
       }
     }
     .right-content {
-      margin: 30px 0 0 20px;
+      margin: 30px 0 0 8px;
       padding: 10px;
-      width: 30%;
       height: 100%;
+      background-color: #FFF;
+      border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(26, 26, 26, .6);
       .tip {
         display: flex;
         justify-content: space-between;
@@ -283,11 +234,6 @@ export default {
           margin-top: 6px;
         }
       }
-    }
-    .reviews, .right-content {
-      background-color: #FFF;
-      box-shadow: 0 1px 3px rgba(26, 26, 26, .3);
-      border-radius: 3px;
     }
   }
 }
