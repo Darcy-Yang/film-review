@@ -21,10 +21,10 @@
       </div>
       <div class="record">
         <div class="history">
-          <HistoryBar/>
-          <transition name="fade">
-            <router-view class="content"></router-view>
-          </transition>
+          <TabBar/>
+          <!-- <transition name="fade"> -->
+          <router-view class="content"></router-view>
+          <!-- </transition> -->
         </div>
         <div class="status">
         </div>
@@ -35,13 +35,13 @@
 
 <script>
 import Nav from '@/components/Nav'
-import HistoryBar from '@/components/HistoryBar'
+import TabBar from '@/components/TabBar'
 
 export default {
   name: 'HomePage',
   components: {
     Nav,
-    HistoryBar
+    TabBar
   }
 }
 </script>
@@ -142,7 +142,7 @@ export default {
       }
       .status {
         width: 30%;
-        background-color: green;
+        background-color: #FFF;
         border-radius: 3px;
       }
     }
