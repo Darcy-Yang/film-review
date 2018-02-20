@@ -28,7 +28,7 @@ export default {
       links: [
         { name: '发布影评', href: '/write' },
         { name: '我爱台词', href: '/words' },
-        { name: '电影排行', href: '/' },
+        { name: '电影排行', href: '/rank' },
         { name: '电影推荐', href: '/' }
       ]
     }
@@ -41,10 +41,11 @@ export default {
   display: flex;
   padding: 10px 60px;
   justify-content: space-between;
-  background-color: #0077FF;
+  background-color: #FFF;
+  box-shadow: 0 1px 2px #F3F3F3;
   a{
     padding-right: 30px;
-    color: #FFF;
+    color: #0077FF;
     letter-spacing: 0.1px;
     text-decoration: none;
   }

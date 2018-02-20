@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 import Index from '@/views/index/Index'
 
-import Article from '@/views/article/Article'
+import FilmReview from '@/views/review/Review'
 
 import Words from '@/views/words/Words'
 
@@ -16,6 +16,14 @@ import HistoryWords from '@/views/homePage/Words'
 import Like from '@/views/homePage/Like'
 import Share from '@/views/homePage/Share'
 
+import Rank from '@/views/rank/Rank'
+
+import AdminIndex from '@/admin/Index'
+import ManageUser from '@/admin/ManageUser'
+import ManageReview from '@/admin/ManageReview'
+import ManageWords from '@/admin/ManageWords'
+import ManageRank from '@/admin/ManageRank'
+
 Vue.use(Router)
 
 export default new Router({
@@ -26,9 +34,9 @@ export default new Router({
       component: Index
     },
     {
-      path: '/article',
-      name: 'Article',
-      component: Article
+      path: '/review',
+      name: 'Review',
+      component: FilmReview
     },
     {
       path: '/words',
@@ -63,6 +71,33 @@ export default new Router({
         {
           path: 'share',
           component: Share
+        }
+      ]
+    },
+    {
+      path: '/rank',
+      name: 'Rank',
+      component: Rank
+    },
+    {
+      path: '/admin',
+      component: AdminIndex,
+      children: [
+        {
+          path: '/',
+          component: ManageUser
+        },
+        {
+          path: 'review',
+          component: ManageReview
+        },
+        {
+          path: 'words',
+          component: ManageWords
+        },
+        {
+          path: 'rank',
+          component: ManageRank
         }
       ]
     }

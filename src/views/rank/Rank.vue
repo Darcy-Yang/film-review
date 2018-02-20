@@ -36,7 +36,7 @@
           </div>
           <div class="right-content">
             <span class="name">当幸福来敲门</span>
-            <span>导演: 加布里尔·穆奇诺 Gabriele Muccino   主演: 威尔·史密斯 Will Smith ...</span>
+            <span>导演、主演信息</span>
             <span>2006/美国/剧情 传记 家庭</span>
             <span>570879 人评价</span>
             <span style="color: red;">平民励志片。增加 双引号 样式</span>

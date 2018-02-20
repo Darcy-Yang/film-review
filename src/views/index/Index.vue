@@ -14,7 +14,7 @@
     </div>
     <div class="pointer">
       <li v-for="(item, index) in images" :key="index" ref="pointer" @click="replace(index)"></li>
-      <span style="color: red;">轮播图上加说明文字</span>
+      <!-- <span style="color: red;">轮播图上加说明文字</span> -->
     </div>
     <div class="content">
       <div class="left-content">
@@ -67,7 +67,7 @@ export default {
     }
   },
   created () {
-    this.images.length = 3
+    this.images.length = 6
     this.recommend.length = 3
   },
   methods: {
@@ -148,7 +148,6 @@ export default {
   .content {
     display: flex;
     margin: 0 auto;
-    // width: 70%;
     justify-content: center;
     .left-content {
       display: flex;
@@ -156,7 +155,6 @@ export default {
       margin: 30px 0;
       width: 75%;
       .review {
-        // position: relative;
         margin-right: 20px;
         img {
           width: 340px;

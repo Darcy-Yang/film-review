@@ -98,8 +98,9 @@ export default {
         padding: 0;
         height: 44px;
         font-size: 32px;
-        font-weight: 600;
         line-height: 1.4;
+        font-weight: 600;
+        letter-spacing: 1px;
       }
       // 设置提示字符串颜色；(chrome)
       textarea::-webkit-input-placeholder {
