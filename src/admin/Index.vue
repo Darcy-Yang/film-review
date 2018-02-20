@@ -19,5 +19,9 @@ export default {
 <style lang="less" scoped>
 .index-main {
   display: flex;
+  background-color: #F6F6F6;
+  .content {
+    width: 85%;
+  }
 }
 </style>

@@ -39,7 +39,8 @@ export default {
 <style lang="less" scoped>
 .left-bar {
   display: flex;
-  height: 100vh;
+  // height: 100%;
+  min-height: 100vh;
   flex-direction: column;
   color: #FFF;
   background-color: #192B56;
@@ -56,9 +57,12 @@ export default {
   }
   .user-info {
     display: flex;
+    max-width: 202px;
     margin: 30px 0;
+    padding: 0 10px;
     flex-direction: column;
     align-items: center;
+    word-break: break-word;
     img {
       width: 80px;
       height: 80px;
@@ -78,7 +82,6 @@ export default {
   .nav {
     display: flex;
     flex-direction: column;
-    // align-items: center;
     a {
       margin-top: 20px;
       padding: 12px 60px 12px 40px;
