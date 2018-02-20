@@ -13,23 +13,21 @@
       </div>
       <div class="feature">
         <div class="like">
-          <div class="btn-like">
+          <div class="like-btn">
             <i class="iconfont icon-xihuan"></i>
-            <span>喜欢</span>
           </div>
-          <div class="like-num">
-            <span>123</span>
-          </div>
+          <span>123</span>
         </div>
-        <div class="share">
+        <div class="right-side">
+          <i class="iconfont icon-shoucang"></i>
+          <i class="iconfont icon-pinglun"></i>
           <i class="iconfont icon-share"></i>
-          <span>分享</span>
         </div>
       </div>
       <div class="comment">
         <div class="input-area">
           <img src="static/images/avatar.jpg" alt="avatar"/>
-          <textarea placeholder="快输入你精彩的评论吧"></textarea>
+          <textarea placeholder="写下你精彩的评论"></textarea>
         </div>
       </div>
     </div>
@@ -84,42 +82,30 @@ export default {
     }
     .feature {
       display: flex;
-      margin: 20px 0;
+      margin-top: 20px;
       width: 100%;
       justify-content: space-between;
-      align-items: center;
       .like {
         display: flex;
-        padding: 13px 15px;
-        font-size: 19px;
-        color: #EA6F5A;
-        border: 1px solid #EA6F5A;
-        border-radius: 40px;
-        cursor: pointer;
-        i {
-          font-size: 20px;
-        }
-        .btn-like {
-          padding-right: 13px;
-        }
-        .like-num {
-          padding-left: 15px;
-          border-left: 1px solid #EA6F5A;
+        color: #37C700;
+      }
+      .right-side {
+        .iconfont {
+          margin-left: 20px;
+          color: #333;
         }
       }
-      .share {
-        padding: 8px 12px;
-        height: 100%;
-        color: #50C87E;
-        font-size: 18px;
-        border: 1px solid #50C87E;
-        border-radius: 3px;
-        cursor: pointer;
+      .iconfont {
+        font-size: 22px;
       }
     }
     .comment {
+      display: flex;
+      margin: 20px 0;
       width: 100%;
+      flex-direction: column;
       .input-area {
+        display: flex;
         img {
           width: 42px;
           height: 42px;
@@ -127,10 +113,11 @@ export default {
         }
         textarea {
           margin-left: 8px;
-          padding: 10px;
-          padding-bottom: 0;
-          width: 87.4%;
+          padding: 6px;
+
+          width: 100%;
           font-size: 14px;
+          
           border: 1px solid #BDBDBD;
           border-radius: 3px;
           outline: none;
