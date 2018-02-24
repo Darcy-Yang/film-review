@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Login from '@/views/login/Login'
+
 import Index from '@/views/index/Index'
 
 import FilmReview from '@/views/review/Review'
@@ -100,6 +102,11 @@ export default new Router({
           component: ManageRank
         }
       ]
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     }
   ]
 })
