@@ -1,24 +1,24 @@
 <template>
   <div class="index-main">
-    <Nav/>
+    <Nav :leftStyle="leftStyle"/>
     <div class="slider">
       <div class="control">
         <i class="iconfont icon-iconfontzhizuobiaozhun023126" @click="replace(index - 1)"></i>
         <i class="iconfont right icon-iconfontzhizuobiaozhun023127" @click="replace(index + 1)"></i>
       </div>
       <div class="list" ref="list">
+        <img src="static/images/fox.jpg" alt="image"/>
         <img src="static/images/orgx.jpg" alt="image"/>
         <img src="static/images/tiger.jpg" alt="image"/>
-        <img src="static/images/fox.jpg" alt="image"/>
       </div>
     </div>
     <div class="pointer">
-      <li v-for="(item, index) in images" :key="index" ref="pointer" @click="replace(index)"></li>
+      <li v-for="i in 3" :key="i" ref="pointer" @click="replace(index)"></li>
       <!-- <span style="color: red;">轮播图上加说明文字</span> -->
     </div>
     <div class="content">
       <div class="left-content">
-        <div class="review" v-for="(item, index) in images" :key="index">
+        <div class="review" v-for="i in 6" :key="i" @click="jump">
           <img src="static/images/bg.jpg" alt="image"/>
           <div class="title">
             <span class="deck"></span>
@@ -30,11 +30,11 @@
         <!-- 设计一个样式，冠军、亚军、季军 -->
         <div class="tip">
           <span>电影排行榜</span>
-          <router-link to="/">查看更多</router-link>
+          <router-link to="/rank">查看更多</router-link>
         </div>
-        <div class="classic" v-for="(item, index) in recommend" :key="index">
+        <div class="classic" v-for="i in 3" :key="i">
           <div class="top">
-            <span>{{ index + 1 }}.</span>
+            <span>{{ i }}.</span>
             <img src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p1312700628.jpg" alt="image"/>
             <div class="film-info">
               <span>当幸福来敲门</span>
@@ -61,14 +61,9 @@ export default {
   },
   data () {
     return {
-      index: 0,
-      images: [],
-      recommend: []
+      leftStyle: 'margin-left: -8px;',
+      index: 0
     }
-  },
-  created () {
-    this.images.length = 6
-    this.recommend.length = 3
   },
   methods: {
     replace (index) {
@@ -81,6 +76,9 @@ export default {
       }
       this.$refs.pointer[this.index].style.color = 'orange'
       this.$refs.list.style.left = -(this.index * 100) + 'vw'
+    },
+    jump () {
+      this.$router.push('/review')
     }
   }
 }
@@ -92,12 +90,12 @@ export default {
   .slider {
     position: relative;
     width: 100vw;
-    height: 60vh;
+    height: 50vh;
     overflow: hidden;
     .control {
       display: none;
       position: absolute;
-      top: 200px;
+      top: 173px;
       left: 60px;
       z-index: 2;
       i {
@@ -125,13 +123,13 @@ export default {
       cursor: pointer;
       img {
         width: 100vw;
-        height: 60vh;
+        height: 50vh;
       }
     }
   }
   .pointer {
     display: flex;
-    margin: 8px 0;
+    margin: 26px 0 10px 0;
     justify-content: center;
 
     color: gray;
@@ -152,7 +150,7 @@ export default {
     .left-content {
       display: flex;
       flex-wrap: wrap;
-      margin: 30px 0;
+      margin: 16px 0;
       width: 75%;
       .review {
         margin-right: 20px;
@@ -192,7 +190,7 @@ export default {
       }
     }
     .right-content {
-      margin: 30px 0 0 8px;
+      margin: 16px 0 0 8px;
       padding: 10px;
       height: 100%;
       background-color: #FFF;

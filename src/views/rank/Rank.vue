@@ -1,38 +1,38 @@
 <template>
   <div class="rank-main">
-    <Nav/>
+    <Nav :leftStyle="leftStyle"/>
     <div class="content">
       <div class="selector">
         <div class="type classify">
           <span>类型</span>
           <div class="contents">
             <span>全部</span>
-            <span v-for="(item, index) in test" :key="index">{{ item.name }}</span>
+            <span v-for="(item, index) in selectors" :key="index">{{ item.name }}</span>
           </div>
         </div>
         <div class="area classify">
           <span>地区</span>
           <div class="contents">
             <span>全部</span>
-            <span v-for="(item, index) in test" :key="index">{{ item.name }}</span>
+            <span v-for="(item, index) in selectors" :key="index">{{ item.name }}</span>
           </div>
         </div>
         <div class="times classify">
           <span>时间</span>
           <div class="contents">
             <span>全部</span>
-            <span v-for="(item, index) in test" :key="index">{{ item.name }}</span>
+            <span v-for="(item, index) in selectors" :key="index">{{ item.name }}</span>
           </div>
         </div>
       </div>
       <div class="list">
-        <div class="movies" v-for="(item, index) in test" :key="index">
+        <div class="movies" v-for="i in 10" :key="i">
           <span>1.</span>
           <div class="left-content">
-          <img src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p1312700628.jpg" alt="image"/>
-          <div class="score">
-            <span>8.9</span>
-          </div>
+            <img src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p1312700628.jpg" alt="image"/>
+            <div class="score">
+              <span>8.9</span>
+            </div>
           </div>
           <div class="right-content">
             <span class="name">当幸福来敲门</span>
@@ -57,7 +57,8 @@ export default {
   },
   data () {
     return {
-      test: [
+      leftStyle: 'margin-left: 206px;',
+      selectors: [
         { name: '类别一', selected: false },
         { name: '类别二', selected: false },
         { name: '类别三', selected: false },
@@ -96,6 +97,12 @@ export default {
             margin-left: 30px;
             color: gray;
             cursor: pointer;
+            &:first-child {
+              padding: 2px 4px;
+              color: #FFF;
+              background-color: #2196FF;
+              border-radius: 3px;
+            }
           }
         }
       }
@@ -114,6 +121,7 @@ export default {
         width: 60%;
         background-color: #FFF;
         border-radius: 3px;
+        box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
         .left-content {
           img {
             margin: 0 30px 0 12px;

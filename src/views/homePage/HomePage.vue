@@ -1,6 +1,6 @@
 <template>
   <div class="homepage-main">
-    <Nav/>
+    <Nav :leftStyle="leftStyle"/>
     <div class="whole-structure">
       <div class="BI-area">
         <i class="iconfont icon-xiangji"></i>
@@ -42,6 +42,11 @@ export default {
   components: {
     Nav,
     TabBar
+  },
+  data () {
+    return {
+      leftStyle: 'margin-left: 226px;'
+    }
   }
 }
 </script>
@@ -64,7 +69,7 @@ export default {
       justify-content: center;
 
       color: gray;
-      background-color: orange;
+      background-color: rgba(128, 128, 128, .3);
       border-top-left-radius: 3px;
       border-top-right-radius: 3px;
       i {
@@ -95,6 +100,7 @@ export default {
       border-bottom-left-radius: 3px;
       border-bottom-right-radius: 3px;
       background-color: #FFF;
+      box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
       .content {
         display: flex;
         img {
@@ -139,11 +145,13 @@ export default {
         width: 68%;
         background-color: #FFF;
         border-radius: 3px;
+        box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
       }
       .status {
         width: 30%;
         background-color: #FFF;
         border-radius: 3px;
+        box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
       }
     }
   }

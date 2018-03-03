@@ -1,14 +1,18 @@
 <template>
   <div class="review-main">
-    <Nav/>
+    <Nav :leftStyle="leftStyle"/>
     <div class="whole-page">
       <div class="content">
         <img src="static/images/bg.jpg" alt="image"/>
         <div class="title">
-          <span>标题标题标题标题标题</span>
+          <span>标题</span>
         </div>
         <div class="review-content">
-          <span>影评内容～影评内容～影评内容～影评内容～影评内容～影评内容～影评内容</span>
+          <span>
+            影评内容-影评内容-影评内容-影评内容-影评内容-影评内容-影评内容-影评内容
+            影评内容-影评内容-影评内容-影评内容-影评内容-影评内容-影评内容-影评内容
+            影评内容-影评内容-影评内容-影评内容-影评内容-影评内容-影评内容-影评内容
+          </span>
         </div>
       </div>
       <div class="feature">
@@ -41,6 +45,11 @@ export default {
   name: 'review',
   components: {
     Nav
+  },
+  data () {
+    return {
+      leftStyle: 'margin-left: 334px;'
+    }
   }
 }
 </script>

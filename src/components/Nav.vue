@@ -9,6 +9,9 @@
           {{ item.name }}
         </router-link>
       <i class="iconfont icon-search"></i>
+      <router-link class="avatar" to="/homepage">
+        <img src="static/images/avatar.jpg" alt="avatar"/>
+      </router-link>
       </ul>
     </div>
   </div>
@@ -39,7 +42,7 @@ export default {
 <style lang="less" scoped>
 .nav-main {
   display: flex;
-  padding: 10px 60px;
+  padding: 0 60px;
   justify-content: space-between;
   background-color: #FFF;
   box-shadow: 0 1px 2px #F3F3F3;
@@ -48,6 +51,10 @@ export default {
     color: #0077FF;
     letter-spacing: 0.1px;
     text-decoration: none;
+  }
+  .avatar {
+    padding: 0;
+    height: 30px;
   }
   .left-side {
     margin: auto 0;
@@ -59,13 +66,19 @@ export default {
   .right-side {
     ul {
       display: flex;
+      align-items: center;
       i {
         margin-top: 3.4px;
         padding-right: 30px;
         font-size: 24px;
-        color: #FFF;
+        color: #0077FF;
         line-height: 16px;
         cursor: pointer;
+      }
+      img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
       }
     }
   }

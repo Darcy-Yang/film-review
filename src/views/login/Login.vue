@@ -108,10 +108,12 @@ export default {
       bottom: -160px;
       width: 40px;
       height: 40px;
-      background-color: rgba(255, 255, 255, 0.15);
+
       list-style: none;
+      background-color: rgba(255, 255, 255, 0.15);
       animation: square 15s infinite;
       transition-timing-function: linear;
+      border-radius: 50%;
       &:nth-child(1) {
         left: 10%;
       }
