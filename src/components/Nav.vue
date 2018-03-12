@@ -1,7 +1,7 @@
 <template>
   <div class="nav-main">
     <div class="left-side" :style="leftStyle">
-      <router-link to="/">电影点评</router-link>
+      <router-link to="/">影评网</router-link>
     </div>
     <div class="right-side">
       <ul>
