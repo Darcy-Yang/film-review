@@ -3,7 +3,7 @@
     <Nav :leftStyle="leftStyle"/>
     <div class="whole-page">
       <div class="content">
-        <img src="static/images/bg.jpg" alt="image"/>
+        <img src="static/images/avatar.jpg" alt="image"/>
         <div class="title">
           <span>标题</span>
         </div>
