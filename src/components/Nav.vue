@@ -58,7 +58,7 @@ export default {
   }
   .left-side {
     margin: auto 0;
-    margin-left: 130px;
+    margin-left: 158px;
     color: #FFF;
     letter-spacing: 0.1px;
     cursor: pointer;
