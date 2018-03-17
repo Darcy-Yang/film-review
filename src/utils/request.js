@@ -14,9 +14,9 @@ export default async (
   // necessary method & path
   if (!method && !path) throw new Error('necessary method & path');
 
-  if (!headers.Authorization) {
-    console.log('no authorization');
-  }
+  // if (!headers.Authorization) {
+  //   console.log('no authorization');
+  // }
 
   // build options of fetch
   const options = (() => {
