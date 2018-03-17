@@ -3,7 +3,7 @@
     <Nav/>
     <div class="main">
       <div class="left">
-        <div class="content" v-for="i in 10" :key="i">
+        <div class="content" @click="getUser" v-for="i in 10" :key="i">
           <div class="top">
             <img src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p457760035.jpg" alt="poster">
             <div class="right-content">
@@ -55,6 +55,8 @@
 <script>
 import Nav from '@/components/Nav';
 
+import request from '@/utils/request';
+
 export default {
   name: 'Index',
   components: {
@@ -64,6 +66,16 @@ export default {
     return {
       types: ['动作1', '喜剧1', '科幻1', '喜剧2', '科幻2', '动作2', '科幻3', '动作3', '喜剧3'],
     }
+  },
+  methods: {
+    async getUser() {
+      try {
+        res = await request('GET', '/user');
+        console.log(res);
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
 }
 </script>
