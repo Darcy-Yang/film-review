@@ -70,7 +70,7 @@ export default {
   methods: {
     async getUser() {
       try {
-        res = await request('GET', '/user');
+        const res = await request('GET', '/user');
         console.log(res);
       } catch (err) {
         console.log(err);
