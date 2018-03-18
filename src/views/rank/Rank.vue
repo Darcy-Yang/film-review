@@ -26,20 +26,20 @@
         </div>
       </div>
       <div class="list">
-        <div class="movies" v-for="i in 10" :key="i">
-          <span>1.</span>
+        <div class="movies" v-for="(movie, index) in ranks" :key="index">
+          <span>{{ movie.order }}</span>
           <div class="left-content">
-            <img src="https://img1.doubanio.com/view/photo/s_ratio_poster/public/p1312700628.jpg" alt="image"/>
+            <img :src='movie.img_src' alt="image"/>
             <div class="score">
-              <span>8.9</span>
+              <span>{{ movie.star }}</span>
             </div>
           </div>
           <div class="right-content">
-            <span class="name">当幸福来敲门</span>
-            <span>导演、主演信息</span>
-            <span>2006/美国/剧情 传记 家庭</span>
-            <span>570879 人评价</span>
-            <span style="color: red;">平民励志片。增加 双引号 样式</span>
+            <span class="name">{{ movie.title }}</span>
+            <span>{{ movie.info }}</span>
+            <span>{{ movie.type }}</span>
+            <span>{{ movie.votes }}</span>
+            <span class="quote">{{ movie.quote }}</span>
           </div>
         </div>
       </div>
@@ -49,6 +49,8 @@
 
 <script>
 import Nav from '@/components/Nav'
+
+import request from '@/utils/request';
 
 export default {
   name: 'Rank',
@@ -64,10 +66,28 @@ export default {
         { name: '类别三', selected: false },
         { name: '类别四', selected: false },
         { name: '类别五', selected: false },
-        { name: '类别六', selected: false }
-      ]
+        { name: '类别六', selected: false },
+      ],
+      limit: 10,
+      page: 1,
+      pageCount: 0,
+      ranks: [],
     }
-  }
+  },
+  created() {
+    this.getRank();
+  },
+  methods: {
+    async getRank() {
+      try {
+        const { ranks, count } = await request('POST', '/rank', { page: this.page });
+        this.pageCount = Math.ceil(count / 10);
+        this.ranks = ranks;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
 }
 </script>
 
@@ -76,12 +96,12 @@ export default {
   background-color: #F6F6F6;
   .content {
     display: flex;
-    margin: 20px 0;
+    margin-top: 20px;
     flex-direction: column;
     align-items: center;
     .selector {
       display: flex;
-      margin-bottom: 20px;
+      margin-bottom: 36px;
       padding: 20px;
       padding-top: 0;
       width: 60%;
@@ -116,12 +136,12 @@ export default {
       // align-items: flex-start;
       .movies {
         display: flex;
-        margin-top: 20px;
+        margin-bottom: 20px;
         padding: 10px 20px 0 20px;
         width: 60%;
         background-color: #FFF;
         border-radius: 3px;
-        box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
+        // box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
         .left-content {
           img {
             margin: 0 30px 0 12px;
@@ -153,6 +173,9 @@ export default {
             margin-top: 0;
             font-size: 18px;
             font-weight: 600;
+          }
+          .quote {
+            font-style: italic;
           }
         }
       }

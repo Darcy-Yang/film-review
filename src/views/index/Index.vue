@@ -103,7 +103,7 @@ export default {
         padding: 12px;
         flex-direction: column;
         background-color: #FFF;
-        box-shadow: 0 1px 3px #BDBDBD;
+        // box-shadow: 0 1px 3px #BDBDBD;
         border-radius: 3px;
         .top {
           display: flex;
@@ -178,7 +178,7 @@ export default {
         padding: 12px;
         background-color: #FFF;
         border-radius: 3px;
-        box-shadow: 0 1px 3px #BDBDBD;
+        // box-shadow: 0 1px 3px #BDBDBD;
       }
     }
   }
