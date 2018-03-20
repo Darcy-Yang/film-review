@@ -1,16 +1,26 @@
 <template>
   <div class="login-main">
     <div class="content">
-      <h2>欢迎登录|影评网</h2>
+      <h2> {{ isRegister ? '欢迎注册' : '欢迎登录' }}|影评网</h2>
       <div class="input-area">
-        <input type="text" placeholder="请输入账号" v-model="user.name"/>
-        <span v-show="nullAccount">账号不能为空</span>
+        <input type="text" placeholder="请输入昵称" v-model="user.name"/>
+        <span v-show="nullAccount">昵称不能为空</span>
       </div>
       <div class="input-area">
         <input type="password" placeholder="请输入密码" v-model="user.password"/>
         <span v-show="nullPassword">密码不能为空</span>
       </div>
-      <button type="submit">登录</button>
+      <transition name="fade">
+        <div class="input-area" v-if="isRegister">
+          <input type="password" placeholder="请输入确认密码" v-model="confirmPassword"/>
+          <span v-show="wrongConfirmed">密码不一致</span>
+        </div>
+      </transition>
+      <button type="submit">{{ isRegister ? '注册' : '登录' }}</button>
+      <div class="register" v-if="!isRegister">
+        <span>没有账号 ？</span>
+        <span @click="register">赶紧注册 ~</span>
+      </div>
     </div>
     <ul class="bg-bubbles">
       <li v-for="i in 10" :key="i"></li>
@@ -23,11 +33,19 @@ export default {
   name: 'Login',
   data () {
     return {
+      isRegister: false,
       user: { name: '', password: '' },
+      confirmPassword: '',
       nullAccount: false,
-      nullPassword: false
+      nullPassword: false,
+      wrongConfirmed: false,
     }
-  }
+  },
+  methods: {
+    register() {
+      this.isRegister = true;
+    },
+  },
 }
 </script>
 
@@ -94,6 +112,17 @@ export default {
       outline: none;
       transition-duration: .25s;
       cursor: pointer;
+    }
+    .register {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+      width: 60%;
+      :last-child {
+        color: white;
+        letter-spacing: 0.8px;
+        cursor: pointer;
+      }
     }
   }
   .bg-bubbles {
