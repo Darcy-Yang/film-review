@@ -54,6 +54,7 @@ export default {
   display: flex;
   height: 100vh;
   justify-content: center;
+  font-family: 'OpenSans';
   background: linear-gradient(to bottom right, #50A3A2, #53E3A6);
   .content {
     display: flex;
@@ -105,6 +106,7 @@ export default {
       text-align: center;
       font-size: 18px;
       font-weight: 600;
+      letter-spacing: 1px;
       color: #53E3A6;
       background-color: #FFF;
       border: none;
