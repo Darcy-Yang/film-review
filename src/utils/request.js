@@ -9,6 +9,7 @@ export default async (
   headers = {
     // default header is Content-Type = JSON
     'Content-Type': 'application/json; charset=utf-8',
+    'Access-Control-Allow-Origin': 'http://www.ylf001.top',
   },
 ) => {
   // necessary method & path
