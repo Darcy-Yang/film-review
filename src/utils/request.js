@@ -51,7 +51,7 @@ export default async (
     return queryStr.replace(/\+/g, '%2B');
   })();
 
-  const res = await fetch(`${HOST}${path}${queryString}`, options, { mode: 'no-cors' });
+  const res = await fetch(`${HOST}${path}${queryString}`, options, { 'mode': 'no-cors' });
   const data = await res.json();
   if (!res.ok) throw new Error(data.msg);
   return data;
