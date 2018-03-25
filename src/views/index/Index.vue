@@ -3,7 +3,7 @@
     <Nav/>
     <div class="main">
       <div class="left">
-        <div class="content" @click="getUser" v-for="i in 10" :key="i">
+        <div class="content" v-for="i in 10" :key="i">
           <div class="top">
             <img src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p457760035.jpg" alt="poster">
             <div class="right-content">
@@ -12,6 +12,7 @@
                 <span>用户昵称</span>
                 <span>评分</span>
                 <span>2018-03-12 14:00</span>
+                <span>{{ name }}</span>
               </div>
               <span>标题</span>
               <div class="preview">
@@ -64,14 +65,18 @@ export default {
   },
   data() {
     return {
+      name: '',
       types: ['动作1', '喜剧1', '科幻1', '喜剧2', '科幻2', '动作2', '科幻3', '动作3', '喜剧3'],
     }
+  },
+  created() {
+    this.getUser();
   },
   methods: {
     async getUser() {
       try {
-        const res = await request('GET', '/user');
-        console.log(res);
+        const { allUser } = await request('GET', '/user');
+        this.name = allUser[0].name;
       } catch (err) {
         console.log(err);
       }
