@@ -56,6 +56,7 @@
 import Nav from '@/components/Nav';
 
 import request from '@/utils/request';
+import fetch from 'isomorphic-fetch';
 
 export default {
   name: 'Index',
@@ -70,7 +71,7 @@ export default {
   methods: {
     async getUser() {
       try {
-        const res = await request('GET', '/api/user');
+        const res = await fetch('http://127.0.0.1/api/user');
         console.log(res);
       } catch (err) {
         console.log(err);
