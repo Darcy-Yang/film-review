@@ -26,8 +26,13 @@
       </div>
       <div class="right">
         <div class="top">
-          <div class="type" v-for="item in types" :key="item">
-            <span>{{ item }}</span>
+          <div class="header">
+            <span>影评类型</span>
+          </div>
+          <div class="content">
+            <div class="type" v-for="(item, index) in types" :key="index">
+              <span>{{ item }}</span>
+            </div>
           </div>
         </div>
         <div class="bottom">
@@ -65,7 +70,7 @@ export default {
   data() {
     return {
       name: '',
-      types: ['动作1', '喜剧1', '科幻1', '喜剧2', '科幻2', '动作2', '科幻3', '动作3', '喜剧3'],
+      types: ['动作', '喜剧', '科幻', '爱情', '剧情', '动画', '历史', '悬疑', '纪录片'],
     }
   },
   created() {
@@ -95,7 +100,8 @@ export default {
       align-self: center;
       width: 75px;
       height: 108px;
-      border-radius: 3px;
+      border-radius: 4px;
+      box-shadow: 0 2px 3px #BDBDBD;
     }
     .left {
       display: flex;
@@ -116,6 +122,7 @@ export default {
               width: 30px;
               height: 30px;
               border-radius: 50%;
+              box-shadow: none;
             }
             .info {
               display: flex;
@@ -147,10 +154,30 @@ export default {
       margin-left: 20px;
       width: 20%;
       .top {
-        display: flex;
-        flex-wrap: wrap;
-        .type {
-          margin-right: 12px;
+        .header {
+          margin-bottom: 12px;
+          padding-left: 4px;
+        }
+        .content {
+          display: flex;
+          flex-wrap: wrap;
+          .type {
+            margin: 0 12px 12px 0;
+            width: 25%;
+            padding: 10px 0;
+            flex-grow: 1;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
+            text-align: center;
+            letter-spacing: 1px;
+            transition: .35s;
+
+            cursor: pointer;
+            &:hover {
+              color: white;
+              background-color: #0077FF;
+            }
+          }
         }
       }
       .bottom {
