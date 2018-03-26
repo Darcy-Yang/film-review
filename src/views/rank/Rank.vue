@@ -147,6 +147,8 @@ export default {
             margin: 0 30px 0 12px;
             width: 100px;
             height: 130px;
+            border-radius: 4px;
+            box-shadow: 0 2px 3px #BDBDBD;
           }
           .score {
             position: relative;
@@ -157,6 +159,8 @@ export default {
             text-align: right;
             color: orange;
             background-color: rgba(128, 128, 128, .8);
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
             span {
               margin-right: 6px;
             }

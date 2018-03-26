@@ -11,7 +11,7 @@
         <div class="content">
           <img src="static/images/avatar.jpg" alt="avatar"/>
           <div class="profile">
-            <span class="user-name">user_name</span>
+            <span class="user-name">{{ user.name }}</span>
             <span>other info</span>
           </div>
         </div>
@@ -34,8 +34,10 @@
 </template>
 
 <script>
-import Nav from '@/components/Nav'
-import TabBar from '@/components/TabBar'
+import Nav from '@/components/Nav';
+import TabBar from '@/components/TabBar';
+
+import { getUser } from '@/utils/user';
 
 export default {
   name: 'HomePage',
@@ -45,9 +47,13 @@ export default {
   },
   data () {
     return {
-      leftStyle: 'margin-left: 226px;'
+      leftStyle: 'margin-left: 226px;',
+      user: null,
     }
-  }
+  },
+  created() {
+    if (!!getUser()) this.user = getUser();
+  },
 }
 </script>
 
