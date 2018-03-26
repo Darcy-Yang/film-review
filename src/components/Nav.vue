@@ -11,6 +11,7 @@
       <i class="iconfont icon-search"></i>
       <router-link class="avatar" to="/homepage">
         <img src="static/images/avatar.jpg" alt="avatar"/>
+        <span>{{ name }}</span>
       </router-link>
       </ul>
     </div>
@@ -18,6 +19,8 @@
 </template>
 
 <script>
+import { getUser } from '@/utils/user';
+
 export default {
   name: 'Nav',
   props: {
@@ -33,9 +36,13 @@ export default {
         { name: '我爱台词', href: '/words' },
         { name: '电影排行', href: '/rank' },
         { name: '电影推荐', href: '/' }
-      ]
+      ],
+      name: '',
     }
-  }
+  },
+  created() {
+    if (!!getUser()) this.name = getUser().name;
+  },
 }
 </script>
 
@@ -55,6 +62,11 @@ export default {
   .avatar {
     padding: 0;
     height: 30px;
+    display: flex;
+    align-items: center;
+    img {
+      margin-right: 8px;
+    }
   }
   .left-side {
     margin: auto 0;

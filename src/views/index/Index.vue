@@ -12,7 +12,6 @@
                 <span>用户昵称</span>
                 <span>评分</span>
                 <span>2018-03-12 14:00</span>
-                <span>{{ name }}</span>
               </div>
               <span>标题</span>
               <div class="preview">

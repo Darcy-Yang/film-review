@@ -3,20 +3,20 @@
     <div class="content">
       <h2> {{ isRegister ? '欢迎注册' : '欢迎登录' }}|影评网</h2>
       <div class="input-area">
-        <input type="text" placeholder="请输入昵称" v-model="user.name"/>
+        <input type="text" placeholder="请输入昵称" v-model="user.name" @keydown="goSubmit"/>
         <span v-show="nullAccount">昵称不能为空</span>
       </div>
       <div class="input-area">
-        <input type="password" placeholder="请输入密码" v-model="user.password"/>
+        <input type="password" placeholder="请输入密码" v-model="user.password" @keydown="goSubmit"/>
         <span v-show="nullPassword">密码不能为空</span>
       </div>
       <transition name="fade">
         <div class="input-area" v-if="isRegister">
-          <input type="password" placeholder="请输入确认密码" v-model="confirmPassword"/>
+          <input type="password" placeholder="请输入确认密码" v-model="confirmPassword" @keydown="goSubmit"/>
           <span v-show="wrongConfirmed">密码不一致</span>
         </div>
       </transition>
-      <button type="submit">{{ isRegister ? '注册' : '登录' }}</button>
+      <button type="submit" @click="submit">{{ isRegister ? '注册' : '登录' }}</button>
       <div class="register" v-if="!isRegister">
         <span>没有账号 ？</span>
         <span @click="register">赶紧注册 ~</span>
@@ -29,6 +29,9 @@
 </template>
 
 <script>
+import request from '@/utils/request';
+import { setUser } from '@/utils/user';
+
 export default {
   name: 'Login',
   data () {
@@ -45,6 +48,35 @@ export default {
     register() {
       this.isRegister = true;
     },
+    goSubmit(e) {
+      if (e.keyCode === 13) this.submit();
+    },
+    async submit() {
+      this.nullAccount = !this.user.name;
+      this.nullPassword = !this.user.password;
+      if (this.nullAccount || this.nullPassword) {
+        return;
+      } else if (this.isRegister && this.confirmPassword !== this.user.password) {
+        this.wrongConfirmed = true;
+        this.confirmPassword = '';
+        return;
+      }
+
+      const path = this.isRegister ? '/user/register' : '/user/login';
+
+      try {
+        const res = await request('POST', `${path}`, {}, {
+          name: this.user.name,
+          password: this.user.password
+        })
+        setUser(this.user);
+        this.$router.push('/');
+      } catch (err) {
+        this.user.password = '';
+        this.confirmPassword = '';
+        console.log(err);
+      }
+    },
   },
 }
 </script>
@@ -53,6 +85,7 @@ export default {
 .login-main {
   display: flex;
   height: 100vh;
+  width: 100vw;
   justify-content: center;
   font-family: 'OpenSans';
   background: linear-gradient(to bottom right, #50A3A2, #53E3A6);
@@ -129,6 +162,8 @@ export default {
   }
   .bg-bubbles {
     position: absolute;
+    margin: 0;
+    padding: 0;
     top: 0;
     left: 0;
     width: 100%;
