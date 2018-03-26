@@ -9,7 +9,6 @@ export default async (
   headers = {
     // default header is Content-Type = JSON
     'Content-Type': 'application/json; charset=utf-8',
-    'Access-Control-Allow-Origin': 'http://www.ylf001.top',
   },
 ) => {
   // necessary method & path
@@ -52,7 +51,7 @@ export default async (
     return queryStr.replace(/\+/g, '%2B');
   })();
 
-  const res = await fetch(`${HOST}${path}${queryString}`, options, { 'mode': 'no-cors' });
+  const res = await fetch(`${HOST}${path}${queryString}`, options);
   const data = await res.json();
   if (!res.ok) throw new Error(data.msg);
   return data;
