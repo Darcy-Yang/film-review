@@ -4,35 +4,34 @@
     <div class="area">
       <div class="info-area">
         <div class="select-area">
-          <input type="text" v-model="searchWord"/>
+          <input type="text" placeholder="电影名称" v-model="searchWord"/>
           <ul v-show="showSelect">
             <li v-for="(movie, index) in ranks" :key="index" @click="choose(movie)">
               {{ movie.title }}
             </li>
           </ul>
         </div>
-        <div class="movie-info" v-if="!movie">
-          <h2>电影信息</h2>
-        </div>
-        <div class="movie-info" v-else>
-          <div class="poster">
-            <img class="poster" :src="movie.img_src" alt="poster"/>
-            <span>{{ movie.quote }}</span>
+        <transition name="fade">
+          <div class="movie-info" v-if="movie">
+            <div class="poster">
+              <img class="poster" :src="movie.img_src" alt="poster"/>
+              <span>{{ movie.quote }}</span>
+            </div>
+            <div class="info">
+              <span>{{ movie.title }}</span>
+              <span>{{ movie.info }}</span>
+              <span>{{ movie.movie_type }}</span>
+            </div>
           </div>
-          <div class="info">
-            <span>{{ movie.title }}</span>
-            <span>{{ movie.info }}</span>
-            <span>{{ movie.movie_type }}</span>
-          </div>
-        </div>
+        </transition>
       </div>
       <div class="title-area">
-        <textarea placeholder="请输入标题"></textarea>
+        <textarea placeholder="标题"></textarea>
       </div>
       <div class="separator">
       </div>
       <div class="content-area">
-        <textarea placeholder="请输入正文"></textarea>
+        <textarea placeholder="正文"></textarea>
       </div>
     </div>
   </div>
@@ -55,25 +54,29 @@ export default {
       ranks: [],
       movie: null,
       showSelect: false,
-      closeSelect: false,
+      closeItem: false,
     }
   },
   methods: {
     choose(movie) {
-      this.searchWord = movie.title;
+      if (this.searchWord === movie.title) {
+        this.showSelect = false;
+      } else {
+        this.chooseItem = true;
+        this.searchWord = movie.title;
+      }
       this.movie = movie;
-      this.closeSelect = true;
     },
   },
   watch: {
     async searchWord(val) {
-      if (this.closeSelect) {
-        this.showSelect = false;
-        this.closeSelect = false;
-        return;
-      }
-      this.showSelect = !!val;
       if (val) {
+        if (this.chooseItem) {
+          this.showSelect = false;
+          this.chooseItem = false;
+          return;
+        }
+        this.showSelect = true;
         try {
           const { ranks } = await request('POST', '/rank', { searchWord: this.searchWord });
           this.ranks = ranks;
@@ -81,7 +84,8 @@ export default {
           console.log(err);
         }
       } else {
-        this.ranks = null;
+        this.showSelect = false;
+        this.ranks = [];
         this.movie = null;
       }
     }
@@ -94,7 +98,7 @@ export default {
   .area {
     display: flex;
     margin: 0 auto;
-    margin-top: 40px;
+    margin-top: 52px;
     width: 42%;
     flex-direction: column;
     align-items: center;
@@ -114,10 +118,14 @@ export default {
         input {
           width: 80%;
           padding: 0 0 4px 12px;
-          font-size: 16px;
+          font-size: 18px;
+          letter-spacing: .6px;
           outline: none;
           border: none;
           border-bottom: 1px solid #BDBDBD;
+        }
+        input::-webkit-input-placeholder {
+          color: #A4A4A4;
         }
         ul {
           position: absolute;
@@ -148,13 +156,16 @@ export default {
         flex-grow: 1;
         display: flex;
         max-width: 50%;
+
+        transition: .6s;
         .poster {
           margin-right: 20px;
-          width: 136px;
-          height: 190px;
-
           border-radius: 4px;
-          box-shadow: 0 1px 2px rgba(26, 26, 26, .3);
+          img {
+            width: 136px;
+            height: 190px;
+            box-shadow: 0 1px 2px rgba(26, 26, 26, .3);
+          }
           span {
             padding-left: 6px;
             font-style: italic;
@@ -171,10 +182,16 @@ export default {
           }
         }
       }
+      .fade-enter-active, .fade-leave-activate {
+        transition: opacity .6s;
+      }
+      .fade-enter, .fade-leave-to {
+        opacity: 0;
+      }
     }
     .title-area {
       margin: 16px 0;
-      padding: 0;
+      padding-left: 12px;
       width: 100%;
       textarea {
         padding: 0;
@@ -198,6 +215,7 @@ export default {
     }
     .content-area{
       margin-top: 20px;
+      padding-left: 12px;
       width: 100%;
       textarea {
         min-height: 300px;
