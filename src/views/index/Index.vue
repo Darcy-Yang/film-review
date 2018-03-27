@@ -170,7 +170,7 @@ export default {
             box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
             text-align: center;
             letter-spacing: 1px;
-            transition: .35s;
+            transition: .15s;
 
             cursor: pointer;
             &:hover {
