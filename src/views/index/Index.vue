@@ -20,7 +20,18 @@
             </div>
           </div>
           <div class="feature">
-            <li v-for="i in 3" :key="i">功能{{ i }}</li>
+            <div class="like btn" @click="like(review)">
+              <i class="iconfont icon-like"></i>
+              <span>{{ review.likeNum }}</span>
+            </div>
+            <div class="comment btn">
+              <i class="iconfont icon-comment"></i>
+              <span>{{ review.commentNum }}</span>
+            </div>
+            <div class="collect btn">
+              <i class="iconfont icon-collect"></i>
+              <span>{{ review.collectNum }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -61,6 +72,7 @@
 import Nav from '@/components/Nav';
 
 import request from '@/utils/request';
+import { getUser } from '@/utils/user';
 
 export default {
   name: 'Index',
@@ -75,10 +87,13 @@ export default {
       limit: 10,
       pageCount: 0,
       reviews: [],
+      currentUser: null,
     }
   },
   created() {
     this.getReview();
+    const { user } = getUser();
+    this.currentUser = user;
   },
   methods: {
     async getReview() {
@@ -86,6 +101,17 @@ export default {
         const { count, pageCount, reviews } = await request('GET', '/review', { page: this.page, limit: this.limit })
         this.pageCount = pageCount;
         this.reviews = reviews;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async like(review) {
+      try {
+        await request('POST', `/like/${review.id}`, {}, {
+          senderId: this.currentUser.id,
+          receiverId: review.userId
+        })
+        this.getReview();
       } catch (err) {
         console.log(err);
       }
@@ -147,10 +173,22 @@ export default {
         }
         .feature {
           margin-top: 12px;
-          li {
-            margin-right: 12px;
-            float: left;
-            list-style: none;
+          display: flex;
+          color: #8590A6;
+          .btn {
+            cursor: pointer;
+            &:hover {
+              color: #0077FF;
+            }
+          }
+          .like i {
+            font-size: 18px;
+          }
+          .comment {
+            margin: 0 12px;
+            i {
+              font-weight: 600;
+            }
           }
         }
       }
