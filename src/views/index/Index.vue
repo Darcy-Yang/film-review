@@ -3,19 +3,19 @@
     <Nav/>
     <div class="main">
       <div class="left">
-        <div class="content" v-for="i in 10" :key="i">
+        <div class="content" v-for="(review, index) in reviews" :key="index">
           <div class="top">
-            <img src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p457760035.jpg" alt="poster">
+            <img :src="review.rank.img_src" alt="poster">
             <div class="right-content">
               <div class="info">
                 <img src="static/images/avatar.jpg" alt="avatar">
-                <span>用户昵称</span>
+                <span>{{ review.user.name }}</span>
                 <span>评分</span>
-                <span>2018-03-12 14:00</span>
+                <span>{{ review.updatedAt }}</span>
               </div>
-              <span>标题</span>
+              <span>{{ review.title }}</span>
               <div class="preview">
-                <span>内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</span>
+                <span>{{ review.content }}</span>
               </div>
             </div>
           </div>
@@ -71,16 +71,21 @@ export default {
     return {
       name: '',
       types: ['动作', '喜剧', '科幻', '爱情', '剧情', '动画', '历史', '悬疑', '纪录片'],
+      page: 1,
+      limit: 10,
+      pageCount: 0,
+      reviews: [],
     }
   },
   created() {
-    this.getUser();
+    this.getReview();
   },
   methods: {
-    async getUser() {
+    async getReview() {
       try {
-        const { allUser } = await request('GET', '/user');
-        this.name = allUser[0].name;
+        const { count, pageCount, reviews } = await request('GET', '/review', { page: this.page, limit: this.limit })
+        this.pageCount = pageCount;
+        this.reviews = reviews;
       } catch (err) {
         console.log(err);
       }
@@ -105,8 +110,8 @@ export default {
     }
     .left {
       display: flex;
+      width: 50%;
       flex-direction: column;
-      align-items: center;
       .content {
         display: flex;
         margin-bottom: 20px;
@@ -151,7 +156,7 @@ export default {
       }
     }
     .right {
-      margin-left: 20px;
+      margin: 0 0 20px 20px;
       width: 20%;
       .top {
         .header {
