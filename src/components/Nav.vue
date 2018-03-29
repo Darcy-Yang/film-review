@@ -41,7 +41,10 @@ export default {
     }
   },
   created() {
-    if (!!getUser()) this.name = getUser().name;
+    if (!!getUser()) {
+      const { user } = getUser();
+      this.name = user.name;
+    }
   },
 }
 </script>

@@ -65,11 +65,11 @@ export default {
       const path = this.isRegister ? '/user/register' : '/user/login';
 
       try {
-        const res = await request('POST', `${path}`, {}, {
+        const user = await request('POST', `${path}`, {}, {
           name: this.user.name,
           password: this.user.password
         })
-        setUser(this.user);
+        setUser(user);
         this.$router.push('/');
       } catch (err) {
         this.user.password = '';
