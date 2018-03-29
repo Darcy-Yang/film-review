@@ -26,12 +26,15 @@
         </transition>
       </div>
       <div class="title-area">
-        <textarea placeholder="标题"></textarea>
+        <textarea placeholder="标题" v-model="title"></textarea>
       </div>
       <div class="separator">
       </div>
       <div class="content-area">
-        <textarea placeholder="正文"></textarea>
+        <textarea placeholder="正文" v-model="content"></textarea>
+      </div>
+      <div class="submit-area">
+        <button :class="movie && title && content ? 'finish' : 'disabled'" @click="submit">完成</button>
       </div>
     </div>
   </div>
@@ -41,6 +44,7 @@
 import Nav from '@/components/Nav';
 
 import request from '@/utils/request';
+import { getUser } from '@/utils/user';
 
 export default {
   name: 'Write',
@@ -49,8 +53,9 @@ export default {
   },
   data () {
     return {
-      contents: '',
       searchWord: '',
+      title: '',
+      content: '',
       ranks: [],
       movie: null,
       showSelect: false,
@@ -66,6 +71,32 @@ export default {
         this.searchWord = movie.title;
       }
       this.movie = movie;
+    },
+    async submit() {
+      const { user } = getUser();
+
+      if (!this.movie) {
+        alert('请选择电影');
+        return;
+      } else if (!this.title) {
+        alert('请填写标题');
+        return;
+      } else if (!this.content) {
+        alert('请填写内容');
+        return;
+      }
+
+      try {
+        await request('POST', '/review', {}, {
+          userId: user.id,
+          movieId: this.movie.id,
+          title: this.title,
+          content: this.content
+        })
+        alert('影评发布成功');
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
   watch: {
@@ -223,6 +254,30 @@ export default {
       }
       textarea::-webkit-input-placeholder {
         color: #B3B3B3;
+      }
+    }
+    .submit-area {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      button {
+        margin-bottom: 20px;
+        padding: 8px 16px;
+        font-size: 16px;
+        letter-spacing: 1px;
+        outline: none;
+        border: none;
+        border-radius: 4px;
+
+        cursor: pointer;
+      }
+      .disabled {
+        color: gray;
+        background-color: #BDBDBD;
+      }
+      .finish {
+        color: #FFF;
+        background-color: #0077FF;
       }
     }
   }
