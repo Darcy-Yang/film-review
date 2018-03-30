@@ -5,12 +5,15 @@
       <div class="left">
         <div class="content" v-for="(review, index) in reviews" :key="index">
           <div class="top">
-            <img :src="review.rank.img_src" alt="poster">
+            <div class="left-content">
+              <img :src="review.rank.img_src" alt="poster">
+            </div>
             <div class="right-content">
               <div class="info">
                 <img src="static/images/avatar.jpg" alt="avatar">
                 <span>{{ review.user.name }}</span>
                 <span>评分</span>
+                <span>《{{ review.rank.title }}》</span>
                 <span>{{ review.updatedAt }}</span>
               </div>
               <span>{{ review.title }}</span>
@@ -20,7 +23,7 @@
             </div>
           </div>
           <div class="feature">
-            <div class="like btn" @click="like(review)">
+            <div class="like btn" :class="review.isLiked ? 'liked' : ''" @click="like(review)">
               <i class="iconfont icon-like"></i>
               <span>{{ review.likeNum }}</span>
             </div>
@@ -91,14 +94,14 @@ export default {
     }
   },
   created() {
-    this.getReview();
     const { user } = getUser();
     this.currentUser = user;
+    this.getReview();
   },
   methods: {
     async getReview() {
       try {
-        const { count, pageCount, reviews } = await request('GET', '/review', { page: this.page, limit: this.limit })
+        const { count, pageCount, reviews } = await request('GET', `/review/${this.currentUser.id}`, { page: this.page, limit: this.limit })
         this.pageCount = pageCount;
         this.reviews = reviews;
       } catch (err) {
@@ -132,7 +135,7 @@ export default {
       width: 75px;
       height: 108px;
       border-radius: 4px;
-      box-shadow: 0 2px 3px #BDBDBD;
+      box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
     }
     .left {
       display: flex;
@@ -145,8 +148,13 @@ export default {
         flex-direction: column;
         background-color: #FFF;
         border-radius: 3px;
+        box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
         .top {
           display: flex;
+          .left-content {
+            display: flex;
+            flex-direction: column;
+          }
           .right-content {
             margin-left: 14px;
             img {
@@ -189,6 +197,9 @@ export default {
             i {
               font-weight: 600;
             }
+          }
+          .liked {
+            color: #0077FF;
           }
         }
       }
@@ -251,6 +262,7 @@ export default {
         padding: 12px;
         background-color: #FFF;
         border-radius: 3px;
+        box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
       }
     }
   }
