@@ -52,7 +52,10 @@ export default {
     }
   },
   created() {
-    if (!!getUser()) this.user = getUser();
+    if (!!getUser()) {
+      const { user } = getUser();
+      this.user = user;
+    }
   },
 }
 </script>
