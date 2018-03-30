@@ -262,7 +262,7 @@ export default {
       width: 100%;
       button {
         margin-bottom: 20px;
-        padding: 8px 16px;
+        padding: 6px 16px;
         font-size: 16px;
         letter-spacing: 1px;
         outline: none;
