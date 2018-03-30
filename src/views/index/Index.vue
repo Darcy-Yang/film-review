@@ -36,6 +36,12 @@
               <span>{{ review.collectNum }}</span>
             </div>
           </div>
+          <div class="comment-area">
+            <div class="comment-input" contenteditable="true" ref="comment" @focus="eventListener" @blur="eventListener">
+              {{ entered ? '' : '请输入你的评论～' }}
+            </div>
+            <button @click="submit(index)">评论</button>
+          </div>
         </div>
       </div>
       <div class="right">
@@ -91,6 +97,7 @@ export default {
       pageCount: 0,
       reviews: [],
       currentUser: null,
+      entered: false,
     }
   },
   created() {
@@ -99,6 +106,12 @@ export default {
     this.getReview();
   },
   methods: {
+    eventListener() {
+      this.entered = !this.entered;
+    },
+    async submit(index) {
+      console.log(this.$refs.comment[index].innerText);
+    },
     async getReview() {
       try {
         const { count, pageCount, reviews } = await request('GET', `/review/${this.currentUser.id}`, { page: this.page, limit: this.limit })
@@ -200,6 +213,39 @@ export default {
           }
           .liked {
             color: #0077FF;
+          }
+        }
+        .comment-area {
+          display: flex;
+          margin: 4px 0;
+          .comment-input {
+            padding: 6px 12px;
+            width: 82%;
+            height: 100%;
+
+            font-size: 15px;
+            line-height: 18px;
+            letter-spacing: .2px;
+            color: gray;
+
+            outline: none;
+            border: 1px solid rgba(26, 26, 26, 0.3);
+            border-radius: 4px;
+          }
+          button {
+            margin-left: 12px;
+            align-self: flex-end;
+            width: 8%;
+            height: 30px;
+
+            letter-spacing: .8px;
+            color: #FFF;
+            background-color: #0077FF;
+            border: none;
+            border-radius: 4px;
+            outline: none;
+
+            cursor: pointer;
           }
         }
       }
