@@ -10,12 +10,7 @@
             </div>
             <div class="right-content">
               <div class="info">
-                <!-- <div class="user-info">
-                  <img class="image" src="static/images/avatar.jpg" alt="avatar">
-                  <span class="detail">显示信息</span>
-                  <span class="user-name">{{ review.user.name }}</span>
-                </div> -->
-                <AvatarAndName />
+                <AvatarAndName :name="review.user.name"/>
                 <span>评分</span>
                 <span class="movie-name">《{{ review.rank.title }}》</span>
                 <span>{{ review.updatedAt }}</span>
@@ -50,8 +45,9 @@
             <div class="comment-list" v-for="(comment, index) in comments" :key="index">
               <div class="comment-content">
                 <div>
-                <img src="static/images/avatar.jpg" alt="avatar"/>
-                <span>{{ comment.user.name }}</span>
+                <!-- <img src="static/images/avatar.jpg" alt="avatar"/>
+                <span>{{ comment.user.name }}</span> -->
+                <avatar-and-name :name="comment.user.name"/>
                 <span>:</span>
                 <span class="text">{{ comment.content }}</span>
                 </div>
