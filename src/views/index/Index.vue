@@ -10,10 +10,14 @@
             </div>
             <div class="right-content">
               <div class="info">
-                <img src="static/images/avatar.jpg" alt="avatar">
-                <span>{{ review.user.name }}</span>
+                <!-- <div class="user-info">
+                  <img class="image" src="static/images/avatar.jpg" alt="avatar">
+                  <span class="detail">显示信息</span>
+                  <span class="user-name">{{ review.user.name }}</span>
+                </div> -->
+                <AvatarAndName />
                 <span>评分</span>
-                <span>《{{ review.rank.title }}》</span>
+                <span class="movie-name">《{{ review.rank.title }}》</span>
                 <span>{{ review.updatedAt }}</span>
               </div>
               <span>{{ review.title }}</span>
@@ -27,7 +31,7 @@
               <i class="iconfont icon-like"></i>
               <span>{{ review.likeNum }}</span>
             </div>
-            <div class="comment btn">
+            <div class="comment btn" @click="showCommentBox(review, index)">
               <i class="iconfont icon-comment"></i>
               <span>{{ review.commentNum }}</span>
             </div>
@@ -36,11 +40,26 @@
               <span>{{ review.collectNum }}</span>
             </div>
           </div>
-          <div class="comment-area">
-            <div class="comment-input" contenteditable="true" ref="comment" @focus="eventListener" @blur="eventListener">
-              {{ entered ? '' : '请输入你的评论～' }}
+          <div class="comment-area" ref="commentBox">
+            <div class="comment-creator">
+              <div class="comment-input" contenteditable="true" ref="comment" @focus="eventListener" @blur="eventListener">
+                {{ entered ? '' : '请输入你的评论～' }}
+              </div>
+              <button @click="submit(review, index)">评论</button>
             </div>
-            <button @click="submit(index)">评论</button>
+            <div class="comment-list" v-for="(comment, index) in comments" :key="index">
+              <div class="comment-content">
+                <div>
+                <img src="static/images/avatar.jpg" alt="avatar"/>
+                <span>{{ comment.user.name }}</span>
+                <span>:</span>
+                <span class="text">{{ comment.content }}</span>
+                </div>
+                <div>
+                <span class="time">{{ comment.updatedAt }}</span>
+                </div>
+              </div>
+          </div>
           </div>
         </div>
       </div>
@@ -79,6 +98,7 @@
 
 <script>
 import Nav from '@/components/Nav';
+import AvatarAndName from '@/components/AvatarAndName';
 
 import request from '@/utils/request';
 import { getUser } from '@/utils/user';
@@ -87,6 +107,7 @@ export default {
   name: 'Index',
   components: {
     Nav,
+    AvatarAndName,
   },
   data() {
     return {
@@ -96,8 +117,12 @@ export default {
       limit: 10,
       pageCount: 0,
       reviews: [],
+      comments: [],
       currentUser: null,
       entered: false,
+      showComment: false,
+      lastIndex: -1,
+      count: [],
     }
   },
   created() {
@@ -106,12 +131,6 @@ export default {
     this.getReview();
   },
   methods: {
-    eventListener() {
-      this.entered = !this.entered;
-    },
-    async submit(index) {
-      console.log(this.$refs.comment[index].innerText);
-    },
     async getReview() {
       try {
         const { count, pageCount, reviews } = await request('GET', `/review/${this.currentUser.id}`, { page: this.page, limit: this.limit })
@@ -131,6 +150,47 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+    async submit(review, index) {
+      try {
+        await request('POST', `/comment/${review.id}`, {}, {
+          senderId: this.currentUser.id,
+          receiverId: review.userId,
+          content: this.$refs.comment[index].innerText
+        });
+        this.$refs.comment[index].innerText = '';
+        this.getReview();
+        this.getComment(review);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getComment(review) {
+      const { count, comments } = await request('GET', `/comment/${review.id}`, {
+        page: this.page,
+        limit: this.limit,
+      });
+      this.comments = comments;
+    },
+    showCommentBox(review, index) {
+      this.$refs.commentBox[index].style.display = 'flex';
+      if (this.lastIndex !== index && this.lastIndex === -1) {
+        this.lastIndex = index;
+        this.$refs.commentBox[index].style.display = 'flex';
+      } else if (this.lastIndex !== index && this.lastIndex !== -1) {
+        this.count = [];
+        this.$refs.commentBox[this.lastIndex].style.display = 'none';
+        this.$refs.commentBox[index].style.display = 'flex';
+      } else {
+        this.count.push(index);
+        this.$refs.commentBox[this.lastIndex].style.display = this.count.length % 2 ===0 ? 'flex' : 'none';
+      }
+      this.lastIndex = index;
+
+      if (this.$refs.commentBox[index].style.display === 'flex') this.getComment(review);
+    },
+    eventListener() {
+      this.entered = !this.entered;
     },
   },
 }
@@ -170,17 +230,32 @@ export default {
           }
           .right-content {
             margin-left: 14px;
+            .detail {
+              display: none;
+            }
             img {
               width: 30px;
               height: 30px;
               border-radius: 50%;
               box-shadow: none;
+              &:hover {
+                .detail {
+                  display: block;
+                }
+              }
             }
             .info {
               display: flex;
               align-items: center;
               span {
                 margin-left: 8px;
+              }
+              .user-info {
+                display: flex;
+                align-items: center;
+              }
+              .image, .user-name, .movie-name {
+                cursor: pointer;
               }
             }
             .preview {
@@ -216,36 +291,70 @@ export default {
           }
         }
         .comment-area {
-          display: flex;
+          display: none;
           margin: 4px 0;
-          .comment-input {
-            padding: 6px 12px;
-            width: 82%;
-            height: 100%;
+          flex-direction: column;
+          .comment-creator {
+            display: flex;
+            width: 100%;
+            .comment-input {
+              padding: 6px 12px;
+              width: 82%;
+              height: 100%;
 
-            font-size: 15px;
-            line-height: 18px;
-            letter-spacing: .2px;
-            color: gray;
+              font-size: 15px;
+              line-height: 18px;
+              letter-spacing: .2px;
+              color: gray;
 
-            outline: none;
-            border: 1px solid rgba(26, 26, 26, 0.3);
-            border-radius: 4px;
+              outline: none;
+              border: 1px solid rgba(26, 26, 26, 0.3);
+              border-radius: 4px;
+            }
+            button {
+              margin-left: 12px;
+              align-self: flex-end;
+              width: 8%;
+              height: 30px;
+
+              letter-spacing: .8px;
+              color: #FFF;
+              background-color: #0077FF;
+              border: none;
+              border-radius: 4px;
+              outline: none;
+
+              cursor: pointer;
+            }
           }
-          button {
-            margin-left: 12px;
-            align-self: flex-end;
-            width: 8%;
-            height: 30px;
+          .comment-list {
+            display: flex;
+            width: 100%;
+            .comment-content {
+              display: flex;
+              width: 100%;
+              margin: 6px 0;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+              div {
+                display: flex;
+                align-items: center;
+              }
+              img {
+                margin-right: 8px;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                box-shadow: none;
+              }
+              .text {
+                margin-left: 8px;
+              }
+              .time {
 
-            letter-spacing: .8px;
-            color: #FFF;
-            background-color: #0077FF;
-            border: none;
-            border-radius: 4px;
-            outline: none;
-
-            cursor: pointer;
+              }
+            }
           }
         }
       }
