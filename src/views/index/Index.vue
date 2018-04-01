@@ -10,7 +10,7 @@
             </div>
             <div class="right-content">
               <div class="info">
-                <AvatarAndName :name="review.user.name"/>
+                <avatar-and-name :name="review.user.name" :avatar="review.user.avatar"/>
                 <span>评分</span>
                 <span class="movie-name">《{{ review.rank.title }}》</span>
                 <span>{{ review.updatedAt }}</span>
@@ -45,14 +45,12 @@
             <div class="comment-list" v-for="(comment, index) in comments" :key="index">
               <div class="comment-content">
                 <div>
-                <!-- <img src="static/images/avatar.jpg" alt="avatar"/>
-                <span>{{ comment.user.name }}</span> -->
-                <avatar-and-name :name="comment.user.name"/>
-                <span>:</span>
-                <span class="text">{{ comment.content }}</span>
+                  <avatar-and-name :name="comment.user.name" :avatar="comment.user.avatar"/>
+                  <span>:</span>
+                  <span class="text">{{ comment.content }}</span>
                 </div>
                 <div>
-                <span class="time">{{ comment.updatedAt }}</span>
+                  <span class="time">{{ comment.updatedAt }}</span>
                 </div>
               </div>
           </div>
@@ -211,10 +209,11 @@ export default {
       width: 50%;
       flex-direction: column;
       .content {
-        display: flex;
         margin-bottom: 20px;
         padding: 12px;
+        display: flex;
         flex-direction: column;
+
         background-color: #FFF;
         border-radius: 3px;
         box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
@@ -249,6 +248,9 @@ export default {
               .user-info {
                 display: flex;
                 align-items: center;
+              }
+              .movie-name:hover {
+                color: #0077FF;
               }
               .image, .user-name, .movie-name {
                 cursor: pointer;
@@ -327,9 +329,9 @@ export default {
             display: flex;
             width: 100%;
             .comment-content {
+              margin: 6px 0;
               display: flex;
               width: 100%;
-              margin: 6px 0;
               flex-direction: row;
               justify-content: space-between;
               align-items: center;
@@ -346,9 +348,6 @@ export default {
               }
               .text {
                 margin-left: 8px;
-              }
-              .time {
-
               }
             }
           }
@@ -368,13 +367,15 @@ export default {
           flex-wrap: wrap;
           .type {
             margin: 0 12px 12px 0;
-            width: 25%;
             padding: 10px 0;
+            width: 25%;
             flex-grow: 1;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
+
             text-align: center;
             letter-spacing: 1px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
+
             transition: .15s;
 
             cursor: pointer;

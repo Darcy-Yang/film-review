@@ -1,7 +1,7 @@
 <template>
   <div class="hover-show" :style="cardStyle">
     <div class="top">
-      <img src="static/images/avatar.jpg" alt="avatar"/>
+      <img :src="avatar" alt="avatar"/>
       <span>{{ name }}</span>
     </div>
     <div class="bottom">
@@ -37,6 +37,10 @@ export default {
     name: {
       type: String,
       default: '',
+    },
+    avatar: {
+      type: String,
+      default: 'static/images/avatar.jpg',
     },
   },
 }

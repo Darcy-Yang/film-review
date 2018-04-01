@@ -9,7 +9,13 @@
       </div>
       <div class="user-info">
         <div class="content">
-          <img src="static/images/avatar.jpg" alt="avatar"/>
+          <div class="avatar">
+            <img :src="user.avatar" alt="avatar"/>
+            <div class="hover-bg">
+              <input type="file" @change="uploadAvatar"/>
+              <span>更换头像</span>
+            </div>
+          </div>
           <div class="profile">
             <span class="user-name">{{ user.name }}</span>
             <span>other info</span>
@@ -37,9 +43,13 @@
 import Nav from '@/components/Nav';
 import TabBar from '@/components/TabBar';
 
-import { getUser } from '@/utils/user';
+import { getUser, setUser } from '@/utils/user';
+import request from '@/utils/request';
+import fetch from 'isomorphic-fetch';
+import { HOST } from '@/utils/config';
 
 export default {
+
   name: 'HomePage',
   components: {
     Nav,
@@ -57,6 +67,31 @@ export default {
       this.user = user;
     }
   },
+  methods: {
+    async uploadAvatar(e) {
+      const file = e.target.files[0];
+      const data = new FormData();
+      data.append('file', file);
+      (async () => {
+        try {
+          const res = await fetch(`${HOST}/user/${this.user.id}/avatar`, {
+            method: 'POST',
+            body: data
+          });
+          const { user } = await res.json();
+          setUser(user);
+          this.resetUser();
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+    },
+    resetUser() {
+      const { user } = getUser();
+      this.user = user;
+      this.$root.$emit('changeAvatar');
+    },
+  },
 }
 </script>
 
@@ -68,6 +103,17 @@ export default {
     flex-direction: column;
     margin-top: 20px;
     align-items: center;
+    input {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+
+      outline: none;
+      opacity: 0;
+      cursor: pointer;
+    }
     .BI-area {
       display: flex;
       position: relative;
@@ -87,17 +133,6 @@ export default {
       span {
         margin-top: 8px;
       }
-      input {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-
-        outline: none;
-        opacity: 0;
-        cursor: pointer;
-      }
     }
     .user-info {
       display: flex;
@@ -112,13 +147,40 @@ export default {
       box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
       .content {
         display: flex;
-        img {
+        .avatar {
           margin-top: -80px;
-          width: 160px;
-          height: 160px;
-          border: 3px solid #FFF;
-          border-radius: 6px;
+          position: relative;
+
+          cursor: pointer;
           z-index: 2;
+          img {
+            width: 160px;
+            height: 160px;
+            border: 3px solid #FFF;
+            border-radius: 6px;
+          }
+          .hover-bg {
+            display: none;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 160px;
+            height: 160px;
+            border-radius: 6px;
+            background: rgba(26, 26, 26, 0.4);
+            span {
+              position: absolute;
+              top: 40%;
+              left: 30%;
+              color: white;
+              letter-spacing: 1px;
+            }
+          }
+          &:hover {
+            .hover-bg {
+              display: block;
+            }
+          }
         }
         .profile {
           display: flex;

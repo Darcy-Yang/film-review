@@ -10,8 +10,8 @@
         </router-link>
       <i class="iconfont icon-search"></i>
       <router-link class="avatar" to="/homepage">
-        <img src="static/images/avatar.jpg" alt="avatar"/>
-        <span>{{ name }}</span>
+        <img :src="user.avatar" alt="avatar"/>
+        <span>{{ user.name }}</span>
       </router-link>
       </ul>
     </div>
@@ -27,7 +27,7 @@ export default {
     leftStyle: {
       type: String,
       default: ''
-    }
+    },
   },
   data () {
     return {
@@ -37,14 +37,20 @@ export default {
         { name: '电影排行', href: '/rank' },
         { name: '电影推荐', href: '/' }
       ],
-      name: '',
+      user: null,
     }
   },
   created() {
     if (!!getUser()) {
       const { user } = getUser();
-      this.name = user.name;
+      this.user = user;
     }
+  },
+  mounted() {
+    this.$root.$on('changeAvatar', () => {
+      const { user } = getUser();
+      this.user = user;
+    })
   },
 }
 </script>

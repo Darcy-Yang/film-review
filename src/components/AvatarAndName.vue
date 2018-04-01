@@ -2,12 +2,12 @@
   <div class="avatar-name-main">
     <div class="avatar-name">
       <div class="avatar">
-        <img class="show" src="static/images/avatar.jpg" alt="avatar"/>
-        <hover-show-card :cardStyle="avatarCardStyle" :name="name"/>
+        <img class="show" :src="avatar" alt="avatar"/>
+        <hover-show-card :cardStyle="avatarCardStyle" :name="name" :avatar="avatar"/>
       </div>
       <div class="name">
         <span>{{ name }}</span>
-        <hover-show-card :cardStyle="nameCardStyle" :name="name"/>
+        <hover-show-card :cardStyle="nameCardStyle" :name="name" :avatar="avatar"/>
       </div>
     </div>
   </div>
@@ -25,6 +25,10 @@ export default {
     name: {
       type: String,
       default: '',
+    },
+    avatar: {
+      type: String,
+      default: 'static/images/avatar.jpg',
     }
   },
   data() {
