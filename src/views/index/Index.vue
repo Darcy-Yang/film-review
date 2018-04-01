@@ -38,7 +38,7 @@
           <div class="comment-area" ref="commentBox">
             <div class="comment-creator">
               <div class="comment-input" contenteditable="true" ref="comment" @focus="eventListener" @blur="eventListener">
-                {{ entered ? '' : '请输入你的评论～' }}
+                {{ entered ? '' : '写下你的评论...' }}
               </div>
               <button @click="submit(review, index)">评论</button>
             </div>
