@@ -7,7 +7,7 @@
       </router-link>
       <router-link to="/homepage/review" active-class="active">
         <span>影评</span>
-        <span>0</span>
+        <span>{{ reviewNum }}</span>
       </router-link>
       <router-link to="/homepage/words" active-class="active">
         <span>台词</span>
@@ -15,7 +15,7 @@
       </router-link>
       <router-link to="/homepage/like" active-class="active">
         <span>喜欢</span>
-        <span>0</span>
+        <span>{{ likeNum }}</span>
       </router-link>
       <router-link to="/homepage/share" active-class="active">
         <span>分享</span>
@@ -26,8 +26,33 @@
 </template>
 
 <script>
+import request from '@/utils/request';
+import { getUser } from '@/utils/user';
+
 export default {
-  name: 'TabBar'
+  name: 'TabBar',
+  data() {
+    return {
+      reviewNum: 0,
+      likeNum: 0,
+    }
+  },
+  created() {
+    const { user } = getUser();
+
+    this.getReviewCount(user.id);
+    this.getLikeCount(user.id);
+  },
+  methods: {
+    async getReviewCount(id) {
+      const { count } = await request('GET', `/review/${id}/count`);
+      this.reviewNum = count;
+    },
+    async getLikeCount(id) {
+      const { count } = await request('GET', `/like/${id}/count`);
+      this.likeNum = count;
+    },
+  },
 }
 </script>
 
