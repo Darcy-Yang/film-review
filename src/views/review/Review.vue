@@ -2,7 +2,7 @@
   <div class="review-main">
     <Nav/>
     <div class="content">
-      <div class="review-info">
+      <div class="movie-info">
         <div class="left">
           <img :src="currentReview.rank.img_src" alt="poster"/>
         </div>
@@ -15,21 +15,20 @@
           <span>{{ currentReview.rank.quote }}</span>
         </div>
       </div>
-      <div class="comment">
-        <div class="comment-creator">
-          <div class="comment-input" contenteditable="true" ref="comment" @focus="eventListener" @blur="eventListener">
-            {{ entered ? '' : '写下你的评论...' }}
-          </div>
-          <button @click="submit">评论</button>
-        </div>
-        <div class="comment-list" v-for="(comment, index) in comments" :key="index">
-          <div class="comment-content">
-            <avatar-and-name :name="comment.user.name" :avatar="comment.user.avatar"/>
-            <span>:</span>
-            <span class="text">{{ comment.content }}</span>
-            <div>
-              <span class="time">{{ comment.updatedAt }}</span>
+      <div class="review-list">
+        <div class="review" v-for="(review, index) in reviews" :key="index">
+          <div class="top">
+            <avatar-and-name :name="review.user.name" :avatar="review.user.avatar"/>
+            <div class="review-content">
+              <span class="title">{{ review.title }}</span>
+              <span>{{ review.content }}</span>
             </div>
+          </div>
+          <div class="bottom">
+            <span>赞👍</span>
+            <span>评论</span>
+            <span>收藏</span>
+            <span class="time">{{ review.updatedAt }}</span>
           </div>
         </div>
       </div>
@@ -58,7 +57,7 @@ export default {
       page: 1,
       limit: 10,
       count: 0,
-      comments: [],
+      reviews: [],
     }
   },
   created() {
@@ -70,21 +69,21 @@ export default {
       this.currentUser = user;
     }
     this.currentReview = JSON.parse(localStorage.getItem('CURRENT_REVIEW'));
-    this.getComment();
+    this.getReview();
   },
   methods: {
     eventListener() {
       this.entered = !this.entered;
       if (!this.$refs.comment.innerText) this.entered = false;
     },
-    async getComment() {
+    async getReview() {
       try {
-        const { count, comments } = await request('GET', `/comment/${this.currentReview.id}`, {
+        const { count, reviews } = await request('GET', `/review/movie/${this.currentReview.movieId}`, {
           page: this.page,
           limit: this.limit
         });
         this.count = count;
-        this.comments = comments;
+        this.reviews = reviews;
       } catch (err) {
         console.log(err);
       }
@@ -117,7 +116,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    .review-info {
+    .movie-info {
       display: flex;
       align-items: center;
       width: 40%;
@@ -132,52 +131,45 @@ export default {
         flex-direction: column;
       }
     }
-    .comment {
-      margin-top: 12px;
+    .review-list {
+      margin-top: 6px;
       display: flex;
       flex-direction: column;
       width: 40%;
-      .comment-creator {
-        display: flex;
-        width: 100%;
-        .comment-input {
-          padding: 6px 12px;
-          width: 82%;
-          height: 100%;
-
-          font-size: 15px;
-          line-height: 18px;
-          letter-spacing: .2px;
-          color: gray;
-
-          outline: none;
-          border: 1px solid rgba(26, 26, 26, .3);
-          border-radius: 4px;
-        }
-        button {
-          margin-left: 12px;
-          align-self: flex-end;
-          width: 8%;
-          height: 30px;
-
-          letter-spacing: .8px;
-          color: #FFF;
-          background-color: #0077FF;
-          border: none;
-          outline: none;
-          border-radius: 4px;
-
-          cursor: pointer;
-        }
-      }
-      .comment-list {
-        margin: 12px 0 6px 0;
+      .review {
+        margin: 6px 0;
+        padding: 12px;
         display: flex;
         flex-direction: column;
-        .comment-content {
+
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(26, 26, 26, .2);
+        .top {
           display: flex;
-          .text {
-            margin-left: 12px;
+          flex-direction: row;
+          .review-content {
+            margin-left: 20px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+
+            background-color: #F6F6F6;
+            border-radius: 4px;
+            .title {
+              font-weight: 600;
+            }
+          }
+        }
+        .bottom {
+          margin-top: 4px;
+          span {
+            margin-right: 4px;
+            cursor: pointer;
+          }
+          .time {
+            float: right;
+            cursor: default;
           }
         }
       }
