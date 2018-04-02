@@ -12,7 +12,7 @@
               <div class="info">
                 <avatar-and-name :name="review.user.name" :avatar="review.user.avatar"/>
                 <span>评分</span>
-                <span class="movie-name">《{{ review.rank.title }}》</span>
+                <span class="movie-name" @click="jumpToDetail(review)">《{{ review.rank.title }}》</span>
                 <span>{{ review.updatedAt }}</span>
               </div>
               <span>{{ review.title }}</span>
@@ -63,8 +63,8 @@
             <span>影评类型</span>
           </div>
           <div class="content">
-            <div class="type" v-for="(item, index) in types" :key="index">
-              <span>{{ item }}</span>
+            <div class="type" :class="type.selected ? 'active' : ''" v-for="(type, index) in types" :key="index" @click="getReview(type)">
+              <span>{{ type.name }}</span>
             </div>
           </div>
         </div>
@@ -106,10 +106,22 @@ export default {
   data() {
     return {
       name: '',
-      types: ['动作', '喜剧', '科幻', '爱情', '剧情', '动画', '历史', '悬疑', '纪录片'],
+      // types: ['动作', '喜剧', '科幻', '爱情', '剧情', '动画', '历史', '悬疑', '纪录片'],
+      types: [
+        { name: '动作', selected: false },
+        { name: '喜剧', selected: false },
+        { name: '科幻', selected: false },
+        { name: '爱情', selected: false },
+        { name: '剧情', selected: false },
+        { name: '动画', selected: false },
+        { name: '历史', selected: false },
+        { name: '悬疑', selected: false },
+        { name: '纪录片', selected: false }
+      ],
       page: 1,
       limit: 10,
       pageCount: 0,
+      commentCount: 0,
       reviews: [],
       comments: [],
       currentUser: null,
@@ -125,9 +137,20 @@ export default {
     this.getReview();
   },
   methods: {
-    async getReview() {
+    async getReview(item) {
+      let type = '';
+      if (item && item.selected) item = null;
+      this.types.forEach(type => type.selected = false);
+      if (item) {
+        item.selected = !item.selected;
+        type = item.selected ? item.name : '';
+      }
       try {
-        const { count, pageCount, reviews } = await request('GET', `/review/${this.currentUser.id}`, { page: this.page, limit: this.limit })
+        const { count, pageCount, reviews } = await request('GET', `/review/${this.currentUser.id}`, {
+          page: this.page,
+          limit: this.limit,
+          type
+        })
         this.pageCount = pageCount;
         this.reviews = reviews;
       } catch (err) {
@@ -146,6 +169,10 @@ export default {
       }
     },
     async submit(review, index) {
+      if (!this.$refs.comment[index].innerText) {
+        alert('评论内容不能为空');
+        return;
+      }
       try {
         await request('POST', `/comment/${review.id}`, {}, {
           senderId: this.currentUser.id,
@@ -160,11 +187,16 @@ export default {
       }
     },
     async getComment(review) {
-      const { count, comments } = await request('GET', `/comment/${review.id}`, {
-        page: this.page,
-        limit: this.limit,
-      });
-      this.comments = comments;
+      try {
+        const { count, comments } = await request('GET', `/comment/${review.id}`, {
+          page: this.page,
+          limit: this.limit,
+        });
+        this.commentCount = count;
+        this.comments = comments;
+      } catch (err) {
+        console.log(err);
+      }
     },
     showCommentBox(review, index) {
       this.$refs.commentBox[index].style.display = 'flex';
@@ -185,6 +217,9 @@ export default {
     },
     eventListener() {
       this.entered = !this.entered;
+    },
+    jumpToDetail(review) {
+      this.$router.push({ name: 'Review', params: { review } });
     },
   },
 }
@@ -319,8 +354,8 @@ export default {
               color: #FFF;
               background-color: #0077FF;
               border: none;
-              border-radius: 4px;
               outline: none;
+              border-radius: 4px;
 
               cursor: pointer;
             }
@@ -383,6 +418,10 @@ export default {
               color: white;
               background-color: #0077FF;
             }
+          }
+          .active {
+            color: #FFF;
+            background-color: #0077FF;
           }
         }
       }
