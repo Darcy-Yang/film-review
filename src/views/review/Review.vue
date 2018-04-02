@@ -1,37 +1,36 @@
 <template>
   <div class="review-main">
-    <Nav :leftStyle="leftStyle"/>
-    <div class="whole-page">
-      <div class="content">
-        <img src="static/images/avatar.jpg" alt="image"/>
-        <div class="title">
-          <span>标题</span>
+    <Nav/>
+    <div class="content">
+      <div class="review-info">
+        <div class="left">
+          <img :src="currentReview.rank.img_src" alt="poster"/>
         </div>
-        <div class="review-content">
-          <span>
-            影评内容-影评内容-影评内容-影评内容-影评内容-影评内容-影评内容-影评内容
-            影评内容-影评内容-影评内容-影评内容-影评内容-影评内容-影评内容-影评内容
-            影评内容-影评内容-影评内容-影评内容-影评内容-影评内容-影评内容-影评内容
-          </span>
-        </div>
-      </div>
-      <div class="feature">
-        <div class="like">
-          <div class="like-btn">
-            <i class="iconfont icon-xihuan"></i>
-          </div>
-          <span>123</span>
-        </div>
-        <div class="right-side">
-          <i class="iconfont icon-shoucang"></i>
-          <i class="iconfont icon-pinglun"></i>
-          <i class="iconfont icon-share"></i>
+        <div class="right">
+          <h3>{{ currentReview.rank.title }}</h3>
+          <span>{{ currentReview.rank.info }}</span>
+          <span>{{ currentReview.rank.movie_type }}</span>
+          <span>豆瓣评分: {{ currentReview.rank.star }}</span>
+          <span>{{ currentReview.rank.votes }}</span>
+          <span>{{ currentReview.rank.quote }}</span>
         </div>
       </div>
       <div class="comment">
-        <div class="input-area">
-          <img src="static/images/avatar.jpg" alt="avatar"/>
-          <textarea placeholder="写下你精彩的评论"></textarea>
+        <div class="comment-creator">
+          <div class="comment-input" contenteditable="true" ref="comment" @focus="eventListener" @blur="eventListener">
+            {{ entered ? '' : '写下你的评论...' }}
+          </div>
+          <button @click="submit">评论</button>
+        </div>
+        <div class="comment-list" v-for="(comment, index) in comments" :key="index">
+          <div class="comment-content">
+            <avatar-and-name :name="comment.user.name" :avatar="comment.user.avatar"/>
+            <span>:</span>
+            <span class="text">{{ comment.content }}</span>
+            <div>
+              <span class="time">{{ comment.updatedAt }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -39,98 +38,147 @@
 </template>
 
 <script>
-import Nav from '@/components/Nav'
+import Nav from '@/components/Nav';
+import AvatarAndName from '@/components/AvatarAndName';
+
+import request from '@/utils/request';
+import { getUser } from '@/utils/user';
 
 export default {
   name: 'review',
   components: {
-    Nav
+    Nav,
+    AvatarAndName
   },
   data () {
     return {
-      leftStyle: 'margin-left: 334px;'
+      entered: false,
+      currentReview: null,
+      currentUser: null,
+      page: 1,
+      limit: 10,
+      count: 0,
+      comments: [],
     }
-  }
+  },
+  created() {
+    if (this.$route.params.review) {
+      localStorage.setItem('CURRENT_REVIEW', JSON.stringify(this.$route.params.review));
+    }
+    if (getUser()) {
+      const { user } = getUser();
+      this.currentUser = user;
+    }
+    this.currentReview = JSON.parse(localStorage.getItem('CURRENT_REVIEW'));
+    this.getComment();
+  },
+  methods: {
+    eventListener() {
+      this.entered = !this.entered;
+      if (!this.$refs.comment.innerText) this.entered = false;
+    },
+    async getComment() {
+      try {
+        const { count, comments } = await request('GET', `/comment/${this.currentReview.id}`, {
+          page: this.page,
+          limit: this.limit
+        });
+        this.count = count;
+        this.comments = comments;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async submit() {
+      if (!this.$refs.comment.innerText) {
+        alert('评论内容不能为空');
+        return;
+      }
+      try {
+        await request('POST', `/comment/${this.currentReview.id}`, {}, {
+          senderId: this.currentUser.id,
+          receiverId: this.currentReview.userId,
+          content: this.$refs.comment.innerText
+        });
+        this.$refs.comment.innerText = '';
+        this.getComment();
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
 }
 </script>
 
 <style lang="less" scoped>
 .review-main {
-  .whole-page {
+  .content {
+    margin: 20px 0;
     display: flex;
-    margin: 0 auto;
-    width: 42%;
     flex-direction: column;
     align-items: center;
-    .content {
+    .review-info {
       display: flex;
-      padding: 20px;
-      margin-top: 40px;
-      width: 100%;
-      flex-direction: column;
-
-      border-radius: 3px;
-      box-shadow: 0 1px 3px rgba(26, 26, 26, .6);
-      img {
-        width: 605px;
-        height: 192px;
-        border-radius: 3px;
-      }
-      .title {
-        margin: 16px 0;
-        padding-bottom: 8px;
-        font-size: 32px;
-        line-height: 1.4;
-        font-weight: 600;
-        letter-spacing: 1px;
-        border-bottom: 1px dashed #BDBDBD;
-      }
-      .review-content {
-        letter-spacing: 0.8px;
-      }
-    }
-    .feature {
-      display: flex;
-      margin-top: 20px;
-      width: 100%;
-      justify-content: space-between;
-      .like {
-        display: flex;
-        color: #37C700;
-      }
-      .right-side {
-        .iconfont {
-          margin-left: 20px;
-          color: #333;
+      align-items: center;
+      width: 40%;
+      .left {
+        img {
+          width: 160px;
         }
       }
-      .iconfont {
-        font-size: 22px;
+      .right {
+        margin-left: 20px;
+        display: flex;
+        flex-direction: column;
       }
     }
     .comment {
+      margin-top: 12px;
       display: flex;
-      margin: 20px 0;
-      width: 100%;
       flex-direction: column;
-      .input-area {
+      width: 40%;
+      .comment-creator {
         display: flex;
-        img {
-          width: 42px;
-          height: 42px;
-          border-radius: 50%;
-        }
-        textarea {
-          margin-left: 8px;
-          padding: 6px;
+        width: 100%;
+        .comment-input {
+          padding: 6px 12px;
+          width: 82%;
+          height: 100%;
 
-          width: 100%;
-          font-size: 14px;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: .2px;
+          color: gray;
 
-          border: 1px solid #BDBDBD;
-          border-radius: 3px;
           outline: none;
-          resize: none;
+          border: 1px solid rgba(26, 26, 26, .3);
+          border-radius: 4px;
+        }
+        button {
+          margin-left: 12px;
+          align-self: flex-end;
+          width: 8%;
+          height: 30px;
+
+          letter-spacing: .8px;
+          color: #FFF;
+          background-color: #0077FF;
+          border: none;
+          outline: none;
+          border-radius: 4px;
+
+          cursor: pointer;
+        }
+      }
+      .comment-list {
+        margin: 12px 0 6px 0;
+        display: flex;
+        flex-direction: column;
+        .comment-content {
+          display: flex;
+          .text {
+            margin-left: 12px;
+          }
         }
       }
     }
