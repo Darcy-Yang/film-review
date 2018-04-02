@@ -306,9 +306,6 @@ export default {
           color: #8590A6;
           .btn {
             cursor: pointer;
-            &:hover {
-              color: #0077FF;
-            }
           }
           .like i {
             font-size: 18px;
@@ -427,6 +424,7 @@ export default {
       }
       .bottom {
         margin-top: 20px;
+        box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
         .header {
           display: flex;
           justify-content: space-between;
@@ -453,7 +451,6 @@ export default {
         padding: 12px;
         background-color: #FFF;
         border-radius: 3px;
-        box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
       }
     }
   }
