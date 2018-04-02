@@ -42,20 +42,24 @@
             <span class="quote">{{ movie.quote }}</span>
           </div>
         </div>
+        <pagination :pageCount="pageCount"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Nav from '@/components/Nav'
+import Nav from '@/components/Nav';
+import Pagination from '@/components/Pagination';
 
 import request from '@/utils/request';
+import event from '@/utils/event';
 
 export default {
   name: 'Rank',
   components: {
-    Nav
+    Nav,
+    Pagination,
   },
   data () {
     return {
@@ -69,7 +73,7 @@ export default {
         { name: '类别六', selected: false },
       ],
       limit: 10,
-      page: 1,
+      currentPage: 1,
       pageCount: 0,
       ranks: [],
     }
@@ -80,13 +84,19 @@ export default {
   methods: {
     async getRank() {
       try {
-        const { ranks, count } = await request('POST', '/rank', { page: this.page });
+        const { ranks, count } = await request('POST', '/rank', { page: this.currentPage });
         this.pageCount = Math.ceil(count / 10);
         this.ranks = ranks;
       } catch (err) {
         console.log(err);
       }
     },
+  },
+  mounted() {
+    this.$root.$on('currentPage', (val) => {
+      this.currentPage = val;
+      this.getRank();
+    })
   },
 }
 </script>
