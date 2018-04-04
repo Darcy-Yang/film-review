@@ -25,9 +25,9 @@
             </div>
           </div>
           <div class="bottom">
-            <span>赞👍</span>
+            <!-- <span>赞👍</span>
             <span>评论</span>
-            <span>收藏</span>
+            <span>收藏</span> -->
             <span class="time">{{ review.updatedAt }}</span>
           </div>
         </div>
@@ -154,6 +154,7 @@ export default {
             flex-direction: column;
             width: 100%;
 
+            letter-spacing: .2px;
             background-color: #F6F6F6;
             border-radius: 4px;
             .title {
