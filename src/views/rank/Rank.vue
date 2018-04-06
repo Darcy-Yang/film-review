@@ -42,7 +42,7 @@
             <span class="quote">{{ movie.quote }}</span>
           </div>
         </div>
-        <!-- <pagination :pageCount="pageCount"/> -->
+        <pagination :pageCount="pageCount"/>
       </div>
     </div>
   </div>
