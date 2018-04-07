@@ -25,9 +25,9 @@
             </div>
           </div>
           <div class="bottom">
-            <!-- <span>赞👍</span>
+            <span>赞👍</span>
             <span>评论</span>
-            <span>收藏</span> -->
+            <span>收藏</span>
             <span class="time">{{ review.updatedAt }}</span>
           </div>
         </div>
