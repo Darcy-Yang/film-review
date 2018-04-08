@@ -60,11 +60,11 @@ export default {
   methods: {
     turning(i, item) {
       if (this.inited) this.inited = false;
-      if (this.pageCount > 6 && item) {
+      if (this.pageCount > 6) {
         this.topHalf.forEach(item => item.selected = false);
         this.lastHalf.forEach(item => item.selected = false);
-        item.selected = true;
-      } else if (item) {
+        if (item) item.selected = true;
+      } else {
         this.$refs.pagination.forEach(item => item.className = 'item');
         this.$refs.pagination[i - 1].className = 'item actived';
       }
