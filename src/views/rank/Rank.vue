@@ -6,22 +6,19 @@
         <div class="type classify">
           <span>类型</span>
           <div class="contents">
-            <span>全部</span>
-            <span v-for="(item, index) in selectors" :key="index">{{ item.name }}</span>
+            <span v-for="(item, index) in types" :class="item.selected ? 'actived' : ''" :key="index" @click="choose(item, 'types')">{{ item.name }}</span>
           </div>
         </div>
         <div class="area classify">
           <span>地区</span>
           <div class="contents">
-            <span>全部</span>
-            <span v-for="(item, index) in selectors" :key="index">{{ item.name }}</span>
+            <span v-for="(item, index) in areas" :class="item.selected ? 'actived' : ''" :key="index" @click="choose(item, 'areas')">{{ item.name }}</span>
           </div>
         </div>
         <div class="times classify">
           <span>时间</span>
           <div class="contents">
-            <span>全部</span>
-            <span v-for="(item, index) in selectors" :key="index">{{ item.name }}</span>
+            <span v-for="(item, index) in times" :class="item.selected ? 'actived' : ''" :key="index" @click="choose(item, 'times')">{{ item.name }}</span>
           </div>
         </div>
       </div>
@@ -42,7 +39,7 @@
             <span class="quote">{{ movie.quote }}</span>
           </div>
         </div>
-        <pagination :pageCount="pageCount"/>
+        <pagination v-if="pageCount > 1" :pageCount="pageCount"/>
       </div>
     </div>
   </div>
@@ -53,7 +50,6 @@ import Nav from '@/components/Nav';
 import Pagination from '@/components/Pagination';
 
 import request from '@/utils/request';
-import event from '@/utils/event';
 
 export default {
   name: 'Rank',
@@ -64,16 +60,44 @@ export default {
   data () {
     return {
       leftStyle: 'margin-left: 206px;',
-      selectors: [
-        { name: '类别一', selected: false },
-        { name: '类别二', selected: false },
-        { name: '类别三', selected: false },
-        { name: '类别四', selected: false },
-        { name: '类别五', selected: false },
-        { name: '类别六', selected: false },
+      types: [
+        { name: '全部', selected: true },
+        { name: '剧情', selected: false },
+        { name: '科幻', selected: false },
+        { name: '爱情', selected: false },
+        { name: '喜剧', selected: false },
+        { name: '动作', selected: false },
+        { name: '悬疑', selected: false },
+        { name: '动画', selected: false },
+        { name: '传记', selected: false },
+        { name: '纪录片', selected: false },
+      ],
+      areas: [
+        { name: '全部', selected: true },
+        { name: '中国大陆', selected: false },
+        { name: '香港', selected: false },
+        { name: '台湾', selected: false },
+        { name: '美国', selected: false },
+        { name: '日本', selected: false },
+        { name: '韩国', selected: false },
+        { name: '印度', selected: false },
+        { name: '意大利', selected: false },
+        { name: '新西兰', selected: false },
+      ],
+      times: [
+        { name: '全部', value: '全部', selected: true },
+        { name: '2010年之后', value: [2010, 2018], selected: false },
+        { name: '2000～2010年', value: [2000, 2010], selected: false },
+        { name: '90年代', value: [1990, 1999], selected: false },
+        { name: '80年代', value: [1980, 1989], selected: false },
+        { name: '70年代', value: [1970, 1979], selected: false },
+        { name: '70年代之前', value: 1970, selected: false },
       ],
       limit: 10,
       currentPage: 1,
+      searchType: '全部',
+      searchArea: '全部',
+      searchTime: '全部',
       pageCount: 0,
       ranks: [],
     }
@@ -84,12 +108,31 @@ export default {
   methods: {
     async getRank() {
       try {
-        const { ranks, count } = await request('POST', '/rank', { page: this.currentPage });
+        const { ranks, count } = await request('POST', '/rank', {
+          page: this.currentPage,
+          type: this.searchType,
+          area: this.searchArea,
+          time: this.searchTime
+        });
         this.pageCount = Math.ceil(count / 10);
         this.ranks = ranks;
       } catch (err) {
         console.log(err);
       }
+    },
+    choose(item, category) {
+      if (category === 'types') {
+        this.types.forEach(item => item.selected = false);
+      } else if (category === 'areas') {
+        this.areas.forEach(item => item.selected = false);
+      } else if (category === 'times') {
+        this.times.forEach(item => item.selected = false);
+      }
+      item.selected = true;
+      this.searchType = this.types.filter(item => item.selected)[0].name;
+      this.searchArea = this.areas.filter(item => item.selected)[0].name;
+      this.searchTime = this.times.filter(item => item.selected)[0].value;
+      this.getRank();
     },
   },
   mounted() {
@@ -125,14 +168,15 @@ export default {
         .contents {
           span {
             margin-left: 30px;
+            padding: 2px 4px;
             color: gray;
             cursor: pointer;
-            &:first-child {
-              padding: 2px 4px;
-              color: #FFF;
-              background-color: #2196FF;
-              border-radius: 3px;
-            }
+          }
+          .actived {
+            padding: 2px 4px;
+            color: #FFF;
+            background-color: #2196FF;
+            border-radius: 3px;
           }
         }
       }
