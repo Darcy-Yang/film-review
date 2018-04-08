@@ -56,6 +56,7 @@
           </div>
           </div>
         </div>
+        <pagination class="pagination" v-if="pageCount > 1" :pageCount="pageCount"/>
       </div>
       <div class="right">
         <div class="top">
@@ -93,6 +94,7 @@
 <script>
 import Nav from '@/components/Nav';
 import AvatarAndName from '@/components/AvatarAndName';
+import Pagination from '@/components/Pagination';
 
 import request from '@/utils/request';
 import { getUser } from '@/utils/user';
@@ -102,11 +104,11 @@ export default {
   components: {
     Nav,
     AvatarAndName,
+    Pagination,
   },
   data() {
     return {
       name: '',
-      // types: ['动作', '喜剧', '科幻', '爱情', '剧情', '动画', '历史', '悬疑', '纪录片'],
       types: [
         { name: '动作', selected: false },
         { name: '喜剧', selected: false },
@@ -118,7 +120,8 @@ export default {
         { name: '悬疑', selected: false },
         { name: '纪录片', selected: false }
       ],
-      page: 1,
+      reviewPage: 1,
+      commentPage: 1,
       limit: 10,
       pageCount: 0,
       commentCount: 0,
@@ -146,8 +149,8 @@ export default {
         type = item.selected ? item.name : '';
       }
       try {
-        const { count, pageCount, reviews } = await request('GET', `/review/${this.currentUser.id}`, {
-          page: this.page,
+        const { pageCount, reviews } = await request('GET', `/review/${this.currentUser.id}`, {
+          page: this.reviewPage,
           limit: this.limit,
           type
         })
@@ -189,7 +192,7 @@ export default {
     async getComment(review) {
       try {
         const { count, comments } = await request('GET', `/comment/${review.id}`, {
-          page: this.page,
+          page: this.commentPage,
           limit: this.limit,
         });
         this.commentCount = count;
@@ -221,6 +224,12 @@ export default {
     jumpToDetail(review) {
       this.$router.push({ name: 'Review', params: { review } });
     },
+  },
+  mounted() {
+    this.$root.$on('currentPage', (val) => {
+      this.reviewPage = val;
+      this.getReview();
+    })
   },
 }
 </script>
@@ -384,6 +393,10 @@ export default {
             }
           }
         }
+      }
+      .pagination {
+        display: flex;
+        justify-content: center;
       }
     }
     .right {
