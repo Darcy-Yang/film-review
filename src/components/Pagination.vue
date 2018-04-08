@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="pagination-main" v-else>
-      <div class="item" :class="item.selected ? 'actived' : ''" v-for="item in topHalf" :key="item.index + 3" @click="turning(item.index, item)">
+      <div class="item" :class="item.selected || inited && item.index === 1 ? 'actived' : ''" v-for="item in topHalf" :key="item.index + 3" @click="turning(item.index, item)">
         <span>{{ item.index }}</span>
       </div>
       <div class="item">
@@ -51,6 +51,7 @@ export default {
     }
   },
   created() {
+    this.inited = true;
     if (this.pageCount > 6) {
       this.topHalf[0].selected = true;
     } else {
@@ -95,7 +96,6 @@ export default {
     cursor: pointer;
 
     &:hover {
-      color: #0077FF;
       border-color: #0077FF;
     }
   }
@@ -118,8 +118,8 @@ export default {
     }
   }
   .actived {
-    color: #0077FF;
-    border-color: #0077FF;
+    color: #FFF;
+    background-color: #0077FF;
   }
 }
 </style>
