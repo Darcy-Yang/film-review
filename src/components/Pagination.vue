@@ -1,19 +1,19 @@
 <template>
   <div class="pagination">
     <div class="pagination-main" v-if="pageCount < 7">
-      <div class="item" v-for="i in pageCount" :key="i" @click="turning(i)">
+      <div class="item" v-for="i in pageCount" :class="inited && i === 1 ? 'actived' : ''" :key="i" @click="turning(i)" ref="pagination">
         <span>{{ i }}</span>
       </div>
     </div>
     <div class="pagination-main" v-else>
-      <div class="item" v-for="i in 3" :key="i + 3" @click="turning(i)">
-        <span>{{ i }}</span>
+      <div class="item" :class="item.selected ? 'actived' : ''" v-for="item in topHalf" :key="item.index + 3" @click="turning(item.index, item)">
+        <span>{{ item.index }}</span>
       </div>
       <div class="item">
         <span>...</span>
       </div>
-      <div class="item" v-for="i in [2, 1, 0]" :key="i" @click="turning(pageCount - i)">
-        <span>{{ pageCount - i }}</span>
+      <div class="item" :class="item.selected ? 'actived' : ''" v-for="item in lastHalf" :key="item.index" @click="turning(pageCount - item.index, item)">
+        <span>{{ pageCount - item.index }}</span>
       </div>
       <div class="jump">
         <span>前往</span>
@@ -37,10 +37,37 @@ export default {
     return {
       page: 0,
       jumpPage: '',
+      topHalf: [
+        { index: 1, selected: false },
+        { index: 2, selected: false },
+        { index: 3, selected: false }
+      ],
+      lastHalf: [
+        { index: 2, selected: false },
+        { index: 1, selected: false },
+        { index: 0, selected: false }
+      ],
+      inited: false,
+    }
+  },
+  created() {
+    if (this.pageCount > 6) {
+      this.topHalf[0].selected = true;
+    } else {
+      this.inited = true;
     }
   },
   methods: {
-    turning(i) {
+    turning(i, item) {
+      if (this.inited) this.inited = false;
+      if (this.pageCount > 6 && item) {
+        this.topHalf.forEach(item => item.selected = false);
+        this.lastHalf.forEach(item => item.selected = false);
+        item.selected = true;
+      } else if (item) {
+        this.$refs.pagination.forEach(item => item.className = 'item');
+        this.$refs.pagination[i - 1].className = 'item actived';
+      }
       if (i < 0 || !i) {
         i = 1;
       } else if (i > this.pageCount) {
@@ -89,6 +116,10 @@ export default {
       border-radius: 4px;
       outline: none;
     }
+  }
+  .actived {
+    color: #0077FF;
+    border-color: #0077FF;
   }
 }
 </style>
