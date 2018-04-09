@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="feature">
-            <div class="like btn" :class="review.isLiked ? 'liked' : ''" @click="like(review)">
+            <div class="like btn" :class="review.isLiked ? 'actived' : ''" @click="like(review)">
               <i class="iconfont icon-like"></i>
               <span>{{ review.likeNum }}</span>
             </div>
@@ -165,7 +165,7 @@ export default {
         await request('POST', `/like/${review.id}`, {}, {
           senderId: this.currentUser.id,
           receiverId: review.userId
-        })
+        });
         this.getReview();
       } catch (err) {
         console.log(err);
@@ -269,6 +269,7 @@ export default {
           }
           .right-content {
             margin-left: 14px;
+            word-break: break-all;
             .detail {
               display: none;
             }
@@ -325,7 +326,7 @@ export default {
               font-weight: 600;
             }
           }
-          .liked {
+          .actived {
             color: #0077FF;
           }
         }

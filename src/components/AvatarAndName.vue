@@ -7,7 +7,7 @@
       </div>
       <div class="name">
         <span>{{ name }}</span>
-        <hover-show-card :cardStyle="nameCardStyle" :name="name" :avatar="avatar"/>
+        <!-- <hover-show-card :cardStyle="nameCardStyle" :name="name" :avatar="avatar"/> -->
       </div>
     </div>
   </div>

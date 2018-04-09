@@ -202,6 +202,7 @@ export default {
           border: 1px solid #0077FF;
           border-radius: 3px;
           letter-spacing: 1px;
+          outline: none;
           cursor: pointer;
         }
       }
