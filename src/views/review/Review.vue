@@ -4,7 +4,6 @@
     <div class="content">
       <div class="movie-info">
         <div class="left">
-          <!-- <img :src="currentReview.rank.img_src || currentReview.img_src" alt="poster"/> -->
           <img :src="currentReview.img_src || currentReview.rank.img_src" alt="poster"/>
         </div>
         <div class="right">
@@ -16,32 +15,25 @@
           <span>{{ currentReview.quote || currentReview.rank.quote }}</span>
         </div>
       </div>
-      <div class="review-list">
-        <!-- <div class="review" v-for="(review, index) in reviews" :key="index">
-          <div class="top">
-            <avatar-and-name :name="review.user.name" :avatar="review.user.avatar"/>
-            <div class="review-content">
-              <span class="title">{{ review.title }}</span>
-              <span>{{ review.content }}</span>
-            </div>
-          </div>
-          <div class="bottom">
-            <span>赞👍</span>
-            <span>评论</span>
-            <span>收藏</span>
-            <span class="time">{{ review.updatedAt }}</span>
-          </div>
-        </div> -->
+      <div class="review-list" v-if="reviews.length">
         <review-component class="review" :reviews="reviews" :userId="currentUser.id" :getReview="getReview"/>
       </div>
+      <div class="no-review" v-else>
+        <h3>《{{ currentReview.title }}》暂时还没有影评～</h3>
+        <span @click="openModal">添加影评</span>
+      </div>
+    </div>
+    <div class="modal" v-if="showModal">
+      <container class="container" v-click-outside="closeModal"
+      :firstPlaceHolder="firstPlaceHolder" :secondPlaceHolder="secondPlaceHolder" :cancel="closeModal"/>
     </div>
   </div>
 </template>
 
 <script>
 import Nav from '@/components/Nav';
-// import AvatarAndName from '@/components/AvatarAndName';
 import ReviewComponent from '@/components/ReviewComponent';
+import Container from '@/components/Container';
 
 import request from '@/utils/request';
 import { getUser } from '@/utils/user';
@@ -50,8 +42,8 @@ export default {
   name: 'review',
   components: {
     Nav,
-    // AvatarAndName,
     ReviewComponent,
+    Container,
   },
   data () {
     return {
@@ -62,6 +54,9 @@ export default {
       limit: 10,
       count: 0,
       reviews: [],
+      showModal: false,
+      firstPlaceHolder: '影评内容',
+      secondPlaceHolder: '标题',
     }
   },
   created() {
@@ -76,10 +71,6 @@ export default {
     this.getReview();
   },
   methods: {
-    eventListener() {
-      this.entered = !this.entered;
-      if (!this.$refs.comment.innerText) this.entered = false;
-    },
     async getReview() {
       try {
         const { count, reviews } = await request('GET', `/review/${this.currentUser.id}/movie/
@@ -110,6 +101,42 @@ export default {
         console.log(err);
       }
     },
+    async addReview(title, content) {
+      if (!title) {
+        alert('标题不能为空');
+        return;
+      } else if (!content) {
+        alert('内容不能为空');
+        return;
+      }
+      try {
+        await request('POST', '/review', {}, {
+          userId: this.currentUser.id,
+          movieId: this.currentReview.movieId ? this.currentReview.movieId : this.currentReview.id,
+          title,
+          content
+        });
+        this.closeModal();
+        this.getReview();
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    eventListener() {
+      this.entered = !this.entered;
+      if (!this.$refs.comment.innerText) this.entered = false;
+    },
+    openModal() {
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+    },
+  },
+  mounted() {
+    this.$root.$on('container', (title, content) => {
+      this.addReview(title, content);
+    })
   },
 }
 </script>
@@ -138,9 +165,33 @@ export default {
     }
     .review-list {
       margin-top: 6px;
-      // display: flex;
-      // flex-direction: column;
       width: 40%;
+    }
+    .no-review {
+      display: flex;
+      width: 40%;
+      align-items: center;
+      color: gray;
+      span {
+        margin-left: 4px;
+        font-weight: 600;
+        color: #0077FF;
+        cursor: pointer;
+      }
+    }
+  }
+  .modal {
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    color: #0077FF;
+    background-color: rgba(26, 26, 26, .6);
+    .container {
+      height: auto;
     }
   }
 }

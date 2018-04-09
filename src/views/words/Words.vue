@@ -34,31 +34,37 @@
       <div class="right-content" v-if="!showContainer">
         <button @click="addWords">写台词</button>
       </div>
-      <div class="container" v-else>
+      <!-- <div class="container" v-else>
         <textarea class="words-area" placeholder="请输入台词"></textarea>
         <textarea class="name-area" placeholder="请输入电影名"></textarea>
         <div class="buttons">
           <button class="cancel" @click="cancel">取消</button>
           <button class="sure">确认</button>
         </div>
-      </div>
+      </div> -->
+      <container :firstPlaceHolder="firstPlaceHolder" :secondPlaceHolder="secondPlaceHolder"
+                 :cancel="cancel" v-else/>
     </div>
   </div>
 </template>
 
 <script>
-import Nav from '@/components/Nav'
+import Nav from '@/components/Nav';
+import Container from '@/components/Container';
 
 export default {
   name: 'Words',
   components: {
-    Nav
+    Nav,
+    Container,
   },
   data () {
     return {
       leftStyle: 'margin-left: 260px;',
       words: [],
-      showContainer: false
+      showContainer: false,
+      firstPlaceHolder: '请输入台词',
+      secondPlaceHolder: '请输入电影名',
     }
   },
   created () {
@@ -73,7 +79,7 @@ export default {
     cancel () {
       this.showContainer = false
       this.leftStyle = 'margin-left: 260px;'
-    }
+    },
   }
 }
 </script>
@@ -160,56 +166,6 @@ export default {
 
         &:hover {
           box-shadow: 0 0 2px;
-        }
-      }
-    }
-    .container {
-      display: flex;
-      margin: 48px;
-      padding: 20px;
-      height: 100%;
-      flex-direction: column;
-      background-color: #FFF;
-      border: 1px solid #BDBDBD;
-      border-radius: 3px;
-      .words-area {
-        width: 300px;
-        height: 210px;
-        font-size: 18px;
-        line-height: 24px;
-      }
-      .name-area {
-        margin: 20px 0;
-        height: 20px;
-        font-size: 14px;
-      }
-      textarea {
-        padding: 8px;
-        border: 1px solid #BDBDBD;
-        border-radius: 3px;
-        resize: none;
-        outline: none;
-      }
-      .buttons {
-        display: flex;
-        justify-content: space-between;
-        .cancel {
-          color: gray;
-        }
-        .sure {
-          color: #FFF;
-          background-color: #0077FF;
-          border: none;
-        }
-        button {
-          width: 120px;
-          height: 30px;
-          font-size: 14px;
-          letter-spacing: 1px;
-          border: 1px solid #BDBDBD;
-          border-radius: 3px;
-          outline: none;
-          cursor: pointer;
         }
       }
     }
