@@ -4,19 +4,20 @@
     <div class="content">
       <div class="movie-info">
         <div class="left">
-          <img :src="currentReview.rank.img_src" alt="poster"/>
+          <!-- <img :src="currentReview.rank.img_src || currentReview.img_src" alt="poster"/> -->
+          <img :src="currentReview.img_src || currentReview.rank.img_src" alt="poster"/>
         </div>
         <div class="right">
-          <h3>{{ currentReview.rank.title }}</h3>
-          <span>{{ currentReview.rank.info }}</span>
-          <span>{{ currentReview.rank.movie_type }}</span>
-          <span>豆瓣评分: {{ currentReview.rank.star }}</span>
-          <span>{{ currentReview.rank.votes }}</span>
-          <span>{{ currentReview.rank.quote }}</span>
+          <h3>{{ currentReview.title || currentReview.rank.title }}</h3>
+          <span>{{ currentReview.info || currentReview.rank.info }}</span>
+          <span>{{ currentReview.type || currentReview.rank.type }}</span>
+          <span>豆瓣评分: {{ currentReview.star || currentReview.rank.star }}</span>
+          <span>{{ currentReview.votes || currentReview.rank.votes }}</span>
+          <span>{{ currentReview.quote || currentReview.rank.quote }}</span>
         </div>
       </div>
       <div class="review-list">
-        <div class="review" v-for="(review, index) in reviews" :key="index">
+        <!-- <div class="review" v-for="(review, index) in reviews" :key="index">
           <div class="top">
             <avatar-and-name :name="review.user.name" :avatar="review.user.avatar"/>
             <div class="review-content">
@@ -30,7 +31,8 @@
             <span>收藏</span>
             <span class="time">{{ review.updatedAt }}</span>
           </div>
-        </div>
+        </div> -->
+        <review-component class="review" :reviews="reviews" :userId="currentUser.id" :getReview="getReview"/>
       </div>
     </div>
   </div>
@@ -38,7 +40,8 @@
 
 <script>
 import Nav from '@/components/Nav';
-import AvatarAndName from '@/components/AvatarAndName';
+// import AvatarAndName from '@/components/AvatarAndName';
+import ReviewComponent from '@/components/ReviewComponent';
 
 import request from '@/utils/request';
 import { getUser } from '@/utils/user';
@@ -47,7 +50,8 @@ export default {
   name: 'review',
   components: {
     Nav,
-    AvatarAndName
+    // AvatarAndName,
+    ReviewComponent,
   },
   data () {
     return {
@@ -78,7 +82,8 @@ export default {
     },
     async getReview() {
       try {
-        const { count, reviews } = await request('GET', `/review/movie/${this.currentReview.movieId}`, {
+        const { count, reviews } = await request('GET', `/review/${this.currentUser.id}/movie/
+                                                ${this.currentReview.movieId ? this.currentReview.movieId : this.currentReview.id}`, {
           page: this.page,
           limit: this.limit
         });
@@ -133,47 +138,9 @@ export default {
     }
     .review-list {
       margin-top: 6px;
-      display: flex;
-      flex-direction: column;
+      // display: flex;
+      // flex-direction: column;
       width: 40%;
-      .review {
-        margin: 6px 0;
-        padding: 12px;
-        display: flex;
-        flex-direction: column;
-
-        border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(26, 26, 26, .2);
-        .top {
-          display: flex;
-          flex-direction: row;
-          .review-content {
-            margin-left: 20px;
-            padding: 6px;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-
-            letter-spacing: .2px;
-            background-color: #F6F6F6;
-            border-radius: 4px;
-            .title {
-              font-weight: 600;
-            }
-          }
-        }
-        .bottom {
-          margin-top: 4px;
-          span {
-            margin-right: 4px;
-            cursor: pointer;
-          }
-          .time {
-            float: right;
-            cursor: default;
-          }
-        }
-      }
     }
   }
 }
