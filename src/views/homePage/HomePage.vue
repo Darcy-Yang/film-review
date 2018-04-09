@@ -33,6 +33,7 @@
           <!-- </transition> -->
         </div>
         <div class="status">
+          <h3>个人状态👤</h3>
         </div>
       </div>
     </div>
@@ -220,7 +221,8 @@ export default {
         box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
       }
       .status {
-        width: 30%;
+        padding: 0 12px;
+        width: 26%;
         background-color: #FFF;
         border-radius: 3px;
         box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);

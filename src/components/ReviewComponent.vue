@@ -1,7 +1,7 @@
 <template>
   <div class="review-component">
     <div class="main">
-      <div class="content" v-for="(review, index) in reviews" :key="index">
+      <div class="content" v-if="reviews.length" v-for="(review, index) in reviews" :key="index">
         <div class="top">
           <avatar-and-name :name="review.user.name" :avatar="review.user.avatar"/>
           <div class="review-content">
@@ -24,7 +24,7 @@
               <span>{{ review.collectNum }}</span>
             </div>
           </div>
-          <span>{{ review.updatedAt }}</span>
+          <span class="time">{{ review.updatedAt }}</span>
         </div>
         <div class="comment-list" v-show="review.showComment">
           <div class="comment-creator">
@@ -34,10 +34,12 @@
             <button @click="submit(review, index)">评论</button>
           </div>
           <div class="comment" v-for="comment in comments" :key="comment.id">
-            <avatar-and-name :name="comment.user.name" :avatar="comment.user.avatar"/>
-            <span>:</span>
-            <span>{{ comment.content }}</span>
-            <span>{{ comment.updatedAt }}</span>
+            <div class="comment-content">
+              <avatar-and-name :name="comment.user.name" :avatar="comment.user.avatar"/>
+              <span class="separate">:</span>
+              <span>{{ comment.content }}</span>
+            </div>
+            <span class="time">{{ comment.updatedAt }}</span>
           </div>
         </div>
       </div>
@@ -193,6 +195,7 @@ export default {
         }
       }
       .comment-list {
+        margin-top: 4px;
         display: flex;
         flex-direction: column;
         .comment-creator {
@@ -228,6 +231,24 @@ export default {
             cursor: pointer;
           }
         }
+        .comment {
+          margin: 4px 0;
+          padding-right: 8px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .comment-content {
+            display: flex;
+            align-items: center;
+            .separate {
+              margin: 0 4px;
+            }
+          }
+        }
+      }
+      .time {
+        font-size: 14px;
+        color: #8590A6;
       }
     }
   }
