@@ -132,6 +132,7 @@ export default {
       showComment: false,
       lastIndex: -1,
       count: [],
+      type: '',
     }
   },
   created() {
@@ -141,18 +142,23 @@ export default {
   },
   methods: {
     async getReview(item) {
-      let type = '';
-      if (item && item.selected) item = null;
+      // let type = '';
+      if (item && item.selected) {
+        item = null;
+        this.type = '';
+        this.reviewPage = 1;
+      };
       this.types.forEach(type => type.selected = false);
       if (item) {
         item.selected = !item.selected;
-        type = item.selected ? item.name : '';
+        this.type = item.selected ? item.name : '';
       }
+      if (this.type) (this.types.filter(type => type.name === this.type))[0].selected = true;
       try {
         const { pageCount, reviews } = await request('GET', `/review/${this.currentUser.id}`, {
           page: this.reviewPage,
           limit: this.limit,
-          type
+          type: this.type
         })
         this.pageCount = pageCount;
         this.reviews = reviews;
