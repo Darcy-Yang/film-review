@@ -1,173 +1,206 @@
 <template>
-  <div class="words-main" ref="body">
-    <Nav :leftStyle="leftStyle"/>
-    <div class="whole-content">
-      <div class="list">
-        <div class="content" v-for="(item, index) in words" :key="index">
-          <div class="paper">
-            <div class="words">
-              <span class="film-words">如果你有梦想，就要守护它。当人们做不到一些事情的时候，他们就会对你说你也同样不可能。有了目标就要全力以赴。</span><br>
-              <span class="film-name">——《当幸福来敲门》</span>
+  <div class="words-main">
+    <Nav/>
+    <div class="content">
+      <div class="words" v-for="i in 12" :key="i">
+        <div class="words-content">
+          <span>如果你有梦想，就要守护它。当人们做不到一些事情的时候，他们就会对你说你也同样不能。如果你有了目标就要全力以赴。</span>
+          <div class="source">
+            <span>——</span>
+            <span>《当幸福来敲门》</span>
+          </div>
+          <div class="info">
+            <avatar-and-name :name="name" :avatar="avatar"/>
+            <span class="time">1996-11-25</span>
+          </div>
+        </div>
+        <div class="hover-show">
+          <div class="hover-blur"></div>
+          <div class="icons">
+            <div class="feature">
+              <i class="iconfont icon-love"></i>
+              <span>3</span>
             </div>
             <div class="feature">
-              <div class="unit">
-                <i class="iconfont icon-xihuan"></i>
-                <span>32</span>
-              </div>
-              <div class="unit">
-                <i class="iconfont icon-pinglun"></i>
-                <span>3</span>
-              </div>
-              <div class="unit">
-                <i class="iconfont icon-share"></i>
-              </div>
+              <i class="iconfont icon-collect-b"></i>
+              <span>1</span>
             </div>
-            <div class="user-info">
-              <img src="static/images/avatar.jpg" alt="avatar"/>
-              <span>user_name</span>
-            </div>
-          </div>
-          <div class="paper-shadow" style="background-image: url(static/images/paper-shadow.png);">
           </div>
         </div>
       </div>
-      <div class="right-content" v-if="!showContainer">
-        <button @click="addWords">写台词</button>
-      </div>
-      <!-- <div class="container" v-else>
-        <textarea class="words-area" placeholder="请输入台词"></textarea>
-        <textarea class="name-area" placeholder="请输入电影名"></textarea>
-        <div class="buttons">
-          <button class="cancel" @click="cancel">取消</button>
-          <button class="sure">确认</button>
-        </div>
-      </div> -->
-      <container :firstPlaceHolder="firstPlaceHolder" :secondPlaceHolder="secondPlaceHolder"
-                 :cancel="cancel" v-else/>
+    </div>
+    <div class="add-btn" @click="openModal">
+      <i class="iconfont icon-add"></i>
+    </div>
+    <div class="modal" v-if="showModal">
+      <container class="container" v-click-outside="closeModal" v-on:container="addWords"
+      :firstPlaceHolder="firstPlaceHolder" :secondPlaceHolder="secondPlaceHolder" :cancel="closeModal"/>
     </div>
   </div>
 </template>
 
 <script>
 import Nav from '@/components/Nav';
+import AvatarAndName from '@/components/AvatarAndName';
 import Container from '@/components/Container';
 
 export default {
   name: 'Words',
   components: {
     Nav,
+    AvatarAndName,
     Container,
   },
-  data () {
+  data() {
     return {
-      leftStyle: 'margin-left: 260px;',
-      words: [],
-      showContainer: false,
-      firstPlaceHolder: '请输入台词',
-      secondPlaceHolder: '请输入电影名',
+      name: 'Daniel_Yang',
+      avatar: 'static/images/avatar.jpg',
+      firstPlaceHolder: '电影名',
+      secondPlaceHolder: '台词',
+      showModal: false,
     }
   },
-  created () {
-    this.words.length = 6
-  },
   methods: {
-    addWords () {
-      this.showContainer = true
-      this.leftStyle = 'margin-left: 34px;'
-      setTimeout(scrollTo(0, 0), 100)
+    addWords(title, content) {
+      alert(`${title}-${content}`);
     },
-    cancel () {
-      this.showContainer = false
-      this.leftStyle = 'margin-left: 260px;'
+    openModal() {
+      this.showModal = true;
+      setTimeout(scrollTo(0, 0), 100);
     },
-  }
+    closeModal() {
+      this.showModal = false;
+    },
+  },
 }
 </script>
 
 <style lang="less" scoped>
 .words-main {
-  height: 100%;
-  background-color: #F6F6F6;
-  .whole-content {
+  position: relative;
+  .content {
+    position: relative;
+    margin: 20px auto;
     display: flex;
+    // width: 80%;
+    flex-wrap: wrap;
     justify-content: center;
-    .list {
-      margin: 48px 0;
-      .content {
+    .words {
+      position: relative;
+      margin: 6px 8px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      width: 24%;
+
+      word-break: break-all;
+      background-color: pink;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(26, 26, 26, .3);
+
+      cursor: pointer;
+
+      &:hover {
+        .hover-show {
+          display: flex;
+        }
+      }
+      .words-content {
         display: flex;
         flex-direction: column;
+        color: #FFF;
+        .source {
+          align-self: flex-end;
+        }
+        .info {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+      .hover-show {
+        position: absolute;
+        // display: flex;
+        // color: #FAFBFB;
+        display: none;
+        justify-content: center;
         align-items: center;
-        .paper {
-          padding: 32px;
-          padding-bottom: 12px;
-          width: 736px;
-          background-color: #FFF;
-          border: 1px solid #BDBDBD;
-          .words {
-            padding-bottom: 28px;
-            border-bottom: 1px solid #BDBDBD;
-            .film-words {
-              font-size: 18px;
-              font-weight: 600;
-            }
-            .film-name {
-              float: right;
+        width: 100%;
+        height: 100%;
+        .hover-blur {
+          position: absolute;
+          top: 0;
+          left: -18px;
+          width: 100%;
+          height: 100%;
+          filter: blur(2px);
+          background-color: rgba(26, 26, 26, .25);
+        }
+        .icons {
+          display: flex;
+          width: 60%;
+          justify-content: space-evenly;
+
+          z-index: 2;
+          .iconfont {
+            font-size: 36px;
+            opacity: .9;
+            &:hover {
+              opacity: 1;
             }
           }
           .feature {
-            margin-top: 10px;
-            .unit {
-              margin-top: 10px;
-              margin-right: 16px;
-              float: left;
-              cursor: pointer;
-            }
-          }
-          .user-info {
             display: flex;
-            float: right;
+            flex-direction: column;
             align-items: center;
-            img {
-              margin-right: 8px;
-              width: 42px;
-              height: 42px;
-              border-radius: 50%;
-            }
-            img, span {
-              cursor: pointer;
+            span {
+              font-size: 18px;
+              font-weight: 600;
+              color: #FFF;
+              // 水红色
+              // color: #DE3163;
             }
           }
-        }
-        .paper-shadow {
-          width: 800px;
-          height: 32px;
+          .icon-love {
+            color: red;
+          }
+          .icon-collect-b {
+            color: orange;
+          }
         }
       }
     }
-    .right-content {
-      position: fixed;
-      top: 180px;
-      right: 200px;
-      button {
-        width: 80px;
-        height: 32px;
+  }
+  .add-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 88px;
+    right: 1rem;
 
-        color: #0077FF;
-        background-color: #FFF;
+    width: 3rem;
+    height: 3rem;
+    color: #FFF;
+    background-color: #0077FF;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(26, 26, 26, .4);
 
-        font-size: 14px;
-        font-weight: 600;
-        letter-spacing: 1px;
+    cursor: pointer;
+  }
+  .modal {
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-        border: 1px solid #BDBDBD;
-        border-radius: 3px;
-        outline: none;
-        cursor: pointer;
-
-        &:hover {
-          box-shadow: 0 0 2px;
-        }
-      }
+    width: 100%;
+    height: 100vh;
+    color: #0077FF;
+    background-color: rgba(26, 26, 26, .6);
+    .container {
+      height: auto;
     }
   }
 }
