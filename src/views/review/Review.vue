@@ -7,19 +7,29 @@
           <img :src="currentReview.img_src || currentReview.rank.img_src" alt="poster"/>
         </div>
         <div class="right">
-          <h3>{{ currentReview.title || currentReview.rank.title }}</h3>
-          <span>{{ currentReview.info || currentReview.rank.info }}</span>
-          <span>{{ currentReview.type || currentReview.rank.type }}</span>
-          <span>豆瓣评分: {{ currentReview.star || currentReview.rank.star }}</span>
-          <span>{{ currentReview.votes || currentReview.rank.votes }}</span>
-          <span>{{ currentReview.quote || currentReview.rank.quote }}</span>
+          <h3>{{ currentReview.rank.title }}</h3>
+          <span>{{ currentReview.rank.info }}</span>
+          <span>{{ currentReview.rank.type }}</span>
+          <span>豆瓣评分: {{ currentReview.rank.star }}</span>
+          <span>{{ currentReview.rank.votes }}</span>
+          <span>{{ currentReview.rank.quote }}</span>
         </div>
       </div>
       <div class="review-list" v-if="reviews.length">
+        <div class="add-review">
+          <div class="description">
+            <span>《{{ currentReview.rank.title }}》的影评</span>
+            <div class="dot">
+              <span>......</span>
+            </div>
+            <span>(共{{ reviews.length }}条)</span>
+          </div>
+          <span>添加影评</span>
+        </div>
         <review-component class="review" :reviews="reviews" :userId="currentUser.id" :getReview="getReview"/>
       </div>
       <div class="no-review" v-else>
-        <h3>《{{ currentReview.title }}》暂时还没有影评～</h3>
+        <h3>《{{ currentReview.rank.title }}》暂时还没有影评～</h3>
         <span @click="openModal">添加影评</span>
       </div>
     </div>
@@ -73,8 +83,7 @@ export default {
   methods: {
     async getReview() {
       try {
-        const { count, reviews } = await request('GET', `/review/${this.currentUser.id}/movie/
-                                                ${this.currentReview.movieId ? this.currentReview.movieId : this.currentReview.id}`, {
+        const { count, reviews } = await request('GET', `/review/${this.currentUser.id}/movie/${this.currentReview.movieId}`, {
           page: this.page,
           limit: this.limit
         });
@@ -112,7 +121,7 @@ export default {
       try {
         await request('POST', '/review', {}, {
           userId: this.currentUser.id,
-          movieId: this.currentReview.movieId ? this.currentReview.movieId : this.currentReview.id,
+          movieId: this.currentReview.movieId,
           title,
           content
         });
@@ -166,6 +175,20 @@ export default {
     .review-list {
       margin-top: 6px;
       width: 40%;
+      .add-review {
+        display: flex;
+        justify-content: space-between;
+        .description {
+          display: flex;
+          align-items: center;
+          .dot {
+            margin: 0 4px;
+            padding-bottom: 12px;
+            font-weight: 600;
+            letter-spacing: 4px;
+          }
+        }
+      }
     }
     .no-review {
       display: flex;

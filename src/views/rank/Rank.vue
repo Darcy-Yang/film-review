@@ -23,20 +23,20 @@
         </div>
       </div>
       <div class="list">
-        <div class="movies" v-for="(review, index) in ranks" :key="index">
-          <span>{{ review.order }}</span>
+        <div class="movies" v-for="(movie, index) in ranks" :key="index">
+          <span>{{ movie.order }}</span>
           <div class="left-content">
-            <img :src='review.img_src' alt="image"/>
+            <img :src='movie.img_src' alt="image"/>
             <div class="score">
-              <span>{{ review.star }}</span>
+              <span>{{ movie.star }}</span>
             </div>
           </div>
           <div class="right-content">
-            <span class="name" @click="jumpToDetail(review)">{{ review.title }}</span>
-            <span>{{ review.info }}</span>
-            <span>{{ review.type }}</span>
-            <span>{{ review.votes }}</span>
-            <span class="quote">{{ review.quote }}</span>
+            <span class="name" @click="jumpToDetail(movie)">{{ movie.title }}</span>
+            <span>{{ movie.info }}</span>
+            <span>{{ movie.type }}</span>
+            <span>{{ movie.votes }}</span>
+            <span class="quote">{{ movie.quote }}</span>
           </div>
         </div>
         <pagination v-if="pageCount > 1" :pageCount="pageCount"/>
@@ -134,7 +134,10 @@ export default {
       this.searchTime = this.times.filter(item => item.selected)[0].value;
       this.getRank();
     },
-    jumpToDetail(review) {
+    jumpToDetail(movie) {
+      const review = { rank: null };
+      review.rank = movie;
+      review.movieId = movie.id;
       this.$router.push({ name: 'Review', params: { review } });
     },
   },
