@@ -24,17 +24,17 @@
             </div>
             <span>(共{{ reviews.length }}条)</span>
           </div>
-          <span>添加影评</span>
+          <span class="add-btn" @click="openModal">添加影评</span>
         </div>
         <review-component class="review" :reviews="reviews" :userId="currentUser.id" :getReview="getReview"/>
       </div>
       <div class="no-review" v-else>
         <h3>《{{ currentReview.rank.title }}》暂时还没有影评～</h3>
-        <span @click="openModal">添加影评</span>
+        <span class="add-btn" @click="openModal">添加影评</span>
       </div>
     </div>
     <div class="modal" v-if="showModal">
-      <container class="container" v-click-outside="closeModal"
+      <container class="container" v-click-outside="closeModal" v-on:container="addReview"
       :firstPlaceHolder="firstPlaceHolder" :secondPlaceHolder="secondPlaceHolder" :cancel="closeModal"/>
     </div>
   </div>
@@ -77,7 +77,7 @@ export default {
       const { user } = getUser();
       this.currentUser = user;
     }
-    this.currentReview = JSON.parse(localStorage.getItem('CURRENT_REVIEW'));
+    this.currentReview = this.$route.params.review ? this.$route.params.review : JSON.parse(localStorage.getItem('CURRENT_REVIEW'));
     this.getReview();
   },
   methods: {
@@ -142,11 +142,6 @@ export default {
       this.showModal = false;
     },
   },
-  mounted() {
-    this.$root.$on('container', (title, content) => {
-      this.addReview(title, content);
-    })
-  },
 }
 </script>
 
@@ -195,12 +190,12 @@ export default {
       width: 40%;
       align-items: center;
       color: gray;
-      span {
-        margin-left: 4px;
-        font-weight: 600;
-        color: #0077FF;
-        cursor: pointer;
-      }
+    }
+    .add-btn {
+      margin-left: 4px;
+      font-weight: 600;
+      color: #0077FF;
+      cursor: pointer;
     }
   }
   .modal {
@@ -210,7 +205,7 @@ export default {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     color: #0077FF;
     background-color: rgba(26, 26, 26, .6);
     .container {

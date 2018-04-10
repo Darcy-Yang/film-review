@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     submit() {
-      this.$root.$emit('container', this.title, this.content);
+      this.$emit('container', this.title, this.content);
     },
   },
 }
