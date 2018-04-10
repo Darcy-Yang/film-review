@@ -55,8 +55,8 @@ export default {
     return {
       name: 'Daniel_Yang',
       avatar: 'static/images/avatar.jpg',
-      firstPlaceHolder: '电影名',
-      secondPlaceHolder: '台词',
+      firstPlaceHolder: '台词',
+      secondPlaceHolder: '电影名',
       showModal: false,
     }
   },
