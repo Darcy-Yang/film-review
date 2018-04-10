@@ -142,7 +142,6 @@ export default {
   },
   methods: {
     async getReview(item) {
-      // let type = '';
       if (item && item.selected) {
         item = null;
         this.type = '';
