@@ -3,19 +3,22 @@
     <Nav/>
     <div class="main">
       <div class="left">
-        <div class="content" v-for="(review, index) in reviews" :key="index">
+        <div class="content" :class="review.isCollected ? 'collected' : ''" v-for="(review, index) in reviews" :key="index">
           <div class="top">
             <div class="left-content">
               <img :src="review.rank.img_src" alt="poster">
             </div>
             <div class="right-content">
               <div class="info">
-                <avatar-and-name :name="review.user.name" :avatar="review.user.avatar"/>
-                <span>评分</span>
-                <span class="movie-name" @click="jumpToDetail(review)">《{{ review.rank.title }}》</span>
-                <span>{{ review.updatedAt }}</span>
+                <div class="regular">
+                  <avatar-and-name :name="review.user.name" :avatar="review.user.avatar"/>
+                  <span>评分</span>
+                  <span class="movie-name" @click="jumpToDetail(review)">《{{ review.rank.title }}》</span>
+                  <span class="time">{{ review.updatedAt }}</span>
+                </div>
+                <h3 v-if="review.isCollected">已收藏</h3>
               </div>
-              <span>{{ review.title }}</span>
+              <span class="title">{{ review.title }}</span>
               <div class="preview">
                 <span>{{ review.content }}</span>
               </div>
@@ -30,8 +33,8 @@
               <i class="iconfont icon-comment"></i>
               <span>{{ review.commentNum }}</span>
             </div>
-            <div class="collect btn">
-              <i class="iconfont icon-collect"></i>
+            <div class="collect btn" :class="review.isCollected ? 'collect-active' : ''" @click="collect(review)">
+              <i class="iconfont icon-collect-b"></i>
               <span>{{ review.collectNum }}</span>
             </div>
           </div>
@@ -176,6 +179,17 @@ export default {
         console.log(err);
       }
     },
+    async collect(review) {
+      try {
+        await request('POST', `/collect/${review.id}`, {}, {
+          senderId: this.currentUser.id,
+          receiverId: review.user.id
+        });
+        this.getReview();
+      } catch (err) {
+        console.log(err);
+      }
+    },
     async submit(review, index) {
       if (!this.$refs.comment[index].innerText) {
         alert('评论内容不能为空');
@@ -244,7 +258,7 @@ export default {
   background-color: #F6F6F6;
   .main {
     display: flex;
-    margin-top: 20px;
+    margin-top: 34px;
     justify-content: center;
     img {
       align-self: center;
@@ -258,7 +272,8 @@ export default {
       width: 50%;
       flex-direction: column;
       .content {
-        margin-bottom: 20px;
+        position: relative;
+        margin-bottom: 33px;
         padding: 12px;
         display: flex;
         flex-direction: column;
@@ -269,14 +284,23 @@ export default {
         .top {
           display: flex;
           .left-content {
-            display: flex;
-            flex-direction: column;
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            // display: flex;
+            // flex-direction: column;
           }
           .right-content {
-            margin-left: 14px;
+            margin-left: 60px;
+            width: 100%;
             word-break: break-all;
             .detail {
               display: none;
+            }
+            .title {
+              font-size: 18px;
+              line-height: 1.6;
+              font-weight: 600;
             }
             img {
               width: 30px;
@@ -291,7 +315,18 @@ export default {
             }
             .info {
               display: flex;
+              justify-content: space-between;
               align-items: center;
+              width: 100%;
+              .regular {
+                display: flex;
+                align-items: center;
+              }
+              h3 {
+                margin: 0;
+                margin-right: 12px;
+                color: #0077FF;
+              }
               span {
                 margin-left: 8px;
               }
@@ -312,26 +347,48 @@ export default {
               overflow: hidden;
               -webkit-line-clamp: 3;
               -webkit-box-orient: vertical;
+
+              font-size: 15px;
+              line-height: 1.5;
+              letter-spacing: .4px;
+              color: #1A1A1A;
             }
           }
         }
         .feature {
           margin-top: 12px;
           display: flex;
+          align-items: center;
           color: #8590A6;
           .btn {
             cursor: pointer;
           }
-          .like i {
-            font-size: 18px;
+          .like {
+            // border: 1px solid #0077FF;
+            border: 1px solid rgba(0, 132, 255, .6);
+            padding: 1px 8px;
+            color: #0077FF;
+            border-radius: 4px;
+            i {
+              font-size: 17px;
+              font-weight: 600;
+            }
+            &:hover {
+              border-color: #0077FF;
+            }
           }
           .comment {
             margin: 0 12px;
             i {
+              font-size: 18px;
               font-weight: 600;
             }
           }
           .actived {
+            color: #FFF;
+            background-color: #0077FF;
+          }
+          .collect-active {
             color: #0077FF;
           }
         }
@@ -399,6 +456,13 @@ export default {
             }
           }
         }
+        .time {
+          // font-size: 14px;
+          color: #8590A6;
+        }
+      }
+      .collected {
+        background-color: #FCD200;
       }
       .pagination {
         display: flex;
@@ -424,20 +488,21 @@ export default {
 
             text-align: center;
             letter-spacing: 1px;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
+            border: 1px solid #FFF;
+            border-bottom: 1px solid rgba(26, 26, 26, 0.3);
 
             transition: .15s;
 
             cursor: pointer;
             &:hover {
-              color: white;
-              background-color: #0077FF;
+              border-radius: 4px;
+              border: 1px solid rgba(26, 26, 26, 0.3);
             }
           }
           .active {
             color: #FFF;
             background-color: #0077FF;
+            border-radius: 4px;
           }
         }
       }
