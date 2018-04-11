@@ -121,18 +121,18 @@ const router = new Router({
   ]
 });
 
-router.beforeEach(async (to, from, next) => {
-  if (to.matched.some(path => path.meta.requireAuth)) {
-    const user = getUser();
-    const token = getToken();
-    if (!!user && !!Object.keys(user).length && token) {
-      next();
-    } else {
-      next({ name: 'Login' });
-    }
-  } else {
-    next();
-  }
-});
+// router.beforeEach(async (to, from, next) => {
+//   if (to.matched.some(path => path.meta.requireAuth)) {
+//     const user = getUser();
+//     const token = getToken();
+//     if (!!user && !!Object.keys(user).length && token) {
+//       next();
+//     } else {
+//       next({ name: 'Login' });
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;
