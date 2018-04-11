@@ -2,11 +2,28 @@
   <div class="like-main">
     <div class="top">
       <div class="explain">
-        <span>我喜欢的</span>
+        <span>我喜欢的影评</span>
       </div>
-      <div class="likes-content" v-for="(like, index) in likes" :key="index">
+      <div class="likes-content" v-for="like in reviewLikes" :key="like.id">
         <div class="info">
+          <div class="dress">
+            <span>影评</span>
+          </div>
           <span>{{ like.review.title }}</span>
+        </div>
+        <div class="situation">
+          <span>{{ like.createdAt }}</span>
+        </div>
+      </div>
+      <div class="explain second">
+        <span>我喜欢的台词</span>
+      </div>
+      <div class="likes-content" v-for="like in wordsLikes" :key="like.id + 1000">
+        <div class="info">
+          <div class="dress words">
+            <span>台词</span>
+          </div>
+          <span>{{ like.word.title }}</span>
         </div>
         <div class="situation">
           <span>{{ like.createdAt }}</span>
@@ -24,7 +41,8 @@ export default {
   name: 'Like',
   data() {
     return {
-      likes: [],
+      reviewLikes: [],
+      wordsLikes: [],
     }
   },
   created() {
@@ -34,8 +52,9 @@ export default {
   methods: {
     async getLikes(id) {
       try {
-        const { likes } = await request('GET', `/like/${id}/all`);
-        this.likes = likes;
+        const { reviewLikes, wordsLikes } = await request('GET', `/like/${id}/all`);
+        this.reviewLikes = reviewLikes;
+        this.wordsLikes = wordsLikes;
       } catch (err) {
         console.log(err);
       }
@@ -54,15 +73,40 @@ export default {
       padding-bottom: 12px;
       font-weight: 600;
     }
+    .second {
+      padding-top: 12px;
+      border-top: 1px solid #BDBDBD;
+    }
     .likes-content {
-      padding: 16px 0;
+      padding: 12px 0 8px 0;
       border-top: 1px solid #BDBDBD;
       .info {
+        margin-bottom: 8px;
+        display: flex;
         font-size: 18px;
         font-weight: 600;
         cursor: pointer;
         span:hover {
           color: #175199;
+        }
+        .dress {
+          margin-right: 12px;
+          padding: 2px 4px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          font-size: 14px;
+          letter-spacing: .8px;
+          color: #FFF;
+          background-color: #0077FF;
+          border-radius: 4px;
+          span:hover {
+            color: #FFF;
+          }
+        }
+        .words {
+          background-color: pink;
         }
       }
       .situation {
