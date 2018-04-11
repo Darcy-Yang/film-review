@@ -81,7 +81,6 @@ export default {
             body: data
           });
           const { user } = await res.json();
-          console.log(user);
           setUser(user);
           this.resetUser();
         } catch (err) {

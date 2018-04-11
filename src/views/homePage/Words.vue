@@ -57,7 +57,7 @@ export default {
       font-weight: 600;
     }
     .words-content {
-      padding: 16px 0;
+      padding: 12px 0 8px 0;
       border-top: 1px solid #BDBDBD;
       .info {
         font-size: 18px;
