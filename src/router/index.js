@@ -36,25 +36,25 @@ const router = new Router({
       path: '/',
       name: 'Login',
       component: Login,
-      meta: { requireAuth: true }
+      // meta: { requireAuth: true }
     },
     {
       path: '/review',
       name: 'Review',
       component: FilmReview,
-      // meta: { requireAuth: true }
+      meta: { requireAuth: true }
     },
     {
       path: '/words',
       name: 'Words',
       component: Words,
-      // meta: { requireAuth: true }
+      meta: { requireAuth: true }
     },
     {
       path: '/write',
       name: 'Write',
       component: Write,
-      // meta: { requireAuth: true }
+      meta: { requireAuth: true }
     },
     {
       path: '/homepage',
@@ -87,7 +87,7 @@ const router = new Router({
       path: '/rank',
       name: 'Rank',
       component: Rank,
-      // meta: { requireAuth: true }
+      meta: { requireAuth: true }
     },
     {
       path: '/admin',
