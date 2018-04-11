@@ -1,7 +1,7 @@
 <template>
   <div class="nav-main">
     <div class="left-side" :style="leftStyle">
-      <router-link to="/">影评网</router-link>
+      <router-link to="/index">影评网</router-link>
     </div>
     <div class="right-side">
       <ul>
@@ -35,7 +35,7 @@ export default {
         { name: '发布影评', href: '/write' },
         { name: '我爱台词', href: '/words' },
         { name: '电影排行', href: '/rank' },
-        { name: '电影推荐', href: '/' }
+        { name: '电影推荐', href: '/index' }
       ],
       user: null,
     }

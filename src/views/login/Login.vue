@@ -70,7 +70,7 @@ export default {
           password: this.user.password
         })
         setUser(user);
-        this.$router.push('/');
+        this.$router.push('/index');
       } catch (err) {
         this.user.password = '';
         this.confirmPassword = '';
