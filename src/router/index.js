@@ -42,19 +42,19 @@ const router = new Router({
       path: '/review',
       name: 'Review',
       component: FilmReview,
-      meta: { requireAuth: true }
+      // meta: { requireAuth: true }
     },
     {
       path: '/words',
       name: 'Words',
       component: Words,
-      meta: { requireAuth: true }
+      // meta: { requireAuth: true }
     },
     {
       path: '/write',
       name: 'Write',
       component: Write,
-      meta: { requireAuth: true }
+      // meta: { requireAuth: true }
     },
     {
       path: '/homepage',
@@ -87,7 +87,7 @@ const router = new Router({
       path: '/rank',
       name: 'Rank',
       component: Rank,
-      meta: { requireAuth: true }
+      // meta: { requireAuth: true }
     },
     {
       path: '/admin',
@@ -121,18 +121,18 @@ const router = new Router({
   ]
 });
 
-// router.beforeEach(async (to, from, next) => {
-//   if (to.matched.some(path => path.meta.requireAuth)) {
-//     const user = getUser();
-//     const token = getToken();
-//     if (!!user && !!Object.keys(user).length && token) {
-//       next();
-//     } else {
-//       next({ name: 'Login' });
-//     }
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some(path => path.meta.requireAuth)) {
+    const user = getUser();
+    const token = getToken();
+    if (!!user && !!Object.keys(user).length && token) {
+      next();
+    } else {
+      next({ name: 'Login' });
+    }
+  } else {
+    next();
+  }
+});
 
 export default router;
