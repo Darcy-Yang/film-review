@@ -44,7 +44,7 @@
 import Nav from '@/components/Nav';
 import TabBar from '@/components/TabBar';
 
-import { getUser, setUser } from '@/utils/user';
+import { getUser, setUser, getToken } from '@/utils/user';
 import request from '@/utils/request';
 import fetch from 'isomorphic-fetch';
 import { HOST } from '@/utils/config';
@@ -77,9 +77,11 @@ export default {
         try {
           const res = await fetch(`${HOST}/user/${this.user.id}/avatar`, {
             method: 'POST',
+            headers: { Authorization: getToken() },
             body: data
           });
           const { user } = await res.json();
+          console.log(user);
           setUser(user);
           this.resetUser();
         } catch (err) {
