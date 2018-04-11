@@ -2,28 +2,28 @@
   <div class="words-main">
     <Nav/>
     <div class="content">
-      <div class="words" v-for="i in 12" :key="i">
+      <div class="words" v-for="word in words" :key="word.id">
         <div class="words-content">
-          <span>如果你有梦想，就要守护它。当人们做不到一些事情的时候，他们就会对你说你也同样不能。如果你有了目标就要全力以赴。</span>
+          <span>{{ word.content }}</span>
           <div class="source">
             <span>——</span>
-            <span>《当幸福来敲门》</span>
+            <span>《{{ word.title }}》</span>
           </div>
           <div class="info">
-            <avatar-and-name :name="name" :avatar="avatar"/>
-            <span class="time">1996-11-25</span>
+            <avatar-and-name :name="word.user.name" :avatar="word.user.avatar"/>
+            <span class="time">{{ word.updatedAt }}</span>
           </div>
         </div>
         <div class="hover-show">
           <div class="hover-blur"></div>
           <div class="icons">
-            <div class="feature">
+            <div class="feature" @click="likeWords(word)">
               <i class="iconfont icon-love"></i>
-              <span>3</span>
+              <span :class="word.isLiked ? 'actived' : ''">{{ word.likeNum }}</span>
             </div>
             <div class="feature">
               <i class="iconfont icon-collect-b"></i>
-              <span>1</span>
+              <span>{{ word.collectNum }}</span>
             </div>
           </div>
         </div>
@@ -44,6 +44,9 @@ import Nav from '@/components/Nav';
 import AvatarAndName from '@/components/AvatarAndName';
 import Container from '@/components/Container';
 
+import request from '@/utils/request';
+import { getUser } from '@/utils/user';
+
 export default {
   name: 'Words',
   components: {
@@ -53,16 +56,51 @@ export default {
   },
   data() {
     return {
-      name: 'Daniel_Yang',
-      avatar: 'static/images/avatar.jpg',
       firstPlaceHolder: '台词',
       secondPlaceHolder: '电影名',
       showModal: false,
+      currentUser: null,
+      words: null,
     }
   },
+  created() {
+    const { user } = getUser();
+    this.currentUser = user;
+    this.getWords();
+  },
   methods: {
-    addWords(title, content) {
-      alert(`${title}-${content}`);
+    async getWords() {
+      try {
+        const { pageCount, words } = await request('GET', `/words/${this.currentUser.id}`);
+        this.pageCount = pageCount;
+        this.words = words;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async addWords(title, content) {
+      try {
+        await request('POST', '/words', {}, {
+          userId: this.currentUser.id,
+          title,
+          content
+        });
+        this.closeModal();
+        this.getWords();
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async likeWords(word) {
+      try {
+        await request('POST', `/like/words/${word.id}`, {}, {
+          senderId: this.currentUser.id,
+          receiverId: word.user.id
+        });
+        this.getWords();
+      } catch (err) {
+        console.log(err);
+      }
     },
     openModal() {
       this.showModal = true;
@@ -108,14 +146,20 @@ export default {
       .words-content {
         display: flex;
         flex-direction: column;
+        width: 100%;
         color: #FFF;
         .source {
           align-self: flex-end;
         }
         .info {
+          margin-top: 4px;
           display: flex;
           justify-content: space-between;
           align-items: center;
+          .time {
+            font-size: 14px;
+            color: #8590A6;
+          }
         }
       }
       .hover-show {
@@ -160,6 +204,9 @@ export default {
               // 水红色
               // color: #DE3163;
             }
+            .actived {
+              color: #DE3163;
+            }
           }
           .icon-love {
             color: red;
@@ -176,7 +223,7 @@ export default {
     justify-content: center;
     align-items: center;
     position: fixed;
-    top: 88px;
+    top: 89px;
     right: 1rem;
 
     width: 3rem;

@@ -11,14 +11,14 @@
       </router-link>
       <router-link to="/homepage/words" active-class="active">
         <span>台词</span>
-        <span>0</span>
+        <span>{{ wordsNum }}</span>
       </router-link>
       <router-link to="/homepage/like" active-class="active">
         <span>喜欢</span>
         <span>{{ likeNum }}</span>
       </router-link>
       <router-link to="/homepage/share" active-class="active">
-        <span>分享</span>
+        <span>收藏</span>
         <span>0</span>
       </router-link>
     </div>
@@ -34,6 +34,7 @@ export default {
   data() {
     return {
       reviewNum: 0,
+      wordsNum: 0,
       likeNum: 0,
     }
   },
@@ -41,12 +42,17 @@ export default {
     const { user } = getUser();
 
     this.getReviewCount(user.id);
+    this.getWordsCount(user.id);
     this.getLikeCount(user.id);
   },
   methods: {
     async getReviewCount(id) {
       const { count } = await request('GET', `/review/${id}/count`);
       this.reviewNum = count;
+    },
+    async getWordsCount(id) {
+      const { count } = await request('GET', `/words/${id}/count`);
+      this.wordsNum = count;
     },
     async getLikeCount(id) {
       const { count } = await request('GET', `/like/${id}/count`);
