@@ -2,7 +2,7 @@
   <div class="share-main">
     <div class="top">
       <div class="explain">
-        <span>我的分享</span>
+        <span>我的收藏</span>
       </div>
     </div>
   </div>
