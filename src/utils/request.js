@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { HOST } from '@/utils/config';
+import { getToken } from '@/utils/user';
 
 export default async (
   method,
@@ -9,14 +10,15 @@ export default async (
   headers = {
     // default header is Content-Type = JSON
     'Content-Type': 'application/json; charset=utf-8',
+    Authorization: getToken(),
   },
 ) => {
   // necessary method & path
   if (!method && !path) throw new Error('necessary method & path');
 
-  // if (!headers.Authorization) {
-  //   console.log('no authorization');
-  // }
+  if (!headers.Authorization) {
+    headers.Authorization = getToken();
+  }
 
   // build options of fetch
   const options = (() => {

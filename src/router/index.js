@@ -26,33 +26,40 @@ import ManageReview from '@/admin/ManageReview'
 import ManageWords from '@/admin/ManageWords'
 import ManageRank from '@/admin/ManageRank'
 
-Vue.use(Router)
+import { getUser, getToken } from '@/utils/user';
 
-export default new Router({
+Vue.use(Router);
+
+const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Index',
-      component: Index
+      name: 'Login',
+      component: Login,
+      meta: { requireAuth: true }
     },
     {
       path: '/review',
       name: 'Review',
-      component: FilmReview
+      component: FilmReview,
+      meta: { requireAuth: true }
     },
     {
       path: '/words',
       name: 'Words',
-      component: Words
+      component: Words,
+      meta: { requireAuth: true }
     },
     {
       path: '/write',
       name: 'Write',
-      component: Write
+      component: Write,
+      meta: { requireAuth: true }
     },
     {
       path: '/homepage',
       component: HomePage,
+      meta: { requireAuth: true },
       children: [
         {
           path: '/',
@@ -79,11 +86,13 @@ export default new Router({
     {
       path: '/rank',
       name: 'Rank',
-      component: Rank
+      component: Rank,
+      meta: { requireAuth: true }
     },
     {
       path: '/admin',
       component: AdminIndex,
+      meta: { requireAuth: true },
       children: [
         {
           path: '/',
@@ -104,9 +113,26 @@ export default new Router({
       ]
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
+      path: '/index',
+      name: 'Index',
+      component: Index,
+      meta: { requireAuth: true }
     }
   ]
-})
+});
+
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some(path => path.meta.requireAuth)) {
+    const user = getUser();
+    const token = getToken();
+    if (!!user && !!Object.keys(user).length && token) {
+      next();
+    } else {
+      next({ name: 'Login' });
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;
