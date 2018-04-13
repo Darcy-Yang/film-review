@@ -78,7 +78,7 @@ export default {
       } catch (err) {
         this.user.password = '';
         this.confirmPassword = '';
-        console.log(err);
+        alert(err);
       }
     },
   },

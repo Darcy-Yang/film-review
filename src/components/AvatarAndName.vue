@@ -48,8 +48,8 @@ export default {
     .avatar {
       position: relative;
       .show {
-        width: 30px;
-        height: 30px;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
       }
     }

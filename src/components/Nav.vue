@@ -33,8 +33,8 @@ export default {
     return {
       links: [
         { name: '发布影评', href: '/write' },
-        { name: '我爱台词', href: '/words' },
-        { name: '电影排行', href: '/rank' },
+        { name: '电影台词', href: '/words' },
+        { name: '电影大全', href: '/rank' },
         { name: '电影推荐', href: '/index' }
       ],
       user: null,

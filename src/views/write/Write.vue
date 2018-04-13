@@ -94,6 +94,7 @@ export default {
           content: this.content
         })
         alert('影评发布成功');
+        this.$router.push('/index');
       } catch (err) {
         console.log(err);
       }
