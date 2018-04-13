@@ -12,7 +12,7 @@
       </div>
       <transition name="fade">
         <div class="input-area" v-if="isRegister">
-          <input type="password" placeholder="请输入确认密码" v-model="confirmPassword" @keydown="goSubmit"/>
+          <input type="password" placeholder="再输入一次密码" v-model="confirmPassword" @keydown="goSubmit"/>
           <span v-show="wrongConfirmed">密码不一致</span>
         </div>
       </transition>
