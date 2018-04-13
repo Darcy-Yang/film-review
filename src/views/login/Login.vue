@@ -69,8 +69,12 @@ export default {
           name: this.user.name,
           password: this.user.password
         })
-        setUser(user);
-        this.$router.push('/index');
+        if (this.isRegister) {
+          this.isRegister = false;
+        } else {
+          setUser(user);
+          this.$router.push('/index');
+        }
       } catch (err) {
         this.user.password = '';
         this.confirmPassword = '';

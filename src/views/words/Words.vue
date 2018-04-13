@@ -79,6 +79,13 @@ export default {
       }
     },
     async addWords(title, content) {
+      if (!title) {
+        alert('电影名不能为空');
+        return;
+      } else if (!content) {
+        alert('台词不能为空');
+        return;
+      }
       try {
         await request('POST', '/words', {}, {
           userId: this.currentUser.id,
