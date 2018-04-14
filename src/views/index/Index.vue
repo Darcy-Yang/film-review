@@ -3,63 +3,40 @@
     <Nav/>
     <div class="main">
       <div class="left">
-        <div class="content" :class="review.isCollected ? 'collected' : ''" v-for="(review, index) in reviews" :key="index">
-          <div class="top">
-            <div class="left-content">
-              <img :src="review.rank.img_src" alt="poster">
-            </div>
-            <div class="right-content">
-              <div class="info">
-                <div class="regular">
-                  <avatar-and-name :name="review.user.name" :avatar="review.user.avatar"/>
-                  <span>评分</span>
-                  <span class="movie-name" @click="jumpToDetail(review)">《{{ review.rank.title }}》</span>
-                  <span class="time">{{ review.updatedAt }}</span>
-                </div>
-                <h3 v-if="review.isCollected">已收藏</h3>
-              </div>
-              <span class="title">{{ review.title }}</span>
-              <div class="preview">
-                <span>{{ review.content }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="feature">
-            <div class="like btn" :class="review.isLiked ? 'actived' : ''" @click="like(review)">
+        <div class="content" v-for="review in reviews" :key="review.id">
+          <div class="poster">
+            <img :src="review.rank.img_src" alt="poster"/>
+            <div class="like">
               <i class="iconfont icon-like"></i>
               <span>{{ review.likeNum }}</span>
             </div>
-            <div class="comment btn" @click="showCommentBox(review, index)">
-              <i class="iconfont icon-comment"></i>
-              <span>{{ review.commentNum }}</span>
-            </div>
-            <div class="collect btn" :class="review.isCollected ? 'collect-active' : ''" @click="collect(review)">
-              <i class="iconfont icon-collect-b"></i>
-              <span>{{ review.collectNum }}</span>
-            </div>
           </div>
-          <div class="comment-area" ref="commentBox">
-            <div class="comment-creator">
-              <div class="comment-input" contenteditable="true" ref="comment" @focus="eventListener" @blur="eventListener">
-                {{ entered ? '' : '写下你的评论...' }}
-              </div>
-              <button @click="submit(review, index)">评论</button>
+          <div class="info">
+            <div class="top">
+              <avatar-and-name :name="review.user.name" :avatar="review.user.avatar"/>
+              <span class="time">{{ review.updatedAt }}</span>
             </div>
-            <div class="comment-list" v-for="(comment, index) in comments" :key="index">
-              <div class="comment-content">
-                <div>
-                  <avatar-and-name :name="comment.user.name" :avatar="comment.user.avatar"/>
-                  <span>:</span>
-                  <span class="text">{{ comment.content }}</span>
-                </div>
-                <div>
-                  <span class="time">{{ comment.updatedAt }}</span>
-                </div>
+            <span class="title">{{ review.title }}</span>
+            <div class="review-content">
+              <span>{{ review.content }}</span>
+            </div>
+            <!-- <span>1994/美国/犯罪 剧情</span>
+            <span>希望让人自由。</span> -->
+            <div class="feature">
+              <div class="collect btn">
+                <i class="iconfont icon-collect-b"></i>
+                <span>{{ review.commentNum }}</span>
               </div>
-          </div>
+              <div class="comment btn">
+                <i class="iconfont icon-comment"></i>
+                <span>{{ review.collectNum }}</span>
+              </div>
+            </div>
           </div>
         </div>
-        <pagination class="pagination" v-if="pageCount > 1" :pageCount="pageCount"/>
+        <div class="pagination">
+          <pagination :pageCount="pageCount"/>
+        </div>
       </div>
       <div class="right">
         <div class="top">
@@ -125,7 +102,7 @@ export default {
       ],
       reviewPage: 1,
       commentPage: 1,
-      limit: 10,
+      limit: 12,
       pageCount: 0,
       commentCount: 0,
       reviews: [],
@@ -162,6 +139,9 @@ export default {
           limit: this.limit,
           type: this.type
         })
+        reviews.forEach(review => {
+          review.updatedAt = review.updatedAt.split(' ')[0];
+        });
         this.pageCount = pageCount;
         this.reviews = reviews;
       } catch (err) {
@@ -255,218 +235,109 @@ export default {
 
 <style lang="less" scoped>
 .index-main {
-  background-color: #F6F6F6;
+  background-color: #F1F2F4;
   .main {
     display: flex;
     margin-top: 34px;
     justify-content: center;
-    img {
-      align-self: center;
-      width: 75px;
-      height: 108px;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
-    }
     .left {
       display: flex;
-      width: 50%;
-      flex-direction: column;
+      flex-wrap: wrap;
+      width: 60%;
       .content {
-        position: relative;
-        margin-bottom: 33px;
-        padding: 12px;
+        margin: 0 0 24px 40px;
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        width: 220px;
+        flex-wrap: wrap;
 
+        border-radius: 6px;
         background-color: #FFF;
-        border-radius: 3px;
         box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
-        .top {
-          display: flex;
-          .left-content {
-            position: absolute;
-            top: -20px;
-            left: -20px;
-            // display: flex;
-            // flex-direction: column;
-          }
-          .right-content {
-            margin-left: 60px;
-            width: 100%;
-            word-break: break-all;
-            .detail {
-              display: none;
-            }
-            .title {
-              font-size: 18px;
-              line-height: 1.6;
-              font-weight: 600;
-            }
-            img {
-              width: 30px;
-              height: 30px;
-              border-radius: 50%;
-              box-shadow: none;
-              &:hover {
-                .detail {
-                  display: block;
-                }
-              }
-            }
-            .info {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              width: 100%;
-              .regular {
-                display: flex;
-                align-items: center;
-              }
-              h3 {
-                margin: 0;
-                margin-right: 12px;
-                color: #0077FF;
-              }
-              span {
-                margin-left: 8px;
-              }
-              .user-info {
-                display: flex;
-                align-items: center;
-              }
-              .movie-name:hover {
-                color: #0077FF;
-              }
-              .image, .user-name, .movie-name {
-                cursor: pointer;
-              }
-            }
-            .preview {
-              display: -webkit-box;
-              text-overflow: ellipsis;
-              overflow: hidden;
-              -webkit-line-clamp: 3;
-              -webkit-box-orient: vertical;
-
-              font-size: 15px;
-              line-height: 1.5;
-              letter-spacing: .4px;
-              color: #1A1A1A;
-            }
-          }
-        }
-        .feature {
-          margin-top: 12px;
-          display: flex;
-          align-items: center;
-          color: #8590A6;
-          .btn {
-            cursor: pointer;
+        .poster {
+          position: relative;
+          flex: 1;
+          height: 255px;
+          cursor: pointer;
+          img {
+            width: 220px;
+            height: 255px;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
           }
           .like {
-            // border: 1px solid #0077FF;
-            border: 1px solid rgba(0, 132, 255, .6);
-            padding: 1px 8px;
-            color: #0077FF;
-            border-radius: 4px;
-            i {
-              font-size: 17px;
-              font-weight: 600;
-            }
-            &:hover {
-              border-color: #0077FF;
-            }
-          }
-          .comment {
-            margin: 0 12px;
-            i {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 232px;
+            right: 19px;
+
+            width: 45px;
+            height: 45px;
+            color: #FFF;
+            background-color: rgb(87, 206, 74);
+            border-radius: 50%;
+            .iconfont {
               font-size: 18px;
               font-weight: 600;
             }
           }
-          .actived {
-            color: #FFF;
-            background-color: #0077FF;
-          }
-          .collect-active {
-            color: #0077FF;
-          }
         }
-        .comment-area {
-          display: none;
-          margin: 4px 0;
+        .info {
+          display: flex;
           flex-direction: column;
-          .comment-creator {
+          padding: 24px 0 16px 0;
+          .top {
             display: flex;
-            width: 100%;
-            .comment-input {
-              padding: 6px 12px;
-              width: 82%;
-              height: 100%;
-
-              font-size: 15px;
-              line-height: 18px;
-              letter-spacing: .2px;
-              color: gray;
-
-              outline: none;
-              border: 1px solid rgba(26, 26, 26, 0.3);
-              border-radius: 4px;
-            }
-            button {
-              margin-left: 12px;
-              align-self: flex-end;
-              width: 8%;
-              height: 30px;
-
-              letter-spacing: .8px;
-              color: #FFF;
-              background-color: #0077FF;
-              border: none;
-              outline: none;
-              border-radius: 4px;
-
-              cursor: pointer;
+            justify-content: space-between;
+            padding: 0 15px;
+            .time {
+              font-size: 14px;
+              color: #8590A6;
             }
           }
-          .comment-list {
+          .title {
+            margin-top: 4px;
+            padding: 0 15px;
+            font-size: 17px;
+            font-weight: 600;
+            color: rgb(49, 56, 64);
+          }
+          .review-content {
+            margin: 4px 0;
+            padding: 0 15px 3px 15px;
+
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+
+            letter-spacing: .8px;
+            color: #70757B;
+          }
+          .feature {
             display: flex;
-            width: 100%;
-            .comment-content {
-              margin: 6px 0;
-              display: flex;
-              width: 100%;
-              flex-direction: row;
-              justify-content: space-between;
-              align-items: center;
-              div {
-                display: flex;
-                align-items: center;
-              }
-              img {
-                margin-right: 8px;
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-                box-shadow: none;
-              }
-              .text {
-                margin-left: 8px;
+            justify-content: space-around;
+            padding: 6px 15px 0 15px;
+            color: gray;
+            border-top: 1px dashed #70757B;
+            .comment {
+              .iconfont {
+                font-size: 18px;
+                font-weight: 600;
               }
             }
           }
         }
-        .time {
-          // font-size: 14px;
-          color: #8590A6;
-        }
-      }
-      .collected {
-        background-color: #FCD200;
       }
       .pagination {
+        margin: 12px 0 20px 0;
         display: flex;
         justify-content: center;
+        width: 100%;
       }
     }
     .right {
@@ -508,7 +379,7 @@ export default {
       }
       .bottom {
         margin-top: 20px;
-        box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
+        // box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
         .header {
           display: flex;
           justify-content: space-between;
@@ -524,6 +395,13 @@ export default {
         .recommend {
           display: flex;
           margin-top: 12px;
+          img {
+            align-self: center;
+            width: 75px;
+            height: 108px;
+            border-radius: 4px;
+            // box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
+          }
           .info {
             display: flex;
             flex-direction: column;
