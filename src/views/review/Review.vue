@@ -35,6 +35,10 @@
               </div>
             </div>
           </div>
+          <div class="reviews add" @click="openModal">
+            <i class="iconfont icon-add-b"></i>
+            <span>添加影评</span>
+          </div>
         </div>
       </div>
     </div>
@@ -224,6 +228,7 @@ export default {
           display: flex;
           flex-direction: column;
           min-width: 40%;
+          height: 100%;
           padding: 10px 20px;
           word-break: break-all;
           color: #8A6516;
@@ -232,6 +237,7 @@ export default {
           .top {
             display: flex;
             justify-content: space-between;
+            align-items: center;
           }
           .title {
             margin: 12px 0;
@@ -253,6 +259,20 @@ export default {
             }
           }
           .actived {
+            color: #0077FF;
+          }
+        }
+        .add {
+          justify-content: center;
+          align-items: center;
+          height: 132px;
+          cursor: pointer;
+          .iconfont {
+            margin-bottom: 2px;
+            font-size: 18px;
+            font-weight: 600;
+          }
+          &:hover {
             color: #0077FF;
           }
         }

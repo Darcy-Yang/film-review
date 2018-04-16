@@ -44,13 +44,13 @@ export default {
   padding: 20px 12px;
   flex-direction: column;
 
+  width: 25%;
   height: 100%;
   background-color: #FFF;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(26, 26, 26, .3);
   .words-area {
     margin: 4px 0 20px 0;
-    width: 300px;
     height: 210px;
     font-size: 16px;
     line-height: 24px;
