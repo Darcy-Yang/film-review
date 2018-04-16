@@ -2,35 +2,40 @@
   <div class="review-main">
     <Nav/>
     <div class="content">
-      <div class="movie-info">
-        <div class="left">
-          <img :src="currentReview.img_src || currentReview.rank.img_src" alt="poster"/>
-        </div>
-        <div class="right">
-          <h3>{{ currentReview.rank.title }}</h3>
-          <span>{{ currentReview.rank.info }}</span>
+      <div class="left-content">
+        <img :src="currentReview.rank.img_src" alt="poster"/>
+        <span class="title">{{ currentReview.rank.title }}</span>
+        <span>{{ currentReview.rank.info }}</span>
           <span>{{ currentReview.rank.type }}</span>
           <span>豆瓣评分: {{ currentReview.rank.star }}</span>
-          <span>{{ currentReview.rank.votes }}</span>
-          <span>{{ currentReview.rank.quote }}</span>
-        </div>
+          <span class="quote">{{ currentReview.rank.quote }}</span>
       </div>
-      <div class="review-list" v-if="reviews.length">
-        <div class="add-review">
-          <div class="description">
-            <span>《{{ currentReview.rank.title }}》的影评</span>
-            <div class="dot">
-              <span>......</span>
+      <div class="right-content">
+        <h3>用户影评</h3>
+        <div class="review-content">
+          <div class="reviews" v-for="review in reviews" :key="review.id">
+            <div class="top">
+              <avatar-and-name :avatar="review.user.avatar" :name="review.user.name" :avatarStyle="avatarStyle"/>
+              <span>{{ review.updatedAt }}</span>
             </div>
-            <span>(共{{ reviews.length }}条)</span>
+            <span class="title">{{ review.title }}</span>
+            <span class="text">{{ review.content }}</span>
+            <div class="feature">
+              <div class="like btn" :class="review.isLiked ? 'actived' : ''" @click="operate(review, true)">
+                <i class="iconfont icon-like"></i>
+                <span>{{ review.likeNum }}</span>
+              </div>
+              <div class="comment btn">
+                <i class="iconfont icon-comment"></i>
+                <span>{{ review.commentNum }}</span>
+              </div>
+              <div class="collect btn" :class="review.isCollected ? 'actived' : ''" @click="operate(review, false)">
+                <i class="iconfont icon-collect-b"></i>
+                <span>{{ review.collectNum }}</span>
+              </div>
+            </div>
           </div>
-          <span class="add-btn" @click="openModal">添加影评</span>
         </div>
-        <review-component class="review" :reviews="reviews" :userId="currentUser.id" :getReview="getReview"/>
-      </div>
-      <div class="no-review" v-else>
-        <h3>《{{ currentReview.rank.title }}》暂时还没有影评～</h3>
-        <span class="add-btn" @click="openModal">添加影评</span>
       </div>
     </div>
     <div class="modal" v-if="showModal">
@@ -43,6 +48,7 @@
 <script>
 import Nav from '@/components/Nav';
 import ReviewComponent from '@/components/ReviewComponent';
+import AvatarAndName from '@/components/AvatarAndName';
 import Container from '@/components/Container';
 
 import request from '@/utils/request';
@@ -53,10 +59,12 @@ export default {
   components: {
     Nav,
     ReviewComponent,
+    AvatarAndName,
     Container,
   },
   data () {
     return {
+      avatarStyle: 'width: 30px; height: 30px;',
       entered: false,
       currentReview: null,
       currentUser: null,
@@ -89,6 +97,18 @@ export default {
         });
         this.count = count;
         this.reviews = reviews;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async operate(review, isLike) {
+      const path = isLike ? `/like/${review.id}` : `/collect/${review.id}`;
+      try {
+        await request('POST', path, {}, {
+          senderId: this.currentUser.id,
+          receiverId: review.userId
+        });
+        this.getReview();
       } catch (err) {
         console.log(err);
       }
@@ -147,55 +167,96 @@ export default {
 
 <style lang="less" scoped>
 .review-main {
+  background-color: #D8B84A;
+  min-height: 100vh;
   .content {
-    margin: 20px 0;
+    margin: 40px auto 0 auto;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    .movie-info {
+    width: 80%;
+    .left-content {
+      position: relative;
       display: flex;
-      align-items: center;
-      width: 40%;
-      .left {
-        img {
-          width: 160px;
-        }
+      flex-direction: column;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 210px;
+      height: 100%;
+      padding: 0 20px 30px 20px;
+      color: #FFF;
+      background-color: #F0D165;
+      img {
+        position: absolute;
+        top: -20px;
+        width: 210px;
+        height: 315px;
+        box-shadow: 0 8px 12px rgba(26, 26, 26, .3);
       }
-      .right {
-        margin-left: 20px;
-        display: flex;
-        flex-direction: column;
+      .title {
+        margin-top: 325px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      .quote {
+        font-style: italic;
       }
     }
-    .review-list {
-      margin-top: 6px;
-      width: 40%;
-      .add-review {
+    .right-content {
+      margin-left: 40px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      flex-wrap: wrap;
+      h3 {
+        margin-left: 20px;
+        padding-left: 20px;
+        width: 15%;
+        color: #FFF;
+        font-size: 24px;
+        letter-spacing: 1px;
+        font-style: italic;
+        border-bottom: 2px solid #655A6E;
+      }
+      .review-content {
         display: flex;
-        justify-content: space-between;
-        .description {
+        flex-wrap: wrap;
+        .reviews {
+          margin: 0 0 20px 20px;
           display: flex;
-          align-items: center;
-          .dot {
-            margin: 0 4px;
-            padding-bottom: 12px;
+          flex-direction: column;
+          min-width: 40%;
+          padding: 10px 20px;
+          word-break: break-all;
+          color: #8A6516;
+          background-color: #FFF;
+          border-radius: 4px;
+          .top {
+            display: flex;
+            justify-content: space-between;
+          }
+          .title {
+            margin: 12px 0;
+            font-size: 18px;
             font-weight: 600;
-            letter-spacing: 4px;
+            letter-spacing: .7px;
+          }
+          .text {
+            letter-spacing: .6px;
+            line-height: 24px;
+          }
+          .feature {
+            margin-top: 6px;
+            display: flex;
+            justify-content: space-around;
+            color: gray;
+            .btn {
+              cursor: pointer;
+            }
+          }
+          .actived {
+            color: #0077FF;
           }
         }
       }
-    }
-    .no-review {
-      display: flex;
-      width: 40%;
-      align-items: center;
-      color: gray;
-    }
-    .add-btn {
-      margin-left: 4px;
-      font-weight: 600;
-      color: #0077FF;
-      cursor: pointer;
     }
   }
   .modal {
