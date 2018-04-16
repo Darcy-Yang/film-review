@@ -4,38 +4,38 @@
     <div class="main">
       <div class="left">
         <div class="content" v-for="review in reviews" :key="review.id">
-          <div class="poster">
-            <img :src="review.rank.img_src" alt="poster"/>
-            <div class="like">
-              <i class="iconfont icon-like"></i>
-              <span>{{ review.likeNum }}</span>
+          <div class="review-main">
+            <div class="poster">
+              <img :src="review.rank.img_src" alt="poster" @click="jumpToDetail(review)"/>
+              <div class="like" :class="review.isLiked ? 'actived' : ''" @click="like(review)">
+                <i class="iconfont icon-like"></i>
+                <span>{{ review.likeNum }}</span>
+              </div>
+            </div>
+            <div class="info">
+              <span class="title">{{ review.title }}</span>
+              <div class="review-content">
+                <span>{{ review.content }}</span>
+              </div>
+              <div class="feature">
+                <div class="comment btn">
+                  <i class="iconfont icon-comment"></i>
+                  <span>{{ review.commentNum }}</span>
+                </div>
+                <div class="collect btn" :class="review.isCollected ? 'actived' : ''" @click="collect(review)">
+                  <i class="iconfont icon-collect-b"></i>
+                  <span>{{ review.collectNum }}</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="info">
-            <div class="top">
-              <avatar-and-name :name="review.user.name" :avatar="review.user.avatar"/>
-              <span class="time">{{ review.updatedAt }}</span>
-            </div>
-            <span class="title">{{ review.title }}</span>
-            <div class="review-content">
-              <span>{{ review.content }}</span>
-            </div>
-            <!-- <span>1994/美国/犯罪 剧情</span>
-            <span>希望让人自由。</span> -->
-            <div class="feature">
-              <div class="collect btn">
-                <i class="iconfont icon-collect-b"></i>
-                <span>{{ review.commentNum }}</span>
-              </div>
-              <div class="comment btn">
-                <i class="iconfont icon-comment"></i>
-                <span>{{ review.collectNum }}</span>
-              </div>
-            </div>
+          <div class="bottom">
+            <avatar-and-name :name="review.user.name" :avatar="review.user.avatar"/>
+            <span class="time">{{ review.updatedAt }}</span>
           </div>
         </div>
         <div class="pagination">
-          <pagination :pageCount="pageCount"/>
+          <pagination v-if="pageCount > 1" :pageCount="pageCount"/>
         </div>
       </div>
       <div class="right">
@@ -235,7 +235,7 @@ export default {
 
 <style lang="less" scoped>
 .index-main {
-  background-color: #F1F2F4;
+  background-color: #F4F4F4;
   .main {
     display: flex;
     margin-top: 34px;
@@ -248,88 +248,116 @@ export default {
         margin: 0 0 24px 40px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         width: 220px;
-        flex-wrap: wrap;
-
-        border-radius: 6px;
-        background-color: #FFF;
-        box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
-        .poster {
-          position: relative;
-          flex: 1;
-          height: 255px;
-          cursor: pointer;
-          img {
-            width: 220px;
-            height: 255px;
-            border-top-left-radius: 6px;
-            border-top-right-radius: 6px;
-          }
-          .like {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 232px;
-            right: 19px;
-
-            width: 45px;
-            height: 45px;
-            color: #FFF;
-            background-color: rgb(87, 206, 74);
-            border-radius: 50%;
-            .iconfont {
-              font-size: 18px;
-              font-weight: 600;
-            }
-          }
-        }
-        .info {
+        .review-main {
           display: flex;
           flex-direction: column;
-          padding: 24px 0 16px 0;
-          .top {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 15px;
-            .time {
-              font-size: 14px;
-              color: #8590A6;
+          justify-content: center;
+          width: 220px;
+          flex-wrap: wrap;
+
+          border-radius: 6px;
+          background-color: #FFF;
+          box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
+          .poster {
+            position: relative;
+            flex: 1;
+            height: 255px;
+            cursor: pointer;
+            img {
+              width: 220px;
+              height: 255px;
+              border-top-left-radius: 6px;
+              border-top-right-radius: 6px;
             }
-          }
-          .title {
-            margin-top: 4px;
-            padding: 0 15px;
-            font-size: 17px;
-            font-weight: 600;
-            color: rgb(49, 56, 64);
-          }
-          .review-content {
-            margin: 4px 0;
-            padding: 0 15px 3px 15px;
+            .like {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              position: absolute;
+              top: 232px;
+              right: 19px;
 
-            display: -webkit-box;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-
-            letter-spacing: .8px;
-            color: #70757B;
-          }
-          .feature {
-            display: flex;
-            justify-content: space-around;
-            padding: 6px 15px 0 15px;
-            color: gray;
-            border-top: 1px dashed #70757B;
-            .comment {
+              width: 45px;
+              height: 45px;
+              color: gray;
+              background-color: #FFF;
+              border-radius: 50%;
               .iconfont {
                 font-size: 18px;
                 font-weight: 600;
               }
+              &:hover {
+                color: #636262;
+              }
             }
+            .actived {
+              color: #FFF;
+              background-color: #57CE4A;
+              &:hover {
+                color: #FFF;
+              }
+            }
+          }
+          .info {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 0 12px 0;
+            .top {
+              display: flex;
+              justify-content: space-between;
+              padding: 0 15px;
+            }
+            .title {
+              margin-top: 4px;
+              padding: 0 15px;
+              font-size: 17px;
+              font-weight: 600;
+              color: rgb(49, 56, 64);
+            }
+            .review-content {
+              margin: 4px 0 10px 0;
+              padding: 0 15px;
+
+              display: -webkit-box;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              -webkit-line-clamp: 3;
+              -webkit-box-orient: vertical;
+
+              letter-spacing: .8px;
+              color: #70757B;
+            }
+            .feature {
+              display: flex;
+              justify-content: space-around;
+              padding: 10px 15px 0 15px;
+              color: gray;
+              border-top: 1px dashed #70757B;
+              .comment {
+                .iconfont {
+                  font-size: 18px;
+                  font-weight: 600;
+                }
+              }
+              .collect {
+                cursor: pointer;
+              }
+              .actived {
+                color: #0077FF;
+              }
+            }
+          }
+        }
+        .bottom {
+          margin-top: 12px;
+          padding: 0 12px;
+          display: flex;
+          justify-content: space-between;
+          color: #3A8BBB;
+          .time {
+            font-size: 14px;
+            color: #8590A6;
           }
         }
       }
