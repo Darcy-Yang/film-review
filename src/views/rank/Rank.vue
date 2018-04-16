@@ -24,19 +24,16 @@
       </div>
       <div class="list">
         <div class="movies" v-for="(movie, index) in ranks" :key="index">
-          <span>{{ movie.order }}</span>
-          <div class="left-content">
-            <img :src='movie.img_src' alt="image"/>
-            <div class="score">
-              <span>{{ movie.star }}</span>
+          <div class="main-content">
+            <img :src='movie.img_src' alt="poster"/>
+            <div class="info">
+              <span>{{ movie.title }}</span>
+              <span class="star">{{ movie.star }}</span>
             </div>
           </div>
-          <div class="right-content">
-            <span class="name" @click="jumpToDetail(movie)">{{ movie.title }}</span>
-            <span>{{ movie.info }}</span>
-            <span>{{ movie.type }}</span>
-            <span>{{ movie.votes }}</span>
-            <span class="quote">{{ movie.quote }}</span>
+          <div class="hover-show">
+            <span>{{ movie.quote }}</span>
+            <span class="title">( {{ movie.title }} )</span>
           </div>
         </div>
         <pagination v-if="pageCount > 1" :pageCount="pageCount"/>
@@ -93,7 +90,7 @@ export default {
         { name: '70年代', value: [1970, 1979], selected: false },
         { name: '70年代之前', value: 1970, selected: false },
       ],
-      limit: 10,
+      limit: 12,
       currentPage: 1,
       searchType: '全部',
       searchArea: '全部',
@@ -110,11 +107,12 @@ export default {
       try {
         const { ranks, count } = await request('POST', '/rank', {
           page: this.currentPage,
+          limit: this.limit,
           type: this.searchType,
           area: this.searchArea,
           time: this.searchTime
         });
-        this.pageCount = Math.ceil(count / 10);
+        this.pageCount = Math.ceil(count / this.limit);
         this.ranks = ranks;
       } catch (err) {
         console.log(err);
@@ -153,17 +151,19 @@ export default {
 <style lang="less" scoped>
 .rank-main {
   background-color: #F6F6F6;
+  min-height: 100vh;
   .content {
     display: flex;
     margin-top: 20px;
     flex-direction: column;
     align-items: center;
     .selector {
-      display: flex;
+      // display: flex;
+      display: none;
       margin-bottom: 36px;
       padding: 20px;
       padding-top: 0;
-      width: 60%;
+      width: 76%;
       flex-direction: column;
 
       background-color: #FFF;
@@ -188,63 +188,74 @@ export default {
       }
     }
     .list {
+      margin: 0 auto;
       display: flex;
-      width: 100%;
-      // padding: 20px;
-      flex-direction: column;
+      width: 80%;
+      flex-wrap: wrap;
+      justify-content: center;
       align-items: center;
       // align-items: flex-start;
       .movies {
+        position: relative;
         display: flex;
-        margin-bottom: 20px;
-        padding: 10px 20px 0 20px;
-        width: 60%;
-        background-color: #FFF;
+        margin: 12px 40px;
         border-radius: 3px;
         // box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
-        .left-content {
+        cursor: pointer;
+        &:hover {
+          .hover-show {
+            display: flex;
+          }
+          .main-content .info {
+            display: none;
+          }
+        }
+        .main-content {
+          position: relative;
           img {
-            margin: 0 30px 0 12px;
-            width: 100px;
-            height: 130px;
+            width: 160px;
+            height: 224px;
             border-radius: 4px;
             box-shadow: 0 2px 3px #BDBDBD;
+
+            cursor: pointer;
           }
-          .score {
-            position: relative;
-            top: -26px;
-            left: 12px;
-            width: 100px;
-            font-weight: 600;
-            text-align: right;
-            color: orange;
-            background-color: rgba(128, 128, 128, .8);
-            border-bottom-left-radius: 4px;
-            border-bottom-right-radius: 4px;
-            span {
-              margin-right: 6px;
+          .info {
+            position: absolute;
+            bottom: 30px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            padding: 12px;
+
+            max-width: 100px;
+            color: #FFF;
+            background-color: rgba(128, 128, 128, .7);
+            border-radius: 4px;
+            .star {
+              color: orange;
             }
           }
         }
-        .right-content {
-          display: flex;
+        .hover-show {
+          display: none;
+          position: absolute;
           flex-direction: column;
-          span {
-            margin-top: 6px;
-            font-size: 14px;
-          }
-          .name {
-            margin-top: 0;
-            font-size: 18px;
-            font-weight: 600;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+          padding: 0 20px;
 
-            cursor: pointer;
-            &:hover {
-              color: #0077FF;
-            }
-          }
-          .quote {
-            font-style: italic;
+          width: 120px;
+          height: 224px;
+          color: #FFF;
+          word-break: break-all;
+          background-color: rgba(128, 128, 128, .8);
+          border-radius: 4px;
+          .title {
+            margin-top: 4px;
+            padding-left: 8px;
           }
         }
       }
