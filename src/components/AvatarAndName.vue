@@ -2,7 +2,7 @@
   <div class="avatar-name-main">
     <div class="avatar-name">
       <div class="avatar">
-        <img class="show" :src="avatar" alt="avatar"/>
+        <img class="show" :src="avatar" alt="avatar" :style="avatarStyle"/>
         <hover-show-card :cardStyle="avatarCardStyle" :name="name" :avatar="avatar"/>
       </div>
       <div class="name">
@@ -29,7 +29,11 @@ export default {
     avatar: {
       type: String,
       default: 'static/images/avatar.jpg',
-    }
+    },
+    avatarStyle: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
