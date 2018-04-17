@@ -23,21 +23,25 @@
         </div>
       </div>
       <div class="list">
-        <div class="movies" v-for="(movie, index) in ranks" :key="index">
+        <div class="movies" v-for="(movie, index) in ranks" :key="index" @click="jumpToDetail(movie)">
           <div class="main-content">
-            <img :src='movie.img_src' alt="poster"/>
+            <div class="poster">
+              <img :src='movie.img_src' alt="poster"/>
+              <div class="hover-show">
+                <span>{{ movie.quote }}</span>
+              </div>
+            </div>
             <div class="info">
-              <span>{{ movie.title }}</span>
-              <span class="star">{{ movie.star }}</span>
+              <span class="title">{{ movie.title }}</span>
+              <div class="votes">
+                <span class="star">{{ movie.star }}</span>
+                <span>{{ movie.votes }}</span>
+              </div>
             </div>
           </div>
-          <div class="hover-show">
-            <span>{{ movie.quote }}</span>
-            <span class="title">( {{ movie.title }} )</span>
-          </div>
         </div>
-        <pagination v-if="pageCount > 1" :pageCount="pageCount"/>
       </div>
+      <pagination v-if="pageCount > 1" :pageCount="pageCount"/>
     </div>
   </div>
 </template>
@@ -150,7 +154,7 @@ export default {
 
 <style lang="less" scoped>
 .rank-main {
-  background-color: #F6F6F6;
+  background-color: rgb(32, 38, 46);
   min-height: 100vh;
   .content {
     display: flex;
@@ -188,7 +192,7 @@ export default {
       }
     }
     .list {
-      margin: 0 auto;
+      margin: 0 auto 20px auto;
       display: flex;
       width: 80%;
       flex-wrap: wrap;
@@ -202,60 +206,69 @@ export default {
         border-radius: 3px;
         // box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
         cursor: pointer;
-        &:hover {
-          .hover-show {
-            display: flex;
-          }
-          .main-content .info {
-            display: none;
-          }
-        }
         .main-content {
-          position: relative;
-          img {
-            width: 160px;
-            height: 224px;
-            border-radius: 4px;
-            box-shadow: 0 2px 3px #BDBDBD;
+          // position: relative;
+          display: flex;
+          flex-direction: column;
+          .poster {
+            position: relative;
+            img {
+              width: 160px;
+              height: 224px;
+              border-radius: 4px;
+              box-shadow: 0 12px 16px #1A1A1A;
 
-            cursor: pointer;
-          }
-          .info {
-            position: absolute;
-            bottom: 30px;
-            right: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            padding: 12px;
+              cursor: pointer;
+            }
+            .hover-show {
+              display: none;
+              position: absolute;
+              top: 0;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              flex-wrap: wrap;
+              padding: 0 20px;
 
-            max-width: 100px;
-            color: #FFF;
-            background-color: rgba(128, 128, 128, .7);
-            border-radius: 4px;
-            .star {
-              color: orange;
+              width: 120px;
+              height: 224px;
+              color: #FFF;
+              word-break: break-all;
+              background-color: rgba(128, 128, 128, .8);
+              border-radius: 4px;
+              .title {
+                margin-top: 4px;
+                padding-left: 8px;
+              }
+            }
+            &:hover {
+              .hover-show {
+                display: flex;
+              }
             }
           }
-        }
-        .hover-show {
-          display: none;
-          position: absolute;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          flex-wrap: wrap;
-          padding: 0 20px;
-
-          width: 120px;
-          height: 224px;
-          color: #FFF;
-          word-break: break-all;
-          background-color: rgba(128, 128, 128, .8);
-          border-radius: 4px;
-          .title {
-            margin-top: 4px;
-            padding-left: 8px;
+          .info {
+            display: flex;
+            flex-direction: column;
+            color: #FFF;
+            .title {
+              margin: 16px 0 4px 0;
+              font-size: 17px;
+              font-weight: 600;
+            }
+            .votes {
+              &:first-letter {
+                font-size: 22px;
+              }
+              .star {
+                color: orange;
+              }
+              span:last-child {
+                margin-left: 12px;
+                font-size: 13px;
+                letter-spacing: .4px;
+              }
+            }
           }
         }
       }
