@@ -76,13 +76,13 @@ export default {
       const { user } = getUser();
 
       if (!this.movie) {
-        alert('请选择电影');
+        this.$message('请选择电影', 'warning');
         return;
       } else if (!this.title) {
-        alert('请填写标题');
+        this.$message('请填写标题', 'warning');
         return;
       } else if (!this.content) {
-        alert('请填写内容');
+        this.$message('请填写内容', 'warning');
         return;
       }
 
@@ -93,10 +93,10 @@ export default {
           title: this.title,
           content: this.content
         })
-        alert('影评发布成功');
         this.$router.push('/index');
+        this.$message('影评发布成功');
       } catch (err) {
-        console.log(err);
+        this.$message(err, 'error');
       }
     },
   },

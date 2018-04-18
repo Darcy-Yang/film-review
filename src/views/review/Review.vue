@@ -149,7 +149,7 @@ export default {
     },
     async submit(review) {
       if (!this.comment) {
-        alert('评论内容不能为空');
+        this.$message('评论内容不能为空', 'warning');
         return;
       }
       try {
@@ -161,16 +161,17 @@ export default {
         this.comment = '';
         review.commentNum += 1;
         this.getComment(review);
+        this.$message('评论成功');
       } catch (err) {
-        console.log(err);
+        this.$message(err, 'error');
       }
     },
     async addReview(title, content) {
       if (!title) {
-        alert('标题不能为空');
+        this.$message('标题不能为空', 'warning');
         return;
       } else if (!content) {
-        alert('内容不能为空');
+        this.$message('内容不能为空', 'warning');
         return;
       }
       try {
@@ -182,8 +183,9 @@ export default {
         });
         this.closeModal();
         this.getReview();
+        this.$message('添加影评成功');
       } catch (err) {
-        console.log(err);
+        this.$message(err, 'error');
       }
     },
     openModal() {

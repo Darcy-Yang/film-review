@@ -4,16 +4,13 @@
       <h2> {{ isRegister ? '欢迎注册' : '欢迎登录' }}|影评网</h2>
       <div class="input-area">
         <input type="text" placeholder="请输入昵称" v-model="user.name" @keydown="goSubmit"/>
-        <span v-show="nullAccount">昵称不能为空</span>
       </div>
       <div class="input-area">
         <input type="password" placeholder="请输入密码" v-model="user.password" @keydown="goSubmit"/>
-        <span v-show="nullPassword">密码不能为空</span>
       </div>
       <transition name="fade">
         <div class="input-area" v-if="isRegister">
           <input type="password" placeholder="再输入一次密码" v-model="confirmPassword" @keydown="goSubmit"/>
-          <span v-show="wrongConfirmed">密码不一致</span>
         </div>
       </transition>
       <button type="submit" @click="submit">{{ isRegister ? '注册' : '登录' }}</button>
@@ -39,9 +36,6 @@ export default {
       isRegister: false,
       user: { name: '', password: '' },
       confirmPassword: '',
-      nullAccount: false,
-      nullPassword: false,
-      wrongConfirmed: false,
     }
   },
   methods: {
@@ -52,12 +46,14 @@ export default {
       if (e.keyCode === 13) this.submit();
     },
     async submit() {
-      this.nullAccount = !this.user.name;
-      this.nullPassword = !this.user.password;
-      if (this.nullAccount || this.nullPassword) {
+      if (!this.user.name) {
+        this.$message('用户名不能为空', 'warning');
+        return;
+      } else if (!this.user.password) {
+        this.$message('密码不能为空', 'warning');
         return;
       } else if (this.isRegister && this.confirmPassword !== this.user.password) {
-        this.wrongConfirmed = true;
+        this.$message('密码不一致', 'warning');
         this.confirmPassword = '';
         return;
       }
@@ -71,6 +67,7 @@ export default {
         })
         if (this.isRegister) {
           this.isRegister = false;
+          this.$message('注册成功');
         } else {
           setUser(user);
           this.$router.push('/index');
@@ -78,7 +75,7 @@ export default {
       } catch (err) {
         this.user.password = '';
         this.confirmPassword = '';
-        alert(err);
+        this.$message(err.message, 'warning');
       }
     },
   },
