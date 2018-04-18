@@ -13,7 +13,7 @@
       <div class="right-content">
         <h3>用户影评</h3>
         <div class="review-content">
-          <div class="reviews" v-for="review in reviews" :key="review.id">
+          <div class="reviews" v-for="(review, index) in reviews" :key="review.id" ref="review">
             <div class="top">
               <avatar-and-name :avatar="review.user.avatar" :name="review.user.name" :avatarStyle="avatarStyle"/>
               <span>{{ review.updatedAt }}</span>
@@ -25,13 +25,26 @@
                 <i class="iconfont icon-like"></i>
                 <span>{{ review.likeNum }}</span>
               </div>
-              <div class="comment btn">
+              <div class="comment btn" @click="openComment(review, index)">
                 <i class="iconfont icon-comment"></i>
                 <span>{{ review.commentNum }}</span>
               </div>
               <div class="collect btn" :class="review.isCollected ? 'actived' : ''" @click="operate(review, false)">
                 <i class="iconfont icon-collect-b"></i>
                 <span>{{ review.collectNum }}</span>
+              </div>
+            </div>
+            <div class="comment-list" v-show="review.showComment" :style="commentStyle">
+              <div class="comment-input">
+                <textarea type="text" placeholder="写下你的评论" :style="inputStyle" v-model="comment"/>
+                <button @click="submit(review)">评论</button>
+              </div>
+              <div class="comments" v-for="comment in comments" :key="comment.id">
+                <div class="comment-content">
+                  <avatar-and-name :name="comment.user.name" :avatar="comment.user.avatar"/>
+                  <span class="text">{{ comment.content }}</span>
+                  <span class="time">{{ comment.updatedAt }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -51,7 +64,6 @@
 
 <script>
 import Nav from '@/components/Nav';
-import ReviewComponent from '@/components/ReviewComponent';
 import AvatarAndName from '@/components/AvatarAndName';
 import Container from '@/components/Container';
 
@@ -62,7 +74,6 @@ export default {
   name: 'review',
   components: {
     Nav,
-    ReviewComponent,
     AvatarAndName,
     Container,
   },
@@ -73,10 +84,17 @@ export default {
       currentReview: null,
       currentUser: null,
       page: 1,
+      commentPage: 1,
       limit: 10,
       count: 0,
+      commentCount: 0,
       reviews: [],
+      comments: [],
+      comment: '',
+      commentStyle: '',
+      inputStyle: '',
       showModal: false,
+      showComment: false,
       firstPlaceHolder: '影评内容',
       secondPlaceHolder: '标题',
     }
@@ -105,6 +123,18 @@ export default {
         console.log(err);
       }
     },
+    async getComment(review) {
+      try {
+        const { count, comments } = await request('GET', `/comment/${review.id}`, {
+          page: this.commentPage,
+          limit: this.limit,
+        });
+        this.commentCount = count;
+        this.comments = comments;
+      } catch (err) {
+        console.log(err);
+      }
+    },
     async operate(review, isLike) {
       const path = isLike ? `/like/${review.id}` : `/collect/${review.id}`;
       try {
@@ -117,19 +147,20 @@ export default {
         console.log(err);
       }
     },
-    async submit() {
-      if (!this.$refs.comment.innerText) {
+    async submit(review) {
+      if (!this.comment) {
         alert('评论内容不能为空');
         return;
       }
       try {
-        await request('POST', `/comment/${this.currentReview.id}`, {}, {
+        await request('POST', `/comment/${review.id}`, {}, {
           senderId: this.currentUser.id,
-          receiverId: this.currentReview.userId,
-          content: this.$refs.comment.innerText
+          receiverId: review.userId,
+          content: this.comment
         });
-        this.$refs.comment.innerText = '';
-        this.getComment();
+        this.comment = '';
+        review.commentNum += 1;
+        this.getComment(review);
       } catch (err) {
         console.log(err);
       }
@@ -155,15 +186,27 @@ export default {
         console.log(err);
       }
     },
-    eventListener() {
-      this.entered = !this.entered;
-      if (!this.$refs.comment.innerText) this.entered = false;
-    },
     openModal() {
       this.showModal = true;
+      setTimeout(scrollTo(0, 0), 100);
+      this.reviews.forEach(review => review.showComment = false);
     },
     closeModal() {
       this.showModal = false;
+    },
+    openComment(review, index) {
+      const width = Math.floor(this.$refs.review[index].getBoundingClientRect().width);
+      this.comment = '';
+      this.comments = [];
+      if (review.showComment) {
+        review.showComment = false;
+        return;
+      }
+      this.reviews.forEach(review => review.showComment = false);
+      review.showComment = true;
+      this.commentStyle = `width: ${width - 40}px;`;
+      this.inputStyle = `width: ${width - 100}px`;
+      this.getComment(review);
     },
   },
 }
@@ -171,7 +214,7 @@ export default {
 
 <style lang="less" scoped>
 .review-main {
-  background-color: #D8B84A;
+  background-color: #3D5363;
   min-height: 100vh;
   .content {
     margin: 40px auto 0 auto;
@@ -208,8 +251,8 @@ export default {
       margin-left: 40px;
       display: flex;
       flex-direction: column;
-      flex: 1;
       flex-wrap: wrap;
+      flex: 1;
       h3 {
         margin-left: 20px;
         padding-left: 20px;
@@ -218,13 +261,13 @@ export default {
         font-size: 24px;
         letter-spacing: 1px;
         font-style: italic;
-        border-bottom: 2px solid #655A6E;
+        border-bottom: 2px solid #F0D165;
       }
       .review-content {
         display: flex;
         flex-wrap: wrap;
         .reviews {
-          margin: 0 0 20px 20px;
+          margin: 0 0 15px 20px;
           display: flex;
           flex-direction: column;
           min-width: 40%;
@@ -232,8 +275,9 @@ export default {
           padding: 10px 20px;
           word-break: break-all;
           color: #8A6516;
-          background-color: #FFF;
+          border: 1px solid #BDBDBD;
           border-radius: 4px;
+          box-shadow: 0 2px 3px rgba(26, 26, 26, .3);
           .top {
             display: flex;
             justify-content: space-between;
@@ -256,6 +300,57 @@ export default {
             color: gray;
             .btn {
               cursor: pointer;
+            }
+          }
+          .comment-list {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            .comment-input {
+              margin-bottom: 12px;
+              display: flex;
+              justify-content: space-between;
+              textarea {
+                padding-left: 8px;
+                height: 24px;
+                font-size: 14px;
+                line-height: 22px;
+                outline: none;
+                resize: none;
+                border: none;
+                color: inherit;
+                background-color: inherit;
+                border-bottom: 1px solid #BDBDBD;
+              }
+              button {
+                padding: 3px 8px;
+                letter-spacing: .6px;
+                color: #F6F6F6;
+                background-color: #0077FF;
+                border-radius: 4px;
+                border: none;
+                outline: none;
+                cursor: pointer;
+              }
+            }
+            .comments {
+              margin: 6px 0;
+              padding-bottom: 10px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              .comment-content {
+                display: flex;
+                flex-direction: column;
+                .text {
+                  margin-left: 32px;
+                }
+              }
+              .time {
+                margin: 4px 0 0 32px;
+                font-size: 14px;
+                color: #8590A6;
+              }
             }
           }
           .actived {
