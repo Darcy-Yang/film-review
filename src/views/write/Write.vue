@@ -6,6 +6,9 @@
         <div class="select-area">
           <input type="text" placeholder="电影名称" v-model="searchWord"/>
           <ul v-show="showSelect">
+            <li class="added" v-show="!ranks.length || searchWord !== ranks[0].title" @click="addMovie">
+              没找到 ? 添加《{{ searchWord }}》相关信息
+            </li>
             <li v-for="(movie, index) in ranks" :key="index" @click="choose(movie)">
               {{ movie.title }}
             </li>
@@ -21,6 +24,16 @@
               <span>{{ movie.title }}</span>
               <span>{{ movie.info }}</span>
               <span>{{ movie.movie_type }}</span>
+            </div>
+          </div>
+          <div class="movie-info add-movie" v-else-if="showAddArea">
+            <div class="preview">
+              <span>{{ searchWord }}</span>
+            </div>
+            <div class="add-info">
+              <input type="text" placeholder="导演" v-model="director"/>
+              <input type="text" placeholder="主演" v-model="player"/>
+              <input type="text" placeholder="类型" v-model="type"/>
             </div>
           </div>
         </transition>
@@ -56,26 +69,22 @@ export default {
       searchWord: '',
       title: '',
       content: '',
+      director: '',
+      player: '',
+      type: '',
       ranks: [],
       movie: null,
       showSelect: false,
       closeItem: false,
+      showAddArea: false,
     }
   },
   methods: {
-    choose(movie) {
-      if (this.searchWord === movie.title) {
-        this.showSelect = false;
-      } else {
-        this.chooseItem = true;
-        this.searchWord = movie.title;
-      }
-      this.movie = movie;
-    },
     async submit() {
+      let movieId = 0;
       const { user } = getUser();
 
-      if (!this.movie) {
+      if (!this.movie && !this.showAddArea) {
         this.$message('请选择电影', 'warning');
         return;
       } else if (!this.title) {
@@ -87,17 +96,39 @@ export default {
       }
 
       try {
+        if (this.showAddArea) {
+          const { id } = await request('POST', '/rank/add', {}, {
+            title: this.searchWord,
+            director: this.director,
+            player: this.player,
+            type: this.type
+          });
+          movieId = id;
+        }
         await request('POST', '/review', {}, {
           userId: user.id,
-          movieId: this.movie.id,
+          movieId: movieId || this.movie.id,
           title: this.title,
           content: this.content
         })
         this.$router.push('/index');
         this.$message('影评发布成功');
       } catch (err) {
-        this.$message(err, 'error');
+        this.$message(err.message, 'error');
       }
+    },
+    choose(movie) {
+      if (this.searchWord === movie.title) {
+        this.showSelect = false;
+      } else {
+        this.chooseItem = true;
+        this.searchWord = movie.title;
+      }
+      this.movie = movie;
+    },
+    addMovie() {
+      this.showSelect = false;
+      this.showAddArea = true;
     },
   },
   watch: {
@@ -113,9 +144,10 @@ export default {
           const { ranks } = await request('POST', '/rank', { searchWord: this.searchWord });
           this.ranks = ranks;
         } catch (err) {
-          console.log(err);
+          this.$message(err.message, 'error');
         }
       } else {
+        this.showAddArea = false;
         this.showSelect = false;
         this.ranks = [];
         this.movie = null;
@@ -158,6 +190,10 @@ export default {
         }
         input::-webkit-input-placeholder {
           color: #A4A4A4;
+        }
+        .added {
+          color: #0077FF;
+          word-break: break-all;
         }
         ul {
           position: absolute;
@@ -213,6 +249,37 @@ export default {
             }
           }
         }
+        .preview {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 12px;
+          width: 112px;
+          min-height: 176px;
+          color: #FFF;
+          word-break: break-all;
+          background-color: #426AB3;
+          border-radius: 4px;
+        }
+        .add-info {
+          margin-left: 12px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          input {
+            margin: 8px;
+            padding: 0 0 6px 4px;
+            font-size: 18px;
+            letter-spacing: .6px;
+            outline: none;
+            border: none;
+            border-bottom: 1px solid #BDBDBD;
+          }
+        }
+      }
+      .add-movie {
+        flex: 0;
+        max-width: 100%;
       }
       .fade-enter-active, .fade-leave-activate {
         transition: opacity .6s;
