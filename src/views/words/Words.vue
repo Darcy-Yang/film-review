@@ -3,28 +3,20 @@
     <Nav/>
     <div class="content">
       <div class="words" v-for="word in words" :key="word.id">
-        <div class="words-content">
-          <span>{{ word.content }}</span>
-          <div class="source">
-            <span>——</span>
-            <span>《{{ word.title }}》</span>
-          </div>
-          <div class="info">
-            <avatar-and-name :name="word.user.name" :avatar="word.user.avatar"/>
-            <span class="time">{{ word.updatedAt }}</span>
-          </div>
+        <div class="top">
+          <avatar-and-name :avatar='word.user.avatar' :name="word.user.name"/>
+          <span class="time">{{ word.updatedAt }}</span>
         </div>
-        <div class="hover-show">
-          <div class="hover-blur"></div>
-          <div class="icons">
-            <div class="feature" @click="likeWords(word)">
-              <i class="iconfont icon-love"></i>
-              <span :class="word.isLiked ? 'actived' : ''">{{ word.likeNum }}</span>
-            </div>
-            <div class="feature">
-              <i class="iconfont icon-collect-b"></i>
-              <span>{{ word.collectNum }}</span>
-            </div>
+        <span class="content">{{ word.content }}</span>
+        <span class="title">——《{{ word.title }}》</span>
+        <div class="feature">
+          <div class="like btn" :class="word.isLiked ? 'actived' : ''" @click="likeWords(word)">
+            <i class="iconfont icon-like"></i>
+            <span>{{ word.likeNum }}</span>
+          </div>
+          <div class="collect btn">
+            <i class="iconfont icon-collect"></i>
+            <span>{{ word.collectNum }}</span>
           </div>
         </div>
       </div>
@@ -56,11 +48,13 @@ export default {
   },
   data() {
     return {
+      avatar: 'static/images/avatar.jpg',
+      name: 'Yang',
       firstPlaceHolder: '台词',
       secondPlaceHolder: '电影名',
       showModal: false,
       currentUser: null,
-      words: null,
+      words: [],
     }
   },
   created() {
@@ -75,15 +69,15 @@ export default {
         this.pageCount = pageCount;
         this.words = words;
       } catch (err) {
-        console.log(err);
+        this.$message(err.message, 'error');
       }
     },
     async addWords(title, content) {
       if (!title) {
-        alert('电影名不能为空');
+        this.$message('电影名不能为空', 'warning');
         return;
       } else if (!content) {
-        alert('台词不能为空');
+        this.$message('台词不能为空', 'warning');
         return;
       }
       try {
@@ -94,8 +88,9 @@ export default {
         });
         this.closeModal();
         this.getWords();
+        this.$message('添加台词成功');
       } catch (err) {
-        console.log(err);
+        this.$message(err.message, 'error');
       }
     },
     async likeWords(word) {
@@ -106,7 +101,7 @@ export default {
         });
         this.getWords();
       } catch (err) {
-        console.log(err);
+        this.$message(err.message, 'error');
       }
     },
     openModal() {
@@ -123,106 +118,92 @@ export default {
 <style lang="less" scoped>
 .words-main {
   position: relative;
+  min-height: 100vh;
+  background-color: #3D5363;
   .content {
     position: relative;
-    margin: 20px auto;
+    margin: 20px auto 0 auto;
     display: flex;
-    // width: 80%;
+    width: 84%;
     flex-wrap: wrap;
     justify-content: center;
     .words {
       position: relative;
-      margin: 6px 8px;
-      padding: 16px 18px;
       display: flex;
-      align-items: center;
-      width: 24%;
-
+      flex-direction: column;
+      margin: 12px;
+      padding: 12px;
+      width: 20%;
+      height: 100%;
       word-break: break-all;
-      background-color: pink;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(26, 26, 26, .3);
-
-      cursor: pointer;
-
-      &:hover {
-        .hover-show {
-          display: flex;
-        }
-      }
-      .words-content {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        color: #FFF;
-        .source {
-          align-self: flex-end;
-        }
-        .info {
-          margin-top: 4px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          .time {
-            font-size: 14px;
-            color: #8590A6;
-          }
-        }
-      }
-      .hover-show {
+      background-color: #FFF;
+      border-radius: 0 0 51px 0;
+      &:before{
+        content:'';
+        width: 25px;
+        height: 20px;
         position: absolute;
-        // display: flex;
-        // color: #FAFBFB;
-        display: none;
-        justify-content: center;
+        bottom:0;
+        right:0;
+        -webkit-border-radius: 0 0 30px 0;
+        -moz-border-radius: 0 0 30px 0;
+        border-radius: 0 0 30px 0;
+        -webkit-box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.3);
+        -moz-box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.3);
+        box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.3);
+        -webkit-transform: rotate(-20deg) skew(-40deg,-3deg) translate(-13px,-13px);
+        -moz-transform: rotate(-20deg) skew(-40deg,-3deg) translate(-13px,-13px);
+        -o-transform: rotate(-20deg) skew(-40deg,-3deg) translate(-13px,-13px);
+        transform: rotate(-20deg) skew(-40deg,-3deg) translate(-13px,-13px);
+      }
+      &:after{
+        content: '';
+        z-index: -1;
+        width: 100px;
+        height: 100px;
+        position:absolute;
+        bottom:0;
+        right:0;
+        background: rgba(0, 0, 0, 0.2);
+        display: inline-block;
+        -webkit-box-shadow: 20px 20px 8px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 20px 20px 18px rgba(0, 0, 0, 0.2);
+        box-shadow: 20px 20px 8px rgba(0,0,0,0.2);
+        -webkit-transform: rotate(0deg) translate(-45px,-20px) skew(20deg);
+        -moz-transform: rotate(0deg) translate(-45px,-20px) skew(20deg);
+        -o-transform: rotate(0deg) translate(-45px,-20px) skew(20deg);
+        transform: rotate(0deg) translate(-45px,-20px) skew(20deg);
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
         align-items: center;
-        width: 100%;
-        height: 100%;
-        .hover-blur {
-          position: absolute;
-          top: 0;
-          left: -18px;
-          width: 100%;
-          height: 100%;
-          filter: blur(2px);
-          background-color: rgba(26, 26, 26, .25);
-        }
-        .icons {
-          display: flex;
-          width: 60%;
-          justify-content: space-evenly;
-
-          z-index: 2;
-          .iconfont {
-            font-size: 36px;
-            opacity: .9;
-            &:hover {
-              opacity: 1;
-            }
-          }
-          .feature {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            span {
-              font-size: 18px;
-              font-weight: 600;
-              color: #FFF;
-              // 水红色
-              // color: #DE3163;
-            }
-            .actived {
-              color: #DE3163;
-            }
-          }
-          .icon-love {
-            color: red;
-          }
-          .icon-collect-b {
-            color: orange;
-          }
+        .time {
+          font-size: 14px;
+          color: #8590A6;
         }
       }
+      .content {
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: .6px;
+      }
+      .title {
+        margin: 6px 4px 0;
+        align-self: flex-end;
+        font-style: italic;
+      }
+      .feature {
+        margin-top: 12px;
+        display: flex;
+        justify-content: space-around;
+        .btn {
+          cursor: pointer;
+        }
+      }
+    }
+    .actived {
+      color: #0077FF;
     }
   }
   .add-btn {
