@@ -5,7 +5,7 @@
     </div>
     <div class="right-side">
       <ul>
-        <router-link v-for="(item, index) in links" :key="index" :to="item.href">
+        <router-link v-for="(item, index) in links" active-class="actived" :key="index" :to="item.href">
           {{ item.name }}
         </router-link>
       <i class="iconfont icon-search"></i>
@@ -63,10 +63,12 @@ export default {
   background-color: #FFF;
   box-shadow: 0 1px 2px #F3F3F3;
   a{
-    padding-right: 30px;
+    margin-right: 30px;
+    padding: 2px 6px;
     color: #0077FF;
-    letter-spacing: 0.1px;
+    letter-spacing: .4px;
     text-decoration: none;
+    border-radius: 4px;
   }
   .avatar {
     padding: 0;
@@ -79,7 +81,7 @@ export default {
   }
   .left-side {
     margin: auto 0;
-    margin-left: 158px;
+    margin-left: 144px;
     color: #FFF;
     letter-spacing: 0.1px;
     cursor: pointer;
@@ -101,6 +103,10 @@ export default {
         height: 30px;
         border-radius: 50%;
       }
+    }
+    .actived {
+      color: #FFF;
+      background-color: #0077FF;
     }
   }
 }
