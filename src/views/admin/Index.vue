@@ -20,6 +20,10 @@ export default {
 .index-main {
   display: flex;
   background-color: #F6F6F6;
+  .right {
+    display: flex;
+    flex-direction: column;
+  }
   .content {
     width: 85%;
   }

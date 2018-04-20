@@ -20,11 +20,11 @@ import Share from '@/views/homePage/Share'
 
 import Rank from '@/views/rank/Rank'
 
-import AdminIndex from '@/admin/Index'
-import ManageUser from '@/admin/ManageUser'
-import ManageReview from '@/admin/ManageReview'
-import ManageWords from '@/admin/ManageWords'
-import ManageRank from '@/admin/ManageRank'
+import AdminIndex from '@/views/admin/Index'
+import ManageUser from '@/views/admin/ManageUser'
+import ManageReview from '@/views/admin/ManageReview'
+import ManageWords from '@/views/admin/ManageWords'
+import ManageRank from '@/views/admin/ManageRank'
 
 import { getUser, getToken } from '@/utils/user';
 
