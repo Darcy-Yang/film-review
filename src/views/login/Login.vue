@@ -197,61 +197,47 @@ export default {
       animation: square 15s infinite;
       transition-timing-function: linear;
       &:nth-child(1) {
-        left: 10%;
+        left: 5%;
       }
       &:nth-child(2) {
-        left: 20%;
-        width: 250px;
-        height: 250px;
+        left: 10%;
         animation-delay: 2s;
         animation-duration: 7s;
       }
       &:nth-child(3) {
-        left: 25%;
+        left: 20%;
         animation-delay: 4s;
       }
       &:nth-child(4) {
-        left: 40%;
-        width: 230px;
-        height: 260px;
+        left: 30%;
         animation-duration: 8s;
         background-color: rgba(255, 255, 255, 0.3);
       }
       &:nth-child(5) {
-        left: 70%;
+        left: 40%;
       }
       &:nth-child(6) {
-        left: 80%;
-        width: 200px;
-        height: 200px;
+        left: 50%;
         animation-delay: 3s;
         background-color: rgba(255, 255, 255, 0.2);
       }
       &:nth-child(7) {
-        left: 32%;
-        width: 240px;
-        height: 280px;
+        left: 60%;
         animation-delay: 2s;
       }
       &:nth-child(8) {
-        left: 55%;
-        width: 120px;
-        height: 120px;
+        left: 70%;
         animation-delay: 4s;
         animation-duration: 15s;
       }
       &:nth-child(9) {
-        left: 25%;
-        width: 120px;
-        height: 150px;
+        left: 80%;
         animation-delay: 2s;
         animation-duration: 12s;
         background-color: rgba(255, 255, 255, 0.3);
       }
       &:nth-child(10) {
-        left: 85%;
-        width: 160px;
-        height: 160px;
+        left: 88%;
         animation-delay: 5s;
       }
     }

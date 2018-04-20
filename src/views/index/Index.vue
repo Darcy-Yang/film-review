@@ -206,7 +206,7 @@ export default {
         this.commentCount = count;
         this.comments = comments;
       } catch (err) {
-        console.log(err);
+        this.$message(err.message, 'error');
       }
     },
     showCommentBox(review, index) {
