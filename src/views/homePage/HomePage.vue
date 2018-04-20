@@ -88,6 +88,7 @@ export default {
           });
           const { user } = await res.json();
           this.user = user.user;
+          setUser(user);
           this.$message('上传封面成功');
         } catch (err) {
           this.$message(err.message, 'error');
