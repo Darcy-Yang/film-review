@@ -42,6 +42,7 @@ export default {
   display: flex;
   justify-content: center;
   width: 100%;
+  z-index: 4;
   .message-main {
     padding: 12px;
     min-width: 200px;

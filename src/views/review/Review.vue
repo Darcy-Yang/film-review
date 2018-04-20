@@ -3,11 +3,14 @@
     <Nav/>
     <div class="content">
       <div class="left-content">
-        <img :src="currentReview.rank.img_src" alt="poster"/>
+        <img v-if="currentReview.rank.img_src" :src="currentReview.rank.img_src" alt="poster"/>
+        <div class="poster" v-else>
+          <span>{{ currentReview.rank.title }}</span>
+        </div>
         <span class="title">{{ currentReview.rank.title }}</span>
         <span>{{ currentReview.rank.info }}</span>
           <span>{{ currentReview.rank.type }}</span>
-          <span>豆瓣评分: {{ currentReview.rank.star }}</span>
+          <span>豆瓣评分: {{ currentReview.rank.star ? currentReview.rank.star : '暂无' }}</span>
           <span class="quote">{{ currentReview.rank.quote }}</span>
       </div>
       <div class="right-content">
@@ -216,10 +219,10 @@ export default {
 
 <style lang="less" scoped>
 .review-main {
-  background-color: #3D5363;
+  margin-top: 82px;
   min-height: 100vh;
   .content {
-    margin: 40px auto 0 auto;
+    margin: 102px auto 0 auto;
     display: flex;
     width: 80%;
     .left-content {
@@ -238,6 +241,19 @@ export default {
         top: -20px;
         width: 210px;
         height: 315px;
+        box-shadow: 0 8px 12px rgba(26, 26, 26, .3);
+      }
+      .poster {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: -20px;
+        padding: 12px;
+        width: 186px;
+        height: 291px;
+        letter-spacing: .4px;
+        background-color: #426AB3;
         box-shadow: 0 8px 12px rgba(26, 26, 26, .3);
       }
       .title {
@@ -277,7 +293,7 @@ export default {
           padding: 10px 20px;
           word-break: break-all;
           color: #8A6516;
-          border: 1px solid #BDBDBD;
+          background-color: #FFF;
           border-radius: 4px;
           box-shadow: 0 2px 3px rgba(26, 26, 26, .3);
           .top {
@@ -377,7 +393,7 @@ export default {
     }
   }
   .modal {
-    position: absolute;
+    position: fixed;
     top: 0;
     display: flex;
     justify-content: center;

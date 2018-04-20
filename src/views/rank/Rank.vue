@@ -1,6 +1,6 @@
 <template>
   <div class="rank-main">
-    <Nav :leftStyle="leftStyle"/>
+    <Nav v-on:search="search" :placeholder="placeholder"/>
     <div class="content">
       <div class="selector">
         <div class="type classify">
@@ -26,15 +26,18 @@
         <div class="movies" v-for="(movie, index) in ranks" :key="index" @click="jumpToDetail(movie)">
           <div class="main-content">
             <div class="poster">
-              <img :src='movie.img_src' alt="poster"/>
+              <img v-if="movie.img_src" :src='movie.img_src' alt="poster"/>
+              <div class="preview" v-else>
+                <span>{{ movie.title }}</span>
+              </div>
               <div class="hover-show">
-                <span>{{ movie.quote }}</span>
+                <span>{{ movie.quote ? movie.quote : movie.title }}</span>
               </div>
             </div>
             <div class="info">
               <span class="title">{{ movie.title }}</span>
               <div class="votes">
-                <span class="star">{{ movie.star }}</span>
+                <span class="star">{{ movie.star ? movie.star : '评分暂无' }}</span>
                 <span>{{ movie.votes }}</span>
               </div>
             </div>
@@ -60,7 +63,8 @@ export default {
   },
   data () {
     return {
-      leftStyle: 'margin-left: 206px;',
+      placeholder: '影名',
+      searchWord: '',
       types: [
         { name: '全部', selected: true },
         { name: '剧情', selected: false },
@@ -94,7 +98,7 @@ export default {
         { name: '70年代', value: [1970, 1979], selected: false },
         { name: '70年代之前', value: 1970, selected: false },
       ],
-      limit: 12,
+      limit: 15,
       currentPage: 1,
       searchType: '全部',
       searchArea: '全部',
@@ -107,11 +111,16 @@ export default {
     this.getRank();
   },
   methods: {
+    search(val) {
+      this.searchWord = val;
+      this.getRank();
+    },
     async getRank() {
       try {
         const { ranks, count } = await request('POST', '/rank', {
           page: this.currentPage,
           limit: this.limit,
+          searchWord: this.searchWord,
           type: this.searchType,
           area: this.searchArea,
           time: this.searchTime
@@ -119,7 +128,7 @@ export default {
         this.pageCount = Math.ceil(count / this.limit);
         this.ranks = ranks;
       } catch (err) {
-        console.log(err);
+        this.$message(err.message, 'error');
       }
     },
     choose(item, category) {
@@ -154,7 +163,7 @@ export default {
 
 <style lang="less" scoped>
 .rank-main {
-  background-color: rgb(32, 38, 46);
+  margin-top: 82px;
   min-height: 100vh;
   .content {
     display: flex;
@@ -162,12 +171,11 @@ export default {
     flex-direction: column;
     align-items: center;
     .selector {
-      // display: flex;
-      display: none;
+      display: flex;
       margin-bottom: 36px;
       padding: 20px;
       padding-top: 0;
-      width: 76%;
+      width: 65%;
       flex-direction: column;
 
       background-color: #FFF;
@@ -202,7 +210,7 @@ export default {
       .movies {
         position: relative;
         display: flex;
-        margin: 12px 40px;
+        margin: 12px 20px;
         border-radius: 3px;
         // box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
         cursor: pointer;
@@ -219,6 +227,18 @@ export default {
               box-shadow: 0 12px 16px #1A1A1A;
 
               cursor: pointer;
+            }
+            .preview {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding: 12px;
+              width: 136px;
+              height: 200px;
+              color: #FFF;
+              background-color: #426AB3;
+              border-radius: 4px;
+              box-shadow: 0 12px 16px #1A1A1A;
             }
             .hover-show {
               display: none;

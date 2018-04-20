@@ -18,8 +18,8 @@ export default {
   .top {
     padding: 20px;
     padding-bottom: 0;
-    height: 220px;
-    overflow: scroll;
+    min-height: 220px;
+    // overflow: scroll;
     .explain {
       padding-bottom: 12px;
       font-weight: 600;

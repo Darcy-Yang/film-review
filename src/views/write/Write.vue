@@ -47,7 +47,7 @@
         <textarea placeholder="正文" v-model="content"></textarea>
       </div>
       <div class="submit-area">
-        <button :class="movie && title && content ? 'finish' : 'disabled'" @click="submit">完成</button>
+        <button :class="movie || (director && player && type) && title && content ? 'finish' : 'disabled'" @click="submit">完成</button>
       </div>
     </div>
   </div>
@@ -97,6 +97,16 @@ export default {
 
       try {
         if (this.showAddArea) {
+          if (!this.director) {
+            this.$message('导演选项不能为空', 'warning');
+            return;
+          } else if (!this.player) {
+            this.$message('主演选项不能为空', 'warning');
+            return;
+          } else if (!this.type) {
+            this.$message('类型选项不能为空', 'warning');
+            return;
+          }
           const { id } = await request('POST', '/rank/add', {}, {
             title: this.searchWord,
             director: this.director,
@@ -148,6 +158,9 @@ export default {
         }
       } else {
         this.showAddArea = false;
+        this.director = '';
+        this.player = '';
+        this.type = '';
         this.showSelect = false;
         this.ranks = [];
         this.movie = null;
@@ -159,10 +172,13 @@ export default {
 
 <style lang="less" scoped>
 .write-main {
+  margin-top: 62px;
+  background-color: #FFF;
+  height: 100vh;
   .area {
     display: flex;
     margin: 0 auto;
-    margin-top: 52px;
+    padding-top: 52px;
     width: 42%;
     flex-direction: column;
     align-items: center;
@@ -257,6 +273,7 @@ export default {
           width: 112px;
           min-height: 176px;
           color: #FFF;
+          letter-spacing: .4px;
           word-break: break-all;
           background-color: #426AB3;
           border-radius: 4px;

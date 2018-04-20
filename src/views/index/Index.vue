@@ -1,12 +1,15 @@
 <template>
   <div class="index-main">
-    <Nav/>
+    <Nav v-on:search="search" :placeholder="placeholder"/>
     <div class="main">
       <div class="left">
         <div class="content" v-for="review in reviews" :key="review.id">
           <div class="review-main">
             <div class="poster">
-              <img :src="review.rank.img_src" alt="poster" @click="jumpToDetail(review)"/>
+              <img v-if="review.rank.img_src" :src="review.rank.img_src" alt="poster" @click="jumpToDetail(review)"/>
+              <div class="preview" v-else @click="jumpToDetail(review)">
+                <span>{{ review.rank.title }}</span>
+              </div>
               <div class="like" :class="review.isLiked ? 'actived' : ''" @click="like(review)">
                 <i class="iconfont icon-like"></i>
                 <span>{{ review.likeNum }}</span>
@@ -88,7 +91,8 @@ export default {
   },
   data() {
     return {
-      name: '',
+      placeholder: '影评标题',
+      searchWord: '',
       types: [
         { name: '动作', selected: false },
         { name: '喜剧', selected: false },
@@ -121,6 +125,10 @@ export default {
     this.getReview();
   },
   methods: {
+    search(val) {
+      this.searchWord = val;
+      this.getReview();
+    },
     async getReview(item) {
       if (item && item.selected) {
         item = null;
@@ -137,6 +145,7 @@ export default {
         const { pageCount, reviews } = await request('GET', `/review/${this.currentUser.id}`, {
           page: this.reviewPage,
           limit: this.limit,
+          searchWord: this.searchWord,
           type: this.type
         })
         reviews.forEach(review => {
@@ -235,7 +244,7 @@ export default {
 
 <style lang="less" scoped>
 .index-main {
-  background-color: #F4F4F4;
+  margin-top: 82px;
   .main {
     display: flex;
     margin-top: 34px;
@@ -263,12 +272,25 @@ export default {
             position: relative;
             flex: 1;
             height: 255px;
+            background-color: #426AB3;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
             cursor: pointer;
             img {
               width: 220px;
               height: 255px;
               border-top-left-radius: 6px;
               border-top-right-radius: 6px;
+            }
+            .preview {
+              display: flex;
+              justify-content: center;;
+              align-items: center;
+              padding: 12px;
+              width: 196px;
+              height: 221px;
+              color: #FFF;
+              letter-spacing: .4px;
             }
             .like {
               display: flex;
@@ -316,7 +338,7 @@ export default {
               color: rgb(49, 56, 64);
             }
             .review-content {
-              margin: 4px 0 10px 0;
+              margin: 6px 0 12px 0;
               padding: 0 15px;
 
               display: -webkit-box;

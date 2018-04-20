@@ -1,6 +1,6 @@
 <template>
   <div class="words-main">
-    <Nav/>
+    <Nav :placeholder="placeholder" v-on:search="search"/>
     <div class="content">
       <div class="words" v-for="word in words" :key="word.id">
         <div class="top">
@@ -48,8 +48,8 @@ export default {
   },
   data() {
     return {
-      avatar: 'static/images/avatar.jpg',
-      name: 'Yang',
+      placeholder: '台词／影名',
+      searchWord: '',
       firstPlaceHolder: '台词',
       secondPlaceHolder: '电影名',
       showModal: false,
@@ -63,9 +63,15 @@ export default {
     this.getWords();
   },
   methods: {
+    search(val) {
+      this.searchWord = val;
+      this.getWords();
+    },
     async getWords() {
       try {
-        const { pageCount, words } = await request('GET', `/words/${this.currentUser.id}`);
+        const { pageCount, words } = await request('GET', `/words/${this.currentUser.id}`, {
+          searchWord: this.searchWord
+        });
         this.pageCount = pageCount;
         this.words = words;
       } catch (err) {
@@ -117,9 +123,9 @@ export default {
 
 <style lang="less" scoped>
 .words-main {
+  margin-top: 82px;
   position: relative;
   min-height: 100vh;
-  background-color: #3D5363;
   .content {
     position: relative;
     margin: 20px auto 0 auto;
@@ -224,7 +230,7 @@ export default {
     cursor: pointer;
   }
   .modal {
-    position: absolute;
+    position: fixed;
     top: 0;
     display: flex;
     justify-content: center;

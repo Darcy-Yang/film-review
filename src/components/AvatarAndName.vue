@@ -60,6 +60,7 @@ export default {
     .name {
       position: relative;
       margin-left: 8px;
+      font-weight: 600;
     }
     img, span {
       cursor: pointer;

@@ -20,7 +20,7 @@
       </div>
     </div>
     <ul class="bg-bubbles">
-      <li v-for="i in 10" :key="i"></li>
+      <li v-for="(movie, index) in ranks" :key="index" :style="movie.style"></li>
     </ul>
   </div>
 </template>
@@ -36,14 +36,29 @@ export default {
       isRegister: false,
       user: { name: '', password: '' },
       confirmPassword: '',
+      ranks: [],
     }
   },
+  created() {
+    this.getRank();
+  },
   methods: {
-    register() {
-      this.isRegister = true;
-    },
-    goSubmit(e) {
-      if (e.keyCode === 13) this.submit();
+    async getRank() {
+      try {
+        const { ranks } = await request('POST', '/rank', {
+          limit: 250,
+          type: '全部',
+          area: '全部',
+          time: '全部'
+        });
+        for (let i = 0; i < 10; i += 1) {
+          const num = Math.floor(Math.random() * 250);
+          ranks[num].style = `background: url(${ranks[num].img_src}); background-size: cover;`;
+          this.ranks.push(ranks[num]);
+        }
+      } catch (err) {
+        this.$message(err.message, 'error');
+      }
     },
     async submit() {
       if (!this.user.name) {
@@ -78,6 +93,12 @@ export default {
         this.$message(err.message, 'warning');
       }
     },
+    register() {
+      this.isRegister = true;
+    },
+    goSubmit(e) {
+      if (e.keyCode === 13) this.submit();
+    },
   },
 }
 </script>
@@ -89,7 +110,8 @@ export default {
   width: 100vw;
   justify-content: center;
   font-family: 'OpenSans';
-  background: linear-gradient(to bottom right, #50A3A2, #53E3A6);
+  // background: linear-gradient(to bottom right, #50A3A2, #53E3A6);
+  background-color: #3D5363;
   .content {
     display: flex;
     position: relative;
@@ -99,7 +121,7 @@ export default {
     z-index: 1;
     h2 {
       font-size: 24px;
-      color: #FFF;
+      color: #53E3A6;
       letter-spacing: 1px;
     }
     .input-area {
@@ -126,13 +148,6 @@ export default {
           background-color: #FFF;
         }
       }
-      span {
-        position: absolute;
-        top: 10px;
-        right: -120px;
-        color: red;
-        font-size: 16px;
-      }
     }
     button {
       padding: 10px 15px;
@@ -150,12 +165,13 @@ export default {
       cursor: pointer;
     }
     .register {
+      margin: 12px 0 0 12px;
       display: flex;
       justify-content: space-between;
-      margin-top: 12px;
-      width: 60%;
+      color: #FFF;
       :last-child {
-        color: white;
+        margin-left: 10px;
+        color: #53E3A6;
         letter-spacing: 0.8px;
         cursor: pointer;
       }
@@ -172,22 +188,21 @@ export default {
     overflow: hidden;
     li {
       position: absolute;
-      bottom: -160px;
-      width: 40px;
-      height: 40px;
+      bottom: -300px;
+      width: 180px;
+      height: 240px;
 
       list-style: none;
-      background-color: rgba(255, 255, 255, 0.15);
+      border: 1px solid #0077FF;
       animation: square 15s infinite;
       transition-timing-function: linear;
-      border-radius: 50%;
       &:nth-child(1) {
         left: 10%;
       }
       &:nth-child(2) {
         left: 20%;
-        width: 90px;
-        height: 90px;
+        width: 250px;
+        height: 250px;
         animation-delay: 2s;
         animation-duration: 7s;
       }
@@ -197,8 +212,8 @@ export default {
       }
       &:nth-child(4) {
         left: 40%;
-        width: 60px;
-        height: 60px;
+        width: 230px;
+        height: 260px;
         animation-duration: 8s;
         background-color: rgba(255, 255, 255, 0.3);
       }
@@ -207,28 +222,28 @@ export default {
       }
       &:nth-child(6) {
         left: 80%;
-        width: 120px;
-        height: 120px;
+        width: 200px;
+        height: 200px;
         animation-delay: 3s;
         background-color: rgba(255, 255, 255, 0.2);
       }
       &:nth-child(7) {
         left: 32%;
-        width: 160px;
-        height: 160px;
+        width: 240px;
+        height: 280px;
         animation-delay: 2s;
       }
       &:nth-child(8) {
         left: 55%;
-        width: 20px;
-        height: 20px;
+        width: 120px;
+        height: 120px;
         animation-delay: 4s;
         animation-duration: 15s;
       }
       &:nth-child(9) {
         left: 25%;
-        width: 10px;
-        height: 10px;
+        width: 120px;
+        height: 150px;
         animation-delay: 2s;
         animation-duration: 12s;
         background-color: rgba(255, 255, 255, 0.3);
@@ -242,20 +257,12 @@ export default {
     }
     @keyframes square {
       0% {
-        opacity: 0.5;
-        transform: translateY(0px) rotate(45deg);
-      }
-      25% {
-        opacity: 0.75;
-        transform: translateY(-400px) rotate(90deg)
-      }
-      50% {
-        opacity: 1;
-        transform: translateY(-600px) rotate(135deg);
+        opacity: .8;
+        transform: translateY(0px) rotate(0deg);
       }
       100% {
         opacity: 0;
-        transform: translateY(-1000px) rotate(180deg);
+        transform: translateY(-1200px) rotate(18deg);
       }
     }
   }

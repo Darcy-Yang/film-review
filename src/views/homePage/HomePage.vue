@@ -1,11 +1,18 @@
 <template>
   <div class="homepage-main">
-    <Nav :leftStyle="leftStyle"/>
+    <Nav/>
     <div class="whole-structure">
-      <div class="BI-area">
+      <div class="BI-area" v-if="!user.cover">
         <i class="iconfont icon-xiangji"></i>
         <span>请上传封面图片</span>
-        <input type="file"/>
+        <input type="file" @change="uploadCover"/>
+      </div>
+      <div class="BI-area" v-else>
+        <img :src="user.cover" alt="cover"/>
+        <div class="upload-area">
+          <button>更改封面图片</button>
+          <input type="file" @change="uploadCover"/>
+        </div>
       </div>
       <div class="user-info">
         <div class="content">
@@ -58,7 +65,6 @@ export default {
   },
   data () {
     return {
-      leftStyle: 'margin-left: 226px;',
       user: null,
     }
   },
@@ -69,6 +75,25 @@ export default {
     }
   },
   methods: {
+    async uploadCover(e) {
+      const file = e.target.files[0];
+      const data = new FormData();
+      data.append('file', file);
+      (async () => {
+        try {
+          const res = await fetch(`${HOST}/user/${this.user.id}/cover`, {
+            method: 'POST',
+            headers: { Authorization: getToken() },
+            body: data
+          });
+          const { user } = await res.json();
+          this.user = user.user;
+          this.$message('上传封面成功');
+        } catch (err) {
+          this.$message(err.message, 'error');
+        }
+      })();
+    },
     async uploadAvatar(e) {
       const file = e.target.files[0];
       const data = new FormData();
@@ -83,8 +108,9 @@ export default {
           const { user } = await res.json();
           setUser(user);
           this.resetUser();
+          this.$message('更改头像成功');
         } catch (err) {
-          console.log(err);
+          this.$message(err.message, 'error');
         }
       })();
     },
@@ -99,7 +125,8 @@ export default {
 
 <style lang="less" scoped>
 .homepage-main {
-  background-color: #F6F6F6;
+  margin-top: 82px;
+  min-height: 100vh;
   .whole-structure {
     display: flex;
     flex-direction: column;
@@ -119,14 +146,15 @@ export default {
     .BI-area {
       display: flex;
       position: relative;
-      width: 60%;
+      padding: 22px;
+      width: 57%;
       height: 240px;
       flex-direction: column;
       align-items: center;
       justify-content: center;
 
-      color: gray;
-      background-color: rgba(128, 128, 128, .3);
+      color: #FFF;
+      background-color: #D9D6CF;
       border-top-left-radius: 3px;
       border-top-right-radius: 3px;
       i {
@@ -134,6 +162,29 @@ export default {
       }
       span {
         margin-top: 8px;
+      }
+      img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+      }
+      .upload-area {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        button {
+          padding: 0 16px;
+          font-size: 14px;
+          line-height: 32px;
+          border-radius: 3px;
+          color: #BDBDBD;
+          background: none;
+        }
+        &:hover {
+          background-color: hsla(0, 0%, 100%, .15);
+        }
       }
     }
     .user-info {
@@ -213,7 +264,6 @@ export default {
       display: flex;
       margin: 18px 0 40px 0;
       width: 60%;
-      height: 300px;
       justify-content: space-between;
       .history {
         width: 68%;
@@ -224,6 +274,7 @@ export default {
       .status {
         padding: 0 12px;
         width: 26%;
+        height: 100%;
         background-color: #FFF;
         border-radius: 3px;
         box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
