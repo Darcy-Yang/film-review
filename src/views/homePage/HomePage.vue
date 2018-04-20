@@ -35,9 +35,9 @@
       <div class="record">
         <div class="history">
           <TabBar/>
-          <!-- <transition name="fade"> -->
-          <router-view class="content"></router-view>
-          <!-- </transition> -->
+          <transition name="fade">
+            <router-view class="content"></router-view>
+          </transition>
         </div>
         <div class="status">
           <h3>个人状态👤</h3>
@@ -280,6 +280,12 @@ export default {
         box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
       }
     }
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
   }
 }
 </style>
