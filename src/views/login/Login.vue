@@ -1,7 +1,10 @@
 <template>
   <div class="login-main">
     <div class="content">
-      <h2> {{ isRegister ? '欢迎注册' : '欢迎登录' }}|影评网</h2>
+      <div class="top">
+        <h2> {{ isRegister ? '欢迎注册' : '欢迎登录' }}|影评网</h2>
+        <img class="favicon" src="static/images/favicon.png" alt="favicon"/>
+      </div>
       <div class="input-area">
         <input type="text" placeholder="请输入昵称" v-model="user.name" @keydown="goSubmit"/>
       </div>
@@ -110,8 +113,9 @@ export default {
   width: 100vw;
   justify-content: center;
   font-family: 'OpenSans';
-  // background: linear-gradient(to bottom right, #50A3A2, #53E3A6);
-  background-color: #3D5363;
+  // background: linear-gradient(to bottom right, #00799E, #FAFBFB);
+  background: linear-gradient(to bottom right, #6ABD78, #426ab3);
+  // background-color: #FAFBFB;
   .content {
     display: flex;
     position: relative;
@@ -119,10 +123,18 @@ export default {
     align-items: center;
     justify-content: center;
     z-index: 1;
-    h2 {
-      font-size: 24px;
-      color: #53E3A6;
-      letter-spacing: 1px;
+    .top {
+      display: flex;
+      align-items: center;
+      h2 {
+        font-size: 24px;
+        // color: #53E3A6;
+        color: #FFF;
+        letter-spacing: 1px;
+      }
+      .favicon {
+        width: 40px;
+      }
     }
     .input-area {
       position: relative;
@@ -133,6 +145,7 @@ export default {
         font-size: 18px;
         font-weight: 300;
         text-align: center;
+        color: #6ABD78;
         border: 1px solid rgba(255, 255, 255, 0.4);
         border-radius: 3px;
         background-color: rgba(255, 255, 255, 0.4);
@@ -144,7 +157,7 @@ export default {
         }
         &:focus {
           width: 300px;
-          color: #53E3A6;
+          color: #6ABD78;
           background-color: #FFF;
         }
       }
@@ -156,8 +169,9 @@ export default {
       font-size: 18px;
       font-weight: 600;
       letter-spacing: 1px;
-      color: #53E3A6;
-      background-color: #FFF;
+      // color: #53E3A6;
+      color: #FFF;
+      background-color: #1E90FF;
       border: none;
       border-radius: 3px;
       outline: none;
@@ -171,7 +185,8 @@ export default {
       color: #FFF;
       :last-child {
         margin-left: 10px;
-        color: #53E3A6;
+        // color: #53E3A6;
+        color: #1E90FF;
         letter-spacing: 0.8px;
         cursor: pointer;
       }
@@ -193,7 +208,7 @@ export default {
       height: 240px;
 
       list-style: none;
-      border: 1px solid #0077FF;
+      border: 1px solid #FFF;
       animation: square 15s infinite;
       transition-timing-function: linear;
       &:nth-child(1) {
