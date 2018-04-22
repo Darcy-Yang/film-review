@@ -54,6 +54,7 @@ import Nav from '@/components/Nav';
 import Pagination from '@/components/Pagination';
 
 import request from '@/utils/request';
+import { getUser } from '@/utils/user';
 
 export default {
   name: 'Rank',
@@ -100,6 +101,7 @@ export default {
       ],
       limit: 15,
       currentPage: 1,
+      currentUser: null,
       searchType: '全部',
       searchArea: '全部',
       searchTime: '全部',
@@ -109,6 +111,8 @@ export default {
   },
   created() {
     this.getRank();
+    const { user } = getUser();
+    this.currentUser = user;
   },
   methods: {
     search(val) {
@@ -117,7 +121,7 @@ export default {
     },
     async getRank() {
       try {
-        const { ranks, count } = await request('POST', '/rank', {
+        const { ranks, count } = await request('GET', '/rank', {
           page: this.currentPage,
           limit: this.limit,
           searchWord: this.searchWord,
@@ -145,10 +149,14 @@ export default {
       this.searchTime = this.times.filter(item => item.selected)[0].value;
       this.getRank();
     },
-    jumpToDetail(movie) {
+    async jumpToDetail(movie) {
       const review = { rank: null };
       review.rank = movie;
       review.movieId = movie.id;
+      await request('POST', '/user/favor', {}, {
+        id: this.currentUser.id,
+        type: movie.type
+      });
       this.$router.push({ name: 'Review', params: { review } });
     },
   },
@@ -176,10 +184,13 @@ export default {
       padding: 20px;
       padding-top: 0;
       width: 65%;
+      color: #FFF;
       flex-direction: column;
 
-      background-color: #FFF;
+      // background-color: #FFF;
+      background: linear-gradient(to bottom right, #6ABD78, #426ab3);
       border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(26, 26, 26, .4);
       .classify {
         display: flex;
         margin-top: 20px;
@@ -187,7 +198,8 @@ export default {
           span {
             margin-left: 30px;
             padding: 2px 4px;
-            color: gray;
+            // color: gray;
+            color: #FFF;
             cursor: pointer;
           }
           .actived {
@@ -224,7 +236,7 @@ export default {
               width: 160px;
               height: 224px;
               border-radius: 4px;
-              box-shadow: 0 12px 16px #1A1A1A;
+              box-shadow: 0 12px 16px rgba(26, 26, 26, .4);
 
               cursor: pointer;
             }
@@ -270,7 +282,7 @@ export default {
           .info {
             display: flex;
             flex-direction: column;
-            color: #FFF;
+            color: gray;
             .title {
               margin: 16px 0 4px 0;
               font-size: 17px;

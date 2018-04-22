@@ -3,16 +3,18 @@
     <div class="left-side">
       <img src="static/images/favicon.png" alt="favicon"/>
       <router-link to="/index">影评网</router-link>
+      <router-link v-for="(item, index) in links" active-class="actived" :key="index" :to="item.href">
+        {{ item.name }}
+      </router-link>
     </div>
     <div class="right-side">
       <ul>
+        <span class="add-words" v-if="$route.path === '/words'" @click="addWords">添加台词</span>
+        <router-link to="/write" active-class="actived" v-else>写影评</router-link>
         <div class="search">
           <i class="iconfont icon-search" @click="search"></i>
           <input type="text" :placeholder="placeholder" v-model="searchWord" @keydown="goSearch"/>
         </div>
-        <router-link v-for="(item, index) in links" active-class="actived" :key="index" :to="item.href">
-          {{ item.name }}
-        </router-link>
         <router-link class="avatar" to="/homepage">
           <img :src="user.avatar" alt="avatar"/>
           <span>{{ user.name }}</span>
@@ -36,10 +38,9 @@ export default {
   data () {
     return {
       links: [
-        { name: '发布影评', href: '/write' },
         { name: '电影台词', href: '/words' },
         { name: '电影大全', href: '/rank' },
-        { name: '电影推荐', href: '/index' }
+        { name: '电影推荐', href: '/recommend' }
       ],
       searchWord: '',
       user: null,
@@ -58,6 +59,9 @@ export default {
     search() {
       this.$emit('search', this.searchWord);
     },
+    addWords() {
+      this.$emit('addWords');
+    },
   },
   mounted() {
     this.$root.$on('changeAvatar', () => {
@@ -75,16 +79,19 @@ export default {
   display: flex;
   width: 100%;
   justify-content: space-between;
-  background-color: #FFF;
+  // background-color: rgba(61, 83, 99, .9);
+  background: linear-gradient(to bottom right, #6ABD78, #426ab3);
   box-shadow: 0 1px 2px #F3F3F3;
   z-index: 3;
+  opacity: .9;
   a{
     margin-right: 30px;
     padding: 2px 6px;
-    color: #0077FF;
+    color: #FFF;
     letter-spacing: .4px;
     text-decoration: none;
-    border-radius: 4px;
+    // border-radius: 4px;
+    padding-bottom: 4px;
   }
   .avatar {
     padding: 0;
@@ -97,7 +104,7 @@ export default {
   }
   .left-side {
     margin: auto 0;
-    margin-left: 12%;
+    margin-left: 4%;
     display: flex;
     align-items: center;
     color: #FFF;
@@ -112,8 +119,19 @@ export default {
     ul {
       display: flex;
       align-items: center;
+      .add-words {
+        margin-right: 30px;
+        padding: 4px 8px;
+        font-size: 14px;
+        letter-spacing: .4px;
+        color: #0077FF;
+        background-color: #FAFBFB;
+        border-radius: 4px;
+
+        cursor: pointer;
+      }
       .search {
-        margin-right: 12px;
+        margin-right: 30px;
         padding: 6px;
         display: flex;
         align-items: center;
@@ -126,6 +144,7 @@ export default {
         }
         input {
           width: 140px;
+          padding-left: 4px;
           font-size: 14px;
           border: none;
           outline: none;
@@ -150,10 +169,12 @@ export default {
         border-radius: 50%;
       }
     }
-    .actived {
-      color: #FFF;
-      background-color: #0077FF;
-    }
+  }
+  .actived {
+    // color: #E77530;
+    // background-color: #0077FF;
+    padding-bottom: 2px;
+    border-bottom: 2px solid #6ABD78;
   }
 }
 </style>

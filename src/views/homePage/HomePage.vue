@@ -40,7 +40,8 @@
           </transition>
         </div>
         <div class="status">
-          <h3>个人状态👤</h3>
+          <h3>个人状态 👤</h3>
+          <span>暂时还没想好...🤔</span>
         </div>
       </div>
     </div>
@@ -180,7 +181,8 @@ export default {
           font-size: 14px;
           line-height: 32px;
           border-radius: 3px;
-          color: #BDBDBD;
+          color: hsla(0,0%,100%,.7);
+          border-color: hsla(0,0%,100%,.24);
           background: none;
         }
         &:hover {
@@ -273,12 +275,21 @@ export default {
         box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
       }
       .status {
-        padding: 0 12px;
+        // padding: 0 12px;
         width: 26%;
-        height: 100%;
+        // height: 100%;
+        min-height: 300px;
         background-color: #FFF;
+        // background: linear-gradient(to bottom right, #6ABD78, #426ab3);
         border-radius: 3px;
         box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
+        h3 {
+          padding: 0 12px 8px 12px;
+          border-bottom: 1px solid #BDBDBD;
+        }
+        span {
+          padding: 0 12px;
+        }
       }
     }
   }

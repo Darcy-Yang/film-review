@@ -108,6 +108,8 @@ export default {
           border: none;
           outline: none;
           border-radius: 22px;
+
+          cursor: pointer;
           i {
             margin-right: 6px;
           }

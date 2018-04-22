@@ -19,7 +19,7 @@
           <div class="reviews" v-for="(review, index) in reviews" :key="review.id" ref="review">
             <div class="top">
               <avatar-and-name :avatar="review.user.avatar" :name="review.user.name" :avatarStyle="avatarStyle"/>
-              <span>{{ review.updatedAt }}</span>
+              <span class="time">{{ review.updatedAt }}</span>
             </div>
             <span class="title">{{ review.title }}</span>
             <span class="text">{{ review.content }}</span>
@@ -37,19 +37,21 @@
                 <span>{{ review.collectNum }}</span>
               </div>
             </div>
-            <div class="comment-list" v-show="review.showComment" :style="commentStyle">
-              <div class="comment-input">
-                <textarea type="text" placeholder="写下你的评论" :style="inputStyle" v-model="comment"/>
-                <button @click="submit(review)">评论</button>
-              </div>
-              <div class="comments" v-for="comment in comments" :key="comment.id">
-                <div class="comment-content">
-                  <avatar-and-name :name="comment.user.name" :avatar="comment.user.avatar"/>
-                  <span class="text">{{ comment.content }}</span>
-                  <span class="time">{{ comment.updatedAt }}</span>
+            <transition name="fade">
+              <div class="comment-list" v-show="review.showComment" :style="commentStyle">
+                <div class="comment-input">
+                  <textarea type="text" placeholder="写下你的评论" :style="inputStyle" v-model="comment"/>
+                  <button @click="submit(review)">评论</button>
+                </div>
+                <div class="comments" v-for="comment in comments" :key="comment.id">
+                  <div class="comment-content">
+                    <avatar-and-name :name="comment.user.name" :avatar="comment.user.avatar"/>
+                    <span class="text">{{ comment.content }}</span>
+                    <span class="time">{{ comment.updatedAt }}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </transition>
           </div>
           <div class="reviews add" @click="openModal">
             <i class="iconfont icon-add-b"></i>
@@ -123,7 +125,7 @@ export default {
         this.count = count;
         this.reviews = reviews;
       } catch (err) {
-        console.log(err);
+        this.$message(er.message, 'error');
       }
     },
     async getComment(review) {
@@ -145,9 +147,13 @@ export default {
           senderId: this.currentUser.id,
           receiverId: review.userId
         });
+        await request('POST', '/user/favor', {}, {
+          id: this.currentUser.id,
+          type: this.currentReview.rank.type
+        });
         this.getReview();
       } catch (err) {
-        console.log(err);
+        this.$message(err.message, 'error');
       }
     },
     async submit(review) {
@@ -235,7 +241,8 @@ export default {
       height: 100%;
       padding: 0 20px 30px 20px;
       color: #FFF;
-      background-color: #F0D165;
+      // background-color: #F0D165;
+      background: linear-gradient(to bottom right, #6ABD78, #426ab3);
       img {
         position: absolute;
         top: -20px;
@@ -273,13 +280,17 @@ export default {
       flex: 1;
       h3 {
         margin-left: 20px;
-        padding-left: 20px;
+        padding: 6px 0 6px 20px;
         width: 15%;
+        // color: #F0D165;
+        // color: #426AB3;
         color: #FFF;
         font-size: 24px;
         letter-spacing: 1px;
         font-style: italic;
-        border-bottom: 2px solid #F0D165;
+        border-radius: 4px;
+        background: linear-gradient(to bottom right, #6ABD78, #426ab3);
+        box-shadow: 0 1px 3px rgba(26, 26, 26, .3);
       }
       .review-content {
         display: flex;
@@ -295,11 +306,17 @@ export default {
           color: #8A6516;
           background-color: #FFF;
           border-radius: 4px;
-          box-shadow: 0 2px 3px rgba(26, 26, 26, .3);
+          box-shadow: 0 1px 3px rgba(26, 26, 26, .3);
+          // box-shadow: 0 1px 2px rgba(0,0,0,0.07);
           .top {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            .time {
+              margin-right: 8px;
+              font-size: 14px;
+              color: #8590A6;
+            }
           }
           .title {
             margin: 12px 0;
@@ -318,6 +335,14 @@ export default {
             color: gray;
             .btn {
               cursor: pointer;
+            }
+            .icon-like {
+              font-size: 19px;
+              font-weight: 600;
+            }
+            .icon-comment {
+              font-size: 18px;
+              font-weight: 600;
             }
           }
           .comment-list {
@@ -370,6 +395,15 @@ export default {
                 color: #8590A6;
               }
             }
+          }
+          .fade-enter-active {
+            transition: opacity 1s;
+          }
+          .fade-leave-active {
+            transition: opacity .5s;
+          }
+          .fade-enter, .fade-leave-to {
+            opacity: 0;
           }
           .actived {
             color: #0077FF;

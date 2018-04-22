@@ -49,6 +49,8 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, .6);
+
+  z-index: 5;
   .confirm-main {
     display: flex;
     flex-direction: column;

@@ -82,6 +82,7 @@ export default {
   methods: {
     async submit() {
       let movieId = 0;
+      let movieType = '';
       const { user } = getUser();
 
       if (!this.movie && !this.showAddArea) {
@@ -107,13 +108,14 @@ export default {
             this.$message('类型选项不能为空', 'warning');
             return;
           }
-          const { id } = await request('POST', '/rank/add', {}, {
+          const { id, type } = await request('POST', '/rank/add', {}, {
             title: this.searchWord,
             director: this.director,
             player: this.player,
             type: this.type
           });
           movieId = id;
+          movieType = type;
         }
         await request('POST', '/review', {}, {
           userId: user.id,
@@ -121,6 +123,10 @@ export default {
           title: this.title,
           content: this.content
         })
+        await request('POST', '/user/favor', {}, {
+          id: user.id,
+          type: movieType || this.movie.type
+        });
         this.$router.push('/index');
         this.$message('影评发布成功');
       } catch (err) {
@@ -151,7 +157,7 @@ export default {
         }
         this.showSelect = true;
         try {
-          const { ranks } = await request('POST', '/rank', { searchWord: this.searchWord });
+          const { ranks } = await request('GET', '/rank', { searchWord: this.searchWord });
           this.ranks = ranks;
         } catch (err) {
           this.$message(err.message, 'error');
@@ -173,7 +179,7 @@ export default {
 <style lang="less" scoped>
 .write-main {
   margin-top: 62px;
-  background-color: #FFF;
+  background-color: #FAFBFB;
   height: 100vh;
   .area {
     display: flex;
@@ -187,6 +193,7 @@ export default {
       outline: none;
       border: none;
       resize: none;
+      background-color: #FAFBFB;
     }
     .info-area {
       display: flex;
@@ -203,6 +210,7 @@ export default {
           outline: none;
           border: none;
           border-bottom: 1px solid #BDBDBD;
+          background-color: #FAFBFB;
         }
         input::-webkit-input-placeholder {
           color: #A4A4A4;
@@ -217,7 +225,7 @@ export default {
           padding: 6px 12px 6px 0;
           width: 80%;
 
-          background-color: #FFF;
+          background-color: #FAFBFB;
           border-radius: 4px;
           box-shadow: 0 1px 3px rgba(26, 26, 26, .3);
           z-index: 1;
@@ -272,7 +280,7 @@ export default {
           padding: 12px;
           width: 112px;
           min-height: 176px;
-          color: #FFF;
+          color: #FAFBFB;
           letter-spacing: .4px;
           word-break: break-all;
           background-color: #426AB3;
@@ -291,6 +299,7 @@ export default {
             outline: none;
             border: none;
             border-bottom: 1px solid #BDBDBD;
+            background-color: #FAFBFB;
           }
         }
       }
@@ -357,11 +366,11 @@ export default {
         cursor: pointer;
       }
       .disabled {
-        color: gray;
-        background-color: #BDBDBD;
+        color: #FDFCF9;
+        background-color: #B3B3B3;
       }
       .finish {
-        color: #FFF;
+        color: #FAFBFB;
         background-color: #0077FF;
       }
     }

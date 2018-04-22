@@ -1,6 +1,6 @@
 <template>
   <div class="words-main">
-    <Nav :placeholder="placeholder" v-on:search="search"/>
+    <Nav :placeholder="placeholder" v-on:search="search" v-on:addWords="openModal"/>
     <div class="content">
       <div class="words" v-for="word in words" :key="word.id">
         <div class="top">
@@ -15,7 +15,7 @@
             <span>{{ word.likeNum }}</span>
           </div>
           <div class="collect btn">
-            <i class="iconfont icon-collect"></i>
+            <i class="iconfont icon-collect-b"></i>
             <span>{{ word.collectNum }}</span>
           </div>
         </div>
@@ -23,6 +23,7 @@
     </div>
     <div class="add-btn" @click="openModal">
       <i class="iconfont icon-add"></i>
+      <span>添加</span>
     </div>
     <div class="modal" v-if="showModal">
       <container class="container" v-click-outside="closeModal" v-on:container="addWords"
@@ -130,7 +131,7 @@ export default {
     position: relative;
     margin: 20px auto 0 auto;
     display: flex;
-    width: 84%;
+    width: 90%;
     flex-wrap: wrap;
     justify-content: center;
     .words {
@@ -143,7 +144,8 @@ export default {
       height: 100%;
       word-break: break-all;
       background-color: #FFF;
-      border-radius: 0 0 51px 0;
+      border-radius: 3px 3px 51px 3px;
+      box-shadow: 0 1px 3px rgba(26, 26, 26, .3);
       &:before{
         content:'';
         width: 25px;
@@ -203,8 +205,13 @@ export default {
         margin-top: 12px;
         display: flex;
         justify-content: space-around;
+        color: gray;
         .btn {
           cursor: pointer;
+        }
+        .icon-like {
+          font-size: 18px;
+          // color: gray;
         }
       }
     }
@@ -213,21 +220,28 @@ export default {
     }
   }
   .add-btn {
-    display: flex;
+    // display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     position: fixed;
     top: 89px;
     right: 1rem;
 
-    width: 3rem;
-    height: 3rem;
+    width: 5rem;
+    height: 2.2rem;
     color: #FFF;
-    background-color: #0077FF;
-    border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(26, 26, 26, .4);
+    // background-color: #0077FF;
+    background: linear-gradient(to bottom right, #6ABD78, #426ab3);
+    // border-radius: 50%;
+    border-radius: 4px;
+    box-shadow: 0 0px 3px rgba(26, 26, 26, .4);
 
     cursor: pointer;
+    span {
+      margin-left: 3px;
+      font-size: 14px;
+    }
   }
   .modal {
     position: fixed;

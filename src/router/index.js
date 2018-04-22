@@ -20,6 +20,8 @@ import Share from '@/views/homePage/Share'
 
 import Rank from '@/views/rank/Rank'
 
+import Recommend from '@/views/recommend/Recommend';
+
 import AdminIndex from '@/views/admin/Index'
 import ManageUser from '@/views/admin/ManageUser'
 import ManageReview from '@/views/admin/ManageReview'
@@ -86,6 +88,12 @@ const router = new Router({
       path: '/rank',
       name: 'Rank',
       component: Rank,
+      meta: { requireAuth: true }
+    },
+    {
+      path: '/recommend',
+      name: 'Recommend',
+      component: Recommend,
       meta: { requireAuth: true }
     },
     {

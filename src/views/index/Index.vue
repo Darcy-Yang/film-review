@@ -2,6 +2,11 @@
   <div class="index-main">
     <Nav v-on:search="search" :placeholder="placeholder"/>
     <div class="main">
+      <div class="top">
+        <span :class="type.selected ? 'active' : ''" v-for="(type, index) in types" :key="index" @click="getReview(type)">
+          {{ type.name }}
+        </span>
+      </div>
       <div class="left">
         <div class="content" v-for="review in reviews" :key="review.id">
           <div class="review-main">
@@ -41,35 +46,6 @@
           <pagination v-if="pageCount > 1" :pageCount="pageCount"/>
         </div>
       </div>
-      <div class="right">
-        <div class="top">
-          <div class="header">
-            <span>影评类型</span>
-          </div>
-          <div class="content">
-            <div class="type" :class="type.selected ? 'active' : ''" v-for="(type, index) in types" :key="index" @click="getReview(type)">
-              <span>{{ type.name }}</span>
-            </div>
-          </div>
-        </div>
-        <div class="bottom">
-          <div class="header">
-            <span>电影推荐</span>
-            <div class="switch">
-              <i class="iconfont icon-icon--"></i>
-              <span>换一换</span>
-            </div>
-          </div>
-          <div class="recommend" v-for="i in 3" :key="i">
-            <img src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2233971046.jpg" alt="poster">
-            <div class="info">
-              <span>无间道</span>
-              <span>信息简介</span>
-              <span>星标及评分</span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -94,6 +70,7 @@ export default {
       placeholder: '影评标题',
       searchWord: '',
       types: [
+        { name: '全部', selected: false },
         { name: '动作', selected: false },
         { name: '喜剧', selected: false },
         { name: '科幻', selected: false },
@@ -123,6 +100,7 @@ export default {
     const { user } = getUser();
     this.currentUser = user;
     this.getReview();
+    this.types[0].selected = true;
   },
   methods: {
     search(val) {
@@ -133,12 +111,20 @@ export default {
       if (item && item.selected) {
         item = null;
         this.type = '';
+        this.types[0].selected = true;
         this.reviewPage = 1;
       };
-      this.types.forEach(type => type.selected = false);
+      this.types.forEach(type => {
+        if (type.name !== '全部') type.selected = false;
+      });
       if (item) {
         item.selected = !item.selected;
         this.type = item.selected ? item.name : '';
+        if (item.name === '全部') {
+          this.type = '';
+        } else {
+          this.types[0].selected = false;
+        }
       }
       if (this.type) (this.types.filter(type => type.name === this.type))[0].selected = true;
       try {
@@ -154,7 +140,7 @@ export default {
         this.pageCount = pageCount;
         this.reviews = reviews;
       } catch (err) {
-        console.log(err);
+        this.$message(err.message, 'error');
       }
     },
     async like(review) {
@@ -163,9 +149,13 @@ export default {
           senderId: this.currentUser.id,
           receiverId: review.userId
         });
+        await request('POST', '/user/favor', {}, {
+          id: this.currentUser.id,
+          type: review.rank.type
+        });
         this.getReview();
       } catch (err) {
-        console.log(err);
+        this.$message(err.message, 'error');
       }
     },
     async collect(review) {
@@ -174,9 +164,14 @@ export default {
           senderId: this.currentUser.id,
           receiverId: review.user.id
         });
+        await request('POST', '/user/favor', {}, {
+          id: this.currentUser.id,
+          type: review.rank.type
+        });
         this.getReview();
+        this.$message('收藏成功');
       } catch (err) {
-        console.log(err);
+        this.$message(err.message, 'error');
       }
     },
     async submit(review, index) {
@@ -229,7 +224,11 @@ export default {
     eventListener() {
       this.entered = !this.entered;
     },
-    jumpToDetail(review) {
+    async jumpToDetail(review) {
+      await request('POST', '/user/favor', {}, {
+        id: this.currentUser.id,
+        type: review.rank.type
+      });
       this.$router.push({ name: 'Review', params: { review } });
     },
   },
@@ -246,15 +245,45 @@ export default {
 .index-main {
   margin-top: 82px;
   .main {
-    display: flex;
     margin-top: 34px;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    .top {
+      margin: 0 7.5% 20px;
+      padding: 4px 20px 4px 8px;
+      display: flex;
+      justify-content: flex-end;
+      align-self: flex-end;
+      // padding: 10px 0 30px;
+      width: auto;
+      line-height: 160%;
+      background: linear-gradient(to bottom right, #6ABD78, #426ab3);
+      border-radius: 4px;
+      span {
+        margin-left: 12px;
+        // color: #3D5363;
+        color: #FFF;
+        transition: all .2s ease-in;
+        cursor: pointer;
+        &:hover {
+          font-size: 18px;
+          font-weight: 600;
+        }
+      }
+      .active {
+        // font-size: 18px;
+        font-weight: 600;
+        color: orange;
+      }
+    }
     .left {
       display: flex;
       flex-wrap: wrap;
-      width: 60%;
+      width: 90%;
       .content {
-        margin: 0 0 24px 40px;
+        margin: 0 0 24px 32px;
         display: flex;
         flex-direction: column;
         width: 220px;
@@ -267,7 +296,7 @@ export default {
 
           border-radius: 6px;
           background-color: #FFF;
-          box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
+          box-shadow: 0 0 3px rgba(26, 26, 26, 0.4);
           .poster {
             position: relative;
             flex: 1;
@@ -388,81 +417,6 @@ export default {
         display: flex;
         justify-content: center;
         width: 100%;
-      }
-    }
-    .right {
-      margin: 0 0 20px 20px;
-      width: 20%;
-      .top {
-        .header {
-          margin-bottom: 12px;
-          padding-left: 4px;
-        }
-        .content {
-          display: flex;
-          flex-wrap: wrap;
-          .type {
-            margin: 0 12px 12px 0;
-            padding: 10px 0;
-            width: 25%;
-            flex-grow: 1;
-
-            text-align: center;
-            letter-spacing: 1px;
-            border: 1px solid #FFF;
-            border-bottom: 1px solid rgba(26, 26, 26, 0.3);
-
-            transition: .15s;
-
-            cursor: pointer;
-            &:hover {
-              border-radius: 4px;
-              border: 1px solid rgba(26, 26, 26, 0.3);
-            }
-          }
-          .active {
-            color: #FFF;
-            background-color: #0077FF;
-            border-radius: 4px;
-          }
-        }
-      }
-      .bottom {
-        margin-top: 20px;
-        // box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
-        .header {
-          display: flex;
-          justify-content: space-between;
-          .switch {
-            font-size: 14px;
-            color: #175199;
-            cursor: pointer;
-            i {
-              font-weight: 600;
-            }
-          }
-        }
-        .recommend {
-          display: flex;
-          margin-top: 12px;
-          img {
-            align-self: center;
-            width: 75px;
-            height: 108px;
-            border-radius: 4px;
-            // box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
-          }
-          .info {
-            display: flex;
-            flex-direction: column;
-            margin-left: 12px;
-          }
-        }
-      }
-      .top, .bottom {
-        padding: 12px;
-        background-color: #FFF;
-        border-radius: 3px;
       }
     }
   }

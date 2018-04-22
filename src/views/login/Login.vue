@@ -48,7 +48,7 @@ export default {
   methods: {
     async getRank() {
       try {
-        const { ranks } = await request('POST', '/rank', {
+        const { ranks } = await request('GET', '/rank', {
           limit: 250,
           type: '全部',
           area: '全部',
@@ -186,7 +186,7 @@ export default {
       :last-child {
         margin-left: 10px;
         // color: #53E3A6;
-        color: #1E90FF;
+        color: #6ABD78;
         letter-spacing: 0.8px;
         cursor: pointer;
       }
@@ -208,7 +208,7 @@ export default {
       height: 240px;
 
       list-style: none;
-      border: 1px solid #FFF;
+      border: 1px solid #0077FF;
       animation: square 15s infinite;
       transition-timing-function: linear;
       &:nth-child(1) {
