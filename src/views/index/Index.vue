@@ -289,7 +289,7 @@ export default {
         display: flex;
         flex-direction: column;
         // width: 88%;
-        width: 5rem;
+        width: 4rem;
         .review-main {
           display: flex;
           flex-direction: column;
