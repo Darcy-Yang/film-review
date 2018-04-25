@@ -213,8 +213,10 @@ export default {
           cursor: pointer;
         }
         .icon-like {
-          font-size: 18px;
-          // color: gray;
+          font-size: .5rem;
+        }
+        .icon-collect-b {
+          font-size: .4rem;
         }
       }
     }
