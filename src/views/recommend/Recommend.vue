@@ -21,6 +21,8 @@
           <div class="info">
             <div class="arrow-up"></div>
             <div class="hole"></div>
+            <div class="arrow-up media-arrow"></div>
+            <div class="hole media-hole"></div>
             <span>{{ rank.title }}</span>
             <span>{{ rank.info }}</span>
             <div class="detail">
@@ -177,6 +179,15 @@ export default {
             border-radius: 50%;
             background-color: #FAFBFB;
           }
+          .media-arrow {
+            left: 6.7rem;
+          }
+          .media-hole {
+            left: 6.6rem;
+          }
+          .media-arrow, .media-hole {
+            display: none;
+          }
           .detail {
             span {
               margin-right: 20px;
@@ -195,6 +206,12 @@ export default {
           margin-right: 0;
           .poster img {
             width: 100%;
+          }
+          .info {
+            margin-bottom: .2rem;
+            .media-arrow, .media-hole {
+              display: block;
+            }
           }
         }
       }

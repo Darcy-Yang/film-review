@@ -189,6 +189,15 @@ export default {
       margin: 0;
       margin-bottom: .2rem;
     }
+    .right-side ul {
+      img {
+        width: .6rem;
+        height: .6rem;
+      }
+      span {
+        font-size: .38rem;
+      }
+    }
   }
 }
 </style>

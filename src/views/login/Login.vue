@@ -93,7 +93,7 @@ export default {
       } catch (err) {
         this.user.password = '';
         this.confirmPassword = '';
-        this.$message(err.message, 'warning');
+        this.$message(err.message, 'error');
       }
     },
     register() {
@@ -152,7 +152,7 @@ export default {
         outline: none;
         transition-duration: .25s;
         &::-webkit-input-placeholder {
-          font-size: 15px;
+          font-size: .3rem;
           color: #FFF;
         }
         &:focus {
@@ -206,6 +206,11 @@ export default {
         width: 5rem;
         font-size: .3rem;
         line-height: .5rem;
+        &:focus {
+          width: 5.6rem;
+          color: #6ABD78;
+          background-color: #FFF;
+        }
       }
       button {
         padding: 0.2rem;

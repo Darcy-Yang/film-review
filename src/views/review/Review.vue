@@ -440,6 +440,7 @@ export default {
         }
         .review-content .reviews {
           margin-left: 0;
+          width: 100%;
         }
         .add {
           width: 100%;
