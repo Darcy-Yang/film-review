@@ -143,7 +143,7 @@ export default {
       padding: 12px;
       // width: 20%;
       // width: 276px; /* px */
-      width: 4.8rem;
+      width: 5rem;
       height: 100%;
       word-break: break-all;
       background-color: #FFF;
@@ -259,6 +259,11 @@ export default {
     background-color: rgba(26, 26, 26, .6);
     .container {
       height: auto;
+    }
+  }
+  @media screen and (max-device-width: 800px) {
+    .content .words {
+      width: 8rem;
     }
   }
 }

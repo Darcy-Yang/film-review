@@ -135,6 +135,7 @@ export default {
     flex-direction: column;
     margin-top: 20px;
     align-items: center;
+    font-size: .3rem;
     input {
       position: absolute;
       width: 100%;
@@ -150,8 +151,8 @@ export default {
       display: flex;
       position: relative;
       padding: 22px;
-      width: 57%;
-      height: 240px;
+      width: 68%;
+      height: 4rem;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -193,7 +194,7 @@ export default {
     }
     .user-info {
       display: flex;
-      width: 57%;
+      width: 68%;
       padding: 22px;
       padding-bottom: 16px;
       justify-content: space-between;
@@ -267,19 +268,22 @@ export default {
     .record {
       display: flex;
       margin: 18px 0 40px 0;
-      width: 60%;
+      width: 68%;
       justify-content: space-between;
       .history {
+        margin-left: -22px;
         width: 68%;
         background-color: #FFF;
         border-radius: 3px;
         box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
       }
       .status {
+        margin-right: -22px;
         // padding: 0 12px;
         width: 26%;
         // height: 100%;
         min-height: 300px;
+        height: 100%;
         background-color: #FFF;
         // background: linear-gradient(to bottom right, #6ABD78, #426ab3);
         border-radius: 3px;
@@ -290,6 +294,21 @@ export default {
         }
         span {
           padding: 0 12px;
+        }
+      }
+    }
+    @media screen and (max-device-width: 600px) {
+      .BI-area, .user-info {
+        width: 74%;
+      }
+      .record{
+        width: 80%;
+        .history {
+          margin-left: 0;
+          width: 100%;
+        }
+        .status {
+          display: none;
         }
       }
     }

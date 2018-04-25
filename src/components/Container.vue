@@ -49,6 +49,9 @@ export default {
   background-color: #FFF;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(26, 26, 26, .3);
+  @media screen and (max-device-width: 800px) {
+    width: 7rem;
+  }
   .words-area {
     margin: 4px 0 20px 0;
     height: 210px;

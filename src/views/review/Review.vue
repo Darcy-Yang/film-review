@@ -426,6 +426,26 @@ export default {
         }
       }
     }
+    @media screen and (max-device-width: 800px) {
+      margin-top: 2.36rem;
+      flex-direction: column;
+      .left-content {
+        width: 100%;
+      }
+      .right-content {
+        margin-left: 0;
+        h3 {
+          margin-left: 0;
+          width: 1.7rem;
+        }
+        .review-content .reviews {
+          margin-left: 0;
+        }
+        .add {
+          width: 100%;
+        }
+      }
+    }
   }
   .modal {
     position: fixed;

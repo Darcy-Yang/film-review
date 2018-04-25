@@ -185,6 +185,20 @@ export default {
         }
       }
     }
+    @media screen and (max-device-width: 800px) {
+      h3 {
+        width: 2rem;
+      }
+      .recommend-list {
+        flex-direction: column;
+        .recommend-content {
+          margin-right: 0;
+          .poster img {
+            width: 100%;
+          }
+        }
+      }
+    }
   }
 }
 </style>

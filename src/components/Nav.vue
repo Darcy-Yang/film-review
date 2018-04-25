@@ -83,6 +83,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   // background-color: rgba(61, 83, 99, .9);
+  font-size: .3rem;
   background: linear-gradient(to bottom right, #6ABD78, #426ab3);
   box-shadow: 0 1px 2px #F3F3F3;
   z-index: 3;
@@ -179,6 +180,15 @@ export default {
     // background-color: #0077FF;
     padding-bottom: 2px;
     border-bottom: 2px solid #6ABD78;
+  }
+  @media screen and (max-device-width: 800px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .left-side {
+      margin: 0;
+      margin-bottom: .2rem;
+    }
   }
 }
 </style>

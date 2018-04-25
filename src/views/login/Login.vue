@@ -191,6 +191,31 @@ export default {
         cursor: pointer;
       }
     }
+    @media screen and (max-device-width: 800px) {
+      .top {
+        h2 {
+          font-size: .5rem;
+        }
+        .favicon {
+          width: .8rem;
+        }
+      }
+      .input-area input {
+        margin-bottom: .16rem;
+        padding: 0.2rem;
+        width: 5rem;
+        font-size: .3rem;
+        line-height: .5rem;
+      }
+      button {
+        padding: 0.2rem;
+        width: 5.5rem;
+        font-size: .3rem;
+      }
+      .register {
+        font-size: .32rem;
+      }
+    }
   }
   .bg-bubbles {
     position: absolute;
