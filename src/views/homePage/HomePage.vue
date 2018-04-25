@@ -127,7 +127,8 @@ export default {
 
 <style lang="less" scoped>
 .homepage-main {
-  margin-top: 82px;
+  // margin-top: 82px;
+  margin-top: 2rem;
   min-height: 100vh;
   .whole-structure {
     display: flex;

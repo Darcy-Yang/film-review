@@ -243,7 +243,8 @@ export default {
 
 <style lang="less" scoped>
 .index-main {
-  margin-top: 82px;
+  // margin-top: 82px;
+  margin-top: 2rem;
   .main {
     margin-top: 34px;
     display: flex;
@@ -280,18 +281,20 @@ export default {
     }
     .left {
       display: flex;
+      justify-content: center;
       flex-wrap: wrap;
       width: 90%;
       .content {
         margin: 0 0 24px 32px;
         display: flex;
         flex-direction: column;
-        width: 220px;
+        // width: 88%;
+        width: 5rem;
         .review-main {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          width: 220px;
+          // width: 220px;
           flex-wrap: wrap;
 
           border-radius: 6px;
@@ -306,7 +309,8 @@ export default {
             border-top-right-radius: 6px;
             cursor: pointer;
             img {
-              width: 220px;
+              // width: 220px;
+              width: 100%;
               height: 255px;
               border-top-left-radius: 6px;
               border-top-right-radius: 6px;

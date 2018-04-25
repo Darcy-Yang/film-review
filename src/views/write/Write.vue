@@ -178,7 +178,7 @@ export default {
 
 <style lang="less" scoped>
 .write-main {
-  margin-top: 62px;
+  margin-top: 2rem;
   background-color: #FAFBFB;
   height: 100vh;
   .area {

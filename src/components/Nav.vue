@@ -77,8 +77,11 @@ export default {
   position: fixed;
   top: 0;
   display: flex;
-  // width: 100%;
+  width: 100%;
+  height: 2rem;
+  flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   // background-color: rgba(61, 83, 99, .9);
   background: linear-gradient(to bottom right, #6ABD78, #426ab3);
   box-shadow: 0 1px 2px #F3F3F3;
@@ -117,6 +120,7 @@ export default {
   .right-side {
     padding-right: 40px;
     ul {
+      margin: 0;
       display: flex;
       align-items: center;
       .add-words {

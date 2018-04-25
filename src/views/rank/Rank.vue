@@ -171,7 +171,8 @@ export default {
 
 <style lang="less" scoped>
 .rank-main {
-  margin-top: 82px;
+  // margin-top: 82px;
+  margin-top: 2rem;
   min-height: 100vh;
   .content {
     display: flex;
@@ -183,7 +184,7 @@ export default {
       margin-bottom: 36px;
       padding: 20px;
       padding-top: 0;
-      width: 65%;
+      // width: 65%;
       color: #FFF;
       flex-direction: column;
 
@@ -233,8 +234,9 @@ export default {
           .poster {
             position: relative;
             img {
-              width: 160px;
-              height: 224px;
+              // width: 160px;
+              width: 3.2rem;
+              height: 4.8rem;
               border-radius: 4px;
               box-shadow: 0 12px 16px rgba(26, 26, 26, .4);
 
@@ -247,6 +249,8 @@ export default {
               padding: 12px;
               width: 136px;
               height: 200px;
+              // width: 3.2rem;
+              // height: 100%;
               color: #FFF;
               background-color: #426AB3;
               border-radius: 4px;
@@ -262,8 +266,10 @@ export default {
               flex-wrap: wrap;
               padding: 0 20px;
 
-              width: 120px;
-              height: 224px;
+              // width: 120px;
+              // height: 224px;
+              width: 2.667rem;
+              height: 4.8rem;
               color: #FFF;
               word-break: break-all;
               background-color: rgba(128, 128, 128, .8);
@@ -285,7 +291,7 @@ export default {
             color: gray;
             .title {
               margin: 16px 0 4px 0;
-              font-size: 17px;
+              font-size: .3rem;
               font-weight: 600;
             }
             .votes {

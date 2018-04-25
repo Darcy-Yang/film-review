@@ -78,6 +78,7 @@ export default {
 <style lang="less" scoped>
 .recommend-main {
   min-height: 100vh;
+  margin-top: 2rem;
   // background-color: #3D5363;
   // background: linear-gradient(to bottom right, #6ABD78, #426ab3);
   .recommend {

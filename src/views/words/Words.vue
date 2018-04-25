@@ -124,7 +124,8 @@ export default {
 
 <style lang="less" scoped>
 .words-main {
-  margin-top: 82px;
+  // margin-top: 82px;
+  margin-top: 2rem;
   position: relative;
   min-height: 100vh;
   .content {
@@ -140,7 +141,9 @@ export default {
       flex-direction: column;
       margin: 12px;
       padding: 12px;
-      width: 20%;
+      // width: 20%;
+      // width: 276px; /* px */
+      width: 4.8rem;
       height: 100%;
       word-break: break-all;
       background-color: #FFF;
