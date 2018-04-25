@@ -6,6 +6,7 @@ import router from './router';
 import './directives';
 import Message from './components/Message';
 import Confirm from './components/Confirm';
+import 'lib-flexible/flexible.js';
 
 let MessageBox = Vue.extend(Message);
 let ConfirmBox = Vue.extend(Confirm);

@@ -77,7 +77,7 @@ export default {
   position: fixed;
   top: 0;
   display: flex;
-  width: 100%;
+  // width: 100%;
   justify-content: space-between;
   // background-color: rgba(61, 83, 99, .9);
   background: linear-gradient(to bottom right, #6ABD78, #426ab3);
