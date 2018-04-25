@@ -128,7 +128,7 @@ export default {
 <style lang="less" scoped>
 .homepage-main {
   // margin-top: 82px;
-  margin-top: 2rem;
+  margin-top: 2.24rem;
   min-height: 100vh;
   .whole-structure {
     display: flex;
@@ -254,13 +254,14 @@ export default {
       }
       .setting {
         button {
-          width: 120px;
+          // width: 120px;
+          width: 100%;
           height: 35px;
           font-size: 13px;
           color: #0077FF;
           background-color: #FFF;
           border: 1px solid #0077FF;
-          border-radius: 3px;
+          border-radius: .08rem;
           letter-spacing: 1px;
           outline: none;
           cursor: pointer;

@@ -264,8 +264,12 @@ export default {
     }
   }
   @media screen and (max-device-width: 800px) {
-    .content .words {
-      width: 8rem;
+    .content{
+      padding-top: .2rem;
+      .words {
+        margin-top: .3rem;
+        width: 8rem;
+      }
     }
   }
 }

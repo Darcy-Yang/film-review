@@ -49,9 +49,6 @@ export default {
   background-color: #FFF;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(26, 26, 26, .3);
-  @media screen and (max-device-width: 800px) {
-    width: 7rem;
-  }
   .words-area {
     margin: 4px 0 20px 0;
     height: 210px;
@@ -92,6 +89,25 @@ export default {
       border-radius: 3px;
       outline: none;
       cursor: pointer;
+    }
+  }
+  @media screen and (max-device-width: 800px) {
+    padding: .3rem .4rem;
+    width: 7rem;
+    .name-area {
+      padding-bottom: .2rem;
+      font-size: .36rem;
+      border-bottom-width: .048rem;
+    }
+    .words-area {
+      padding-top: .2rem;
+      font-size: .338rem;
+    }
+    .buttons button {
+      width: 2.5rem;
+      height: .7rem;
+      font-size: .3rem;
+      border-radius: .08rem;
     }
   }
 }

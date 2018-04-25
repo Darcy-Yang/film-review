@@ -244,7 +244,7 @@ export default {
 <style lang="less" scoped>
 .index-main {
   // margin-top: 82px;
-  margin-top: 2rem;
+  margin-top: 2.1rem;
   .main {
     margin-top: 34px;
     display: flex;
@@ -252,7 +252,7 @@ export default {
     justify-content: center;
     align-items: center;
     .top {
-      margin: 0 7.5% 20px;
+      margin: .2rem 7.5% 20px;
       padding: 4px 20px 4px 8px;
       display: flex;
       justify-content: flex-end;
@@ -421,6 +421,16 @@ export default {
         display: flex;
         justify-content: center;
         width: 100%;
+      }
+    }
+    @media screen and (max-device-width: 800px) {
+      .left .content .review-main .info .feature {
+        .comment .iconfont {
+          font-size: .36rem;
+        }
+        .collect .iconfont {
+          font-size: .3rem;
+        }
       }
     }
   }
