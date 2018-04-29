@@ -430,6 +430,7 @@ export default {
       align-items: center;
       .left-content {
         width: 100%;
+        height: 100%;
         .title {
           font-size: .48rem;
         }
