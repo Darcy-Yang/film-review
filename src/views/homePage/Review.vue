@@ -60,7 +60,7 @@ export default {
       padding: 12px 0 8px 0;
       border-top: 1px solid #BDBDBD;
       .info {
-        font-size: 18px;
+        font-size: .32rem;
         font-weight: 600;
         cursor: pointer;
         span:hover {
@@ -68,7 +68,7 @@ export default {
         }
       }
       .situation {
-        font-size: 14px;
+        font-size: .26rem;
         color: #8590A6;
       }
     }

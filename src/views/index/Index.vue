@@ -244,7 +244,7 @@ export default {
 <style lang="less" scoped>
 .index-main {
   // margin-top: 82px;
-  margin-top: 2.1rem;
+  margin-top: 1.3rem;
   .main {
     margin-top: 34px;
     display: flex;
@@ -252,13 +252,15 @@ export default {
     justify-content: center;
     align-items: center;
     .top {
-      margin: .2rem 7.5% 20px;
-      padding: 4px 20px 4px 8px;
+      margin: .2rem 7.5% .45rem;
+      // padding: 4px 20px 4px 8px;
+      padding: .1rem;
       display: flex;
       justify-content: flex-end;
       align-self: flex-end;
       // padding: 10px 0 30px;
       width: auto;
+      font-size: .28rem;
       line-height: 160%;
       background: linear-gradient(to bottom right, #6ABD78, #426ab3);
       border-radius: 4px;
@@ -269,13 +271,12 @@ export default {
         transition: all .2s ease-in;
         cursor: pointer;
         &:hover {
-          font-size: 18px;
           font-weight: 600;
         }
       }
       .active {
         // font-size: 18px;
-        font-weight: 600;
+        // font-weight: 600;
         color: orange;
       }
     }
@@ -289,7 +290,7 @@ export default {
         display: flex;
         flex-direction: column;
         // width: 88%;
-        width: 4rem;
+        width: 3.8rem;
         .review-main {
           display: flex;
           flex-direction: column;
@@ -303,7 +304,7 @@ export default {
           .poster {
             position: relative;
             flex: 1;
-            height: 255px;
+            height: 4.6rem;
             background-color: #426AB3;
             border-top-left-radius: 6px;
             border-top-right-radius: 6px;
@@ -311,7 +312,7 @@ export default {
             img {
               // width: 220px;
               width: 100%;
-              height: 255px;
+              height: 100%;
               border-top-left-radius: 6px;
               border-top-right-radius: 6px;
             }
@@ -330,16 +331,17 @@ export default {
               justify-content: center;
               align-items: center;
               position: absolute;
-              top: 232px;
+              bottom: -0.38rem;
               right: 19px;
 
-              width: 45px;
-              height: 45px;
+              width: .8rem;
+              height: .8rem;
+              font-size: .28rem;
               color: gray;
               background-color: #FFF;
               border-radius: 50%;
               .iconfont {
-                font-size: 18px;
+                font-size: .32rem;
                 font-weight: 600;
               }
               &:hover {
@@ -366,12 +368,12 @@ export default {
             .title {
               margin-top: 4px;
               padding: 0 15px;
-              font-size: 17px;
+              font-size: .3rem;
               font-weight: 600;
               color: rgb(49, 56, 64);
             }
             .review-content {
-              margin: 6px 0 12px 0;
+              margin: 0.1rem 0 0.2rem 0;
               padding: 0 15px;
 
               display: -webkit-box;
@@ -380,6 +382,7 @@ export default {
               -webkit-line-clamp: 3;
               -webkit-box-orient: vertical;
 
+              font-size: .27rem;
               letter-spacing: .8px;
               color: #70757B;
             }
@@ -387,16 +390,20 @@ export default {
               display: flex;
               justify-content: space-around;
               padding: 10px 15px 0 15px;
+              font-size: .28rem;
               color: gray;
               border-top: 1px dashed #70757B;
               .comment {
                 .iconfont {
-                  font-size: 18px;
+                  font-size: .3rem;
                   font-weight: 600;
                 }
               }
               .collect {
                 cursor: pointer;
+                .iconfont {
+                  font-size: .27rem;
+                }
               }
               .actived {
                 color: #0077FF;
@@ -424,6 +431,7 @@ export default {
       }
     }
     @media screen and (max-device-width: 800px) {
+      margin-top: 2.2rem;
       .left .content .review-main .info .feature {
         .comment .iconfont {
           font-size: .36rem;

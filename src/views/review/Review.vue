@@ -238,17 +238,17 @@ export default {
       flex-direction: column;
       justify-content: center;
       flex-wrap: wrap;
-      width: 210px;
+      width: 4rem;
       height: 100%;
-      padding: 0 20px 30px 20px;
+      padding: 0 .3rem .6rem .36rem;
       color: #FFF;
       // background-color: #F0D165;
       background: linear-gradient(to bottom right, #6ABD78, #426ab3);
       img {
         position: absolute;
-        top: -20px;
-        width: 210px;
-        height: 315px;
+        top: -0.4rem;
+        width: 3.9rem;
+        height: 6.4rem;
         box-shadow: 0 8px 12px rgba(26, 26, 26, .3);
       }
       .poster {
@@ -265,8 +265,8 @@ export default {
         box-shadow: 0 8px 12px rgba(26, 26, 26, .3);
       }
       .title {
-        margin-top: 325px;
-        font-size: 18px;
+        margin-top: 6.6rem;
+        font-size: .32rem;
         font-weight: 600;
       }
       .quote {
@@ -281,12 +281,10 @@ export default {
       flex: 1;
       h3 {
         margin-left: 20px;
-        padding: 6px 0 6px 20px;
-        width: 15%;
-        // color: #F0D165;
-        // color: #426AB3;
+        padding: 0.12rem 0 0.12rem 0.3rem;
+        width: 2.1rem;
         color: #FFF;
-        font-size: 24px;
+        font-size: .4rem;
         letter-spacing: 1px;
         font-style: italic;
         border-radius: 4px;
@@ -297,7 +295,7 @@ export default {
         display: flex;
         flex-wrap: wrap;
         .reviews {
-          margin: 0 0 15px 20px;
+          margin: 0 0 0.34rem 0.28rem;
           display: flex;
           flex-direction: column;
           min-width: 40%;
@@ -315,19 +313,19 @@ export default {
             align-items: center;
             .time {
               margin-right: 8px;
-              font-size: 14px;
+              font-size: .26rem;
               color: #8590A6;
             }
           }
           .title {
             margin: 12px 0;
-            font-size: 18px;
+            font-size: .32rem;
             font-weight: 600;
-            letter-spacing: .7px;
+            letter-spacing: 1.4px; /*px*/
           }
           .text {
-            letter-spacing: .6px;
-            line-height: 24px;
+            letter-spacing: 1.2px; /*px*/
+            line-height: 48px; /*px*/
           }
           .feature {
             margin-top: 6px;
@@ -427,16 +425,20 @@ export default {
       }
     }
     @media screen and (max-device-width: 800px) {
-      margin-top: 2.36rem;
+      margin-top: 2.86rem;
       flex-direction: column;
+      align-items: center;
       .left-content {
         width: 100%;
+        .title {
+          font-size: .48rem;
+        }
       }
       .right-content {
         margin-left: 0;
         h3 {
           margin-left: 0;
-          width: 1.7rem;
+          width: 2rem;
         }
         .review-content .reviews {
           margin-left: 0;

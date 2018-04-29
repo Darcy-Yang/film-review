@@ -184,7 +184,7 @@ export default {
       margin-bottom: 36px;
       padding: 20px;
       padding-top: 0;
-      // width: 65%;
+      // width: 66%;
       color: #FFF;
       flex-direction: column;
 
@@ -223,7 +223,7 @@ export default {
       .movies {
         position: relative;
         display: flex;
-        margin: 12px 20px;
+        margin: .16rem .6rem .16rem 0;
         border-radius: 3px;
         // box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
         cursor: pointer;

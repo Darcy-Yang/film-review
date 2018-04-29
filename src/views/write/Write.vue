@@ -188,6 +188,12 @@ export default {
     width: 42%;
     flex-direction: column;
     align-items: center;
+    @media screen and (max-device-width: 800px) {
+      width: 80%;
+      .content-area textarea {
+        height: 8rem;
+      }
+    }
     textarea {
       width: 100%;
       outline: none;
@@ -205,8 +211,8 @@ export default {
         input {
           width: 80%;
           padding: 0 0 4px 12px;
-          font-size: 18px;
-          letter-spacing: .6px;
+          font-size: 36px; /*px*/
+          letter-spacing: 1.2px; /*px*/
           outline: none;
           border: none;
           border-bottom: 1px solid #BDBDBD;
@@ -269,7 +275,7 @@ export default {
           span {
             margin-bottom: 8px;
             &:first-child {
-              font-size: 18px;
+              font-size: 36px; /*px*/
             }
           }
         }
@@ -294,8 +300,8 @@ export default {
           input {
             margin: 8px;
             padding: 0 0 6px 4px;
-            font-size: 18px;
-            letter-spacing: .6px;
+            font-size: 36px; /*px*/
+            letter-spacing: 1.2px; /*px*/
             outline: none;
             border: none;
             border-bottom: 1px solid #BDBDBD;
@@ -320,12 +326,12 @@ export default {
       width: 100%;
       textarea {
         padding: 0;
-        height: 44px;
+        height: .86rem;
         line-height: 1.4;
 
-        font-size: 32px;
+        font-size: 64px; /*px*/
         font-weight: 600;
-        letter-spacing: 1px;
+        letter-spacing: 2px; /*px*/
       }
       // 设置提示字符串颜色；(chrome)
       textarea::-webkit-input-placeholder {
@@ -344,7 +350,7 @@ export default {
       width: 100%;
       textarea {
         min-height: 300px;
-        font-size: 16px;
+        font-size: 32px; /*px*/
       }
       textarea::-webkit-input-placeholder {
         color: #B3B3B3;
@@ -357,7 +363,7 @@ export default {
       button {
         margin-bottom: 20px;
         padding: 6px 16px;
-        font-size: 16px;
+        font-size: 32px; /*px*/
         letter-spacing: 1px;
         outline: none;
         border: none;

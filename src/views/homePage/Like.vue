@@ -83,7 +83,7 @@ export default {
       .info {
         margin-bottom: 8px;
         display: flex;
-        font-size: 18px;
+        font-size: .32rem;
         font-weight: 600;
         cursor: pointer;
         span:hover {
@@ -96,7 +96,7 @@ export default {
           justify-content: center;
           align-items: center;
 
-          font-size: 14px;
+          font-size: .26rem;
           letter-spacing: .8px;
           color: #FFF;
           background-color: #0077FF;
@@ -110,7 +110,7 @@ export default {
         }
       }
       .situation {
-        font-size: 14px;
+        font-size: .26rem;
         color: #8590A6;
       }
     }

@@ -181,9 +181,9 @@ export default {
         top: 24px;
         right: 24px;
         button {
-          padding: 0 16px;
-          font-size: 14px;
-          line-height: 32px;
+          padding: 0 0.3rem;
+          font-size: .26rem;
+          line-height: .6rem;
           border-radius: 3px;
           color: hsla(0,0%,100%,.7);
           border-color: hsla(0,0%,100%,.24);
@@ -247,7 +247,7 @@ export default {
           margin-left: 20px;
           flex-direction: column;
           .user-name {
-            font-size: 24px;
+            font-size: .4rem;
             font-weight: 600;
           }
         }
@@ -256,8 +256,9 @@ export default {
         button {
           // width: 120px;
           width: 100%;
-          height: 35px;
-          font-size: 13px;
+          height: .6rem;
+          padding: 0 0.3rem;
+          font-size: .26rem;
           color: #0077FF;
           background-color: #FFF;
           border: 1px solid #0077FF;

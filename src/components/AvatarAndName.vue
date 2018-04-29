@@ -52,9 +52,13 @@ export default {
     .avatar {
       position: relative;
       .show {
-        width: 24px;
-        height: 24px;
+        width: .46rem;
+        height: .46rem;
         border-radius: 50%;
+        @media screen and (max-device-width: 800px) {
+          width: .6rem;
+          height: .6rem;
+        }
       }
     }
     .name {

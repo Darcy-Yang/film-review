@@ -51,14 +51,14 @@ export default {
       justify-content: center;
       align-items: center;
       width: 100%;
-      padding: 22px 0;
+      padding: .4rem 0;
       // text-align: center;
       color: #FFF;
       // background-color: #2E84fA;
       background: linear-gradient(to bottom right, #6ABD78, #426ab3);
       img {
         margin-right: 8px;
-        width: 40px;
+        width: .8rem;
       }
     }
   }
@@ -70,22 +70,22 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 0;
+      padding: 40px 0; /*px*/
       width: 100%;
       // height: 100%;
       background-color: #FFF;
-      box-shadow: 2px 0 3px rgba(26, 26, 26, .6);
+      box-shadow: 4px 0 6px rgba(26, 26, 26, .6); /*px*/
       .left-part {
         margin-left: 5%;
-        padding: 4px;
-        border-bottom: 1px solid #BDBDBD;
+        padding: 8px; /*px*/
+        border-bottom: 2px solid #BDBDBD; /*px*/
         i {
           font-weight: 600;
           color: #A4A4A4;
         }
         input {
-          margin-left: 8px;
-          font-size: 16px;
+          margin-left: 16px; /*px*/
+          font-size: 32px; /*px*/
           border: none;
           outline: none;
           background-color: inherit;
@@ -99,24 +99,24 @@ export default {
         display: flex;
         align-items: center;
         button {
-          margin-right: 20px;
-          padding: 10px 0;
-          width: 108px;
-          font-size: 14px;
+          margin-right: 40px; /*px*/
+          padding: 20px 0; /*px*/
+          width: 216px; /*px*/
+          font-size: 28px; /*px*/
           color: #FFF;
           background-color: #2E84fA;
           border: none;
           outline: none;
-          border-radius: 22px;
+          border-radius: 44px; /*px*/
 
           cursor: pointer;
           i {
-            margin-right: 6px;
+            margin-right: 12px; /*px*/
           }
         }
         img {
-          width: 40px;
-          height: 40px;
+          width: 80px; /*px*/
+          height: 80px; /*px*/
           border-radius: 50%;
         }
       }

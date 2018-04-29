@@ -91,8 +91,8 @@ export default {
     width: 80%;
     // color: #BDBDBD;
     h3 {
-      padding: 4px 10px;
-      width: 83px;
+      padding: .1rem .2rem;
+      width: 1.6rem;
       color: #FFF;
       background: linear-gradient(to bottom right, #6ABD78, #426ab3);
       letter-spacing: .4px;
@@ -110,10 +110,12 @@ export default {
         }
         .poster {
           position: relative;
+          width: 3.8rem;
+          height: 5.68rem;
           cursor: pointer;
           img {
-            width: 208px;
-            height: 308px;
+            width: 100%;
+            height: 100%;
           }
           .shadow {
             position: absolute;
@@ -122,7 +124,7 @@ export default {
             justify-content: center;
             align-items: center;
             width: 100%;
-            height: 308px;
+            height: 100%;
             color: #FFF;
             background-color: rgba(61, 83, 99, .7);
 
@@ -153,14 +155,15 @@ export default {
           // width: 80%;
           // margin-left: 20px;
           flex-direction: column;
+          align-items: center;
           color: #FFF;
           // background-color: rgba(0, 0, 0, .6);
           background: linear-gradient(to bottom right, #6ABD78, #426ab3);
           border-radius: 4px;
           .arrow-up {
             position: absolute;
-            top: -55px;
-            left: 100px;
+            top: -50px;
+            // left: 100px;
             width: 2px;
             height: 55px;
             background: linear-gradient(to bottom right, #6ABD78, #426ab3);
@@ -173,7 +176,7 @@ export default {
           .hole {
             position: absolute;
             top: 6px;
-            left: 92px;
+            // left: 92px;
             width: 20px;
             height: 20px;
             border-radius: 50%;
@@ -203,8 +206,8 @@ export default {
       .recommend-list {
         flex-direction: column;
         .recommend-content {
-          margin-right: 0;
-          .poster img {
+          margin: 0 0 .4rem;
+          .poster {
             width: 100%;
           }
           .info {

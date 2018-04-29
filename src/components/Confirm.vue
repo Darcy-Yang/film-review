@@ -54,30 +54,30 @@ export default {
   .confirm-main {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 600px; /*px*/
     background-color: #FFF;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(26, 26, 26, .3);
+    border-radius: 8px; /*px*/
+    box-shadow: 0 2px 6px rgba(26, 26, 26, .3); /*px*/
     .tip {
-      padding-left: 20px;
-      height: 50px;
-      line-height: 50px;
-      border-bottom: 1px solid #BDBDBD;
+      padding-left: 40px; /*px*/
+      height: 100px; /*px*/
+      line-height: 100px; /*px*/
+      border-bottom: 2px solid #BDBDBD; /*px*/
     }
     .content {
-      padding: 15px 20px;
+      padding: 30px 40px; /*px*/
     }
     .buttons {
       display: flex;
       justify-content: space-between;
-      padding: 20px;
+      padding: 40px; /*px*/
       button {
         width: 45%;
-        padding: 0 20px;
-        height: 40px;
+        padding: 0 40px; /*px*/
+        height: 80px; /*px*/
         color: gray;
-        border: 1px solid #BDBDBD;
-        border-radius: 4px;
+        border: 2px solid #BDBDBD; /*px*/
+        border-radius: 8px; /*px*/
         outline: none;
 
         cursor: pointer;

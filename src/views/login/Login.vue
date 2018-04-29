@@ -127,8 +127,7 @@ export default {
       display: flex;
       align-items: center;
       h2 {
-        font-size: 24px;
-        // color: #53E3A6;
+        font-size: .4rem;
         color: #FFF;
         letter-spacing: 1px;
       }
@@ -140,10 +139,9 @@ export default {
       position: relative;
       input {
         margin-bottom: 10px;
-        padding: 10px 15px;
-        width: 250px;
-        font-size: 18px;
-        font-weight: 300;
+        padding: .2rem;
+        width: 4rem;
+        font-size: .3rem;
         text-align: center;
         color: #6ABD78;
         border: 1px solid rgba(255, 255, 255, 0.4);
@@ -156,17 +154,16 @@ export default {
           color: #FFF;
         }
         &:focus {
-          width: 300px;
           color: #6ABD78;
           background-color: #FFF;
         }
       }
     }
     button {
-      padding: 10px 15px;
-      width: 280px;
+      padding: .2rem;
+      width: 100%;
       text-align: center;
-      font-size: 18px;
+      font-size: .3rem;
       font-weight: 600;
       letter-spacing: 1px;
       // color: #53E3A6;
@@ -183,6 +180,7 @@ export default {
       display: flex;
       justify-content: space-between;
       color: #FFF;
+      font-size: .28rem;
       :last-child {
         margin-left: 10px;
         // color: #53E3A6;
@@ -207,7 +205,7 @@ export default {
         font-size: .3rem;
         line-height: .5rem;
         &:focus {
-          width: 5.6rem;
+          // width: 5.6rem;
           color: #6ABD78;
           background-color: #FFF;
         }
@@ -233,9 +231,9 @@ export default {
     overflow: hidden;
     li {
       position: absolute;
-      bottom: -300px;
-      width: 180px;
-      height: 240px;
+      bottom: -4rem;
+      width: 3rem;
+      height: 4rem;
 
       list-style: none;
       border: 1px solid #0077FF;

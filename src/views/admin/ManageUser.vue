@@ -90,13 +90,13 @@ export default {
   flex-direction: column;
   align-items: center;
   .top {
-    margin: 9px 0;
+    margin: 18px 0; /*px*/
     text-align: left;
     width: 80%;
     h3 {
       // margin-top: 20px;
       color: #7E8282;
-      letter-spacing: .4px;
+      letter-spacing: .8px; /*px*/
     }
   }
   .content {
@@ -106,15 +106,15 @@ export default {
     width: 90%;
     height: 100%;
     background-color: #FBFBFB;
-    border: 1px solid #BDBDBD;
-    border-radius: 4px;
+    border: 2px solid #BDBDBD; /*px*/
+    border-radius: 8px; /*px*/
     .list {
       display: flex;
       align-items: center;
-      padding: 14px;
+      padding: 28px; /*px*/
       padding-right: 0;
       text-align: center;
-      border-bottom: 1px solid #BDBDBD;
+      border-bottom: 2px solid #BDBDBD; /*px*/
       &:hover {
         .operation i {
           display: block;
@@ -122,16 +122,16 @@ export default {
       }
       &:last-child {
         border-bottom: none;
-        border-bottom-left-radius: 4px;
-        border-bottom-right-radius: 4px;
+        border-bottom-left-radius: 8px; /*px*/
+        border-bottom-right-radius: 8px; /*px*/
       }
       .hole {
-        margin-right: 18px;
+        margin-right: 36px;
         padding: 0;
-        flex: none;
+        flex: 0;
         width: 18px;
         height: 18px;
-        border: 1px solid #BDBDBD;
+        border: 2px solid #BDBDBD;
         border-radius: 50%;
 
         cursor: pointer;
@@ -140,23 +140,23 @@ export default {
         background-color: #2E84fA;
       }
       .time {
-        font-size: 14px;
+        font-size: 28px; /*px*/
         color: #8590A6;
       }
       .operation {
         display: flex;
         justify-content: space-around;
         flex: 0.5;
-        height: 22px;
+        height: 44px; /*px*/
         i {
           display: none;
-          font-size: 18px;
+          font-size: 36px; /*px*/
           cursor: pointer;
           &:first-child {
-            margin-left: 6px;
+            margin-left: 12px; /*px*/
           }
           &:last-child {
-            margin-right: 6px;
+            margin-right: 12px; /*px*/
           }
           &:hover {
             color: #0077FF;
@@ -165,19 +165,19 @@ export default {
       }
       div, span {
         flex: 1;
-        padding-left: 16px;
+        padding-left: 32px; /*px*/
       }
     }
     .odd {
       background-color: #FFF;
     }
     .header {
-      padding: 14px 0 14px 14px;
+      padding: 28px 0 28px 28px; /*px*/
       background-color: #FBFBFB;
-      border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
+      border-top-left-radius: 8px; /*px*/
+      border-top-right-radius: 8px; /*px*/
       span {
-        border-left: 1px solid #BDBDBD;
+        border-left: 2px solid #BDBDBD; /*px*/
       }
     }
   }

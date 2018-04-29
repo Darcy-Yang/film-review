@@ -90,22 +90,22 @@ export default {
     display: flex;
     flex-direction: column;
     a {
-      margin-top: 20px;
-      padding: 14px 60px 14px 40px;
+      margin-top: 40px; /*px*/
+      padding: 28px 120px 28px 80px; /*px*/
       color: #7F8697;
       text-decoration: none;
-      letter-spacing: 1px;
+      letter-spacing: 2px; /*px*/
       i {
-        font-size: 24px;
+        font-size: 48px; /*px*/
       }
       &.active {
         width: 55.3%;
-        padding-left: 36px;
+        padding-left: 72px; /*px*/
         color: #2E84fA;
-        border-left: 4px solid #2E84fA;
+        border-left: 8px solid #2E84fA; /*px*/
         background-color: #FBFBFB;
-        border-top: 1px solid #D9D6CF;
-        border-bottom: 1px solid #D9D6CF;
+        border-top: 2px solid #D9D6CF; /*px*/
+        border-bottom: 2px solid #D9D6CF; /*px*/
       }
     }
   }

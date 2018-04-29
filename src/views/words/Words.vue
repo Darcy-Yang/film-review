@@ -139,16 +139,16 @@ export default {
       position: relative;
       display: flex;
       flex-direction: column;
-      margin: 12px;
-      padding: 12px;
+      margin: .2rem;
+      padding: .22rem;
       // width: 20%;
       // width: 276px; /* px */
-      width: 5rem;
+      width: 4.8rem;
       height: 100%;
       word-break: break-all;
-      background-color: #FFF;
+      background-color: #F5DEB3;
       border-radius: 3px 3px 51px 3px;
-      box-shadow: 0 1px 3px rgba(26, 26, 26, .3);
+      box-shadow: 0 4px 12px rgba(26, 26, 26, .3); /*px*/
       &:before{
         content:'';
         width: 25px;
@@ -190,22 +190,22 @@ export default {
         justify-content: space-between;
         align-items: center;
         .time {
-          font-size: 14px;
+          font-size: .26rem;
           color: #8590A6;
         }
       }
       .content {
-        font-size: 18px;
+        font-size: .33rem;
         font-weight: 600;
-        letter-spacing: .6px;
+        letter-spacing: .12px; /*px*/
       }
       .title {
-        margin: 6px 4px 0;
+        margin: 0.16rem 0.1rem 0;
         align-self: flex-end;
         font-style: italic;
       }
       .feature {
-        margin-top: 12px;
+        margin-top: .18rem;
         display: flex;
         justify-content: space-around;
         color: gray;
@@ -213,10 +213,10 @@ export default {
           cursor: pointer;
         }
         .icon-like {
-          font-size: .5rem;
+          font-size: .4rem;
         }
         .icon-collect-b {
-          font-size: .4rem;
+          font-size: .3rem;
         }
       }
     }
@@ -269,6 +269,26 @@ export default {
       .words {
         margin-top: .3rem;
         width: 8rem;
+        .top {
+          .time {
+            font-size: .3rem;
+          }
+        }
+        .content {
+          font-size: .4rem;
+        }
+        .title {
+          font-size: .38rem;
+        }
+        .feature {
+          margin-top: .2rem;
+          .icon-like {
+            font-size: .6rem;
+          }
+          .icon-collect-b {
+            font-size: .48rem;
+          }
+        }
       }
     }
   }

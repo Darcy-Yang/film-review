@@ -77,13 +77,14 @@ export default {
   position: fixed;
   top: 0;
   display: flex;
+  padding: 20px 0;
   width: 100%;
-  height: 2rem;
+  // height: 2rem;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   // background-color: rgba(61, 83, 99, .9);
-  font-size: .3rem;
+  font-size: .28rem;
   background: linear-gradient(to bottom right, #6ABD78, #426ab3);
   box-shadow: 0 1px 2px #F3F3F3;
   z-index: 3;
@@ -148,9 +149,9 @@ export default {
           padding: 0;
         }
         input {
-          width: 140px;
+          width: 2.2rem;
           padding-left: 4px;
-          font-size: 14px;
+          font-size: .26rem;
           border: none;
           outline: none;
           background-color: #F6F6F6;
@@ -163,14 +164,14 @@ export default {
       i {
         margin-top: 3.4px;
         padding-right: 30px;
-        font-size: 24px;
+        font-size: .4rem;
         color: #0077FF;
         line-height: 16px;
         cursor: pointer;
       }
       img {
-        width: 30px;
-        height: 30px;
+        width: .6rem;
+        height: .6rem;
         border-radius: 50%;
       }
     }
@@ -185,6 +186,8 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 0;
+    height: 2rem;
     .left-side {
       margin: 0;
       margin-bottom: .2rem;
