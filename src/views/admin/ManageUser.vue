@@ -2,33 +2,15 @@
   <div class="user-main">
     <div class="top">
       <h3>用户管理 ( {{ allUser.length }} )</h3>
-    </div>
-    <div class="content">
-      <div class="header list">
-        <div class="hole"></div>
-        <span v-for="(item, index) in descriptions" :key="index * -1">
-          {{ item }}
-        </span>
-        <span class="operation"></span>
-      </div>
-      <div class="list" v-for="(user, index) in allUser" :class="index % 2 === 0 ? 'odd' : ''" :key="index">
-        <div class="hole" :class="user.selected ? 'active' : ''" @click="user.selected = !user.selected"></div>
-        <avatar-and-name :avatarStyle="avatarStyle" :avatar="user.avatar" :name="user.name"/>
-        <span>3</span>
-        <span>6</span>
-        <span class="time">{{ user.createdAt }}</span>
-        <span class="time">{{ user.updatedAt }}</span>
-        <div class="operation">
-          <i class="iconfont icon-browse"></i>
-          <i class="iconfont icon-delete" @click="deleteUser(user)"></i>
-        </div>
-      </div>
+      <List :descriptions="descriptions" :lists="allUser" :keys=keys>
+      </List>
     </div>
   </div>
 </template>
 
 <script>
 import AvatarAndName from '@/components/AvatarAndName';
+import List from '@/components/List';
 
 import request from '@/utils/request';
 
@@ -36,6 +18,7 @@ export default {
   name: 'ManageUser',
   components: {
     AvatarAndName,
+    List,
   },
   data () {
     return {
@@ -47,6 +30,14 @@ export default {
   },
   created() {
     this.getUser();
+  },
+  computed: {
+    keys() {
+      const keys = [
+        'reviewCount', 'wordsCount', 'createdAt', 'updatedAt'
+      ];
+      return keys;
+    },
   },
   methods: {
     async getUser() {
@@ -97,88 +88,6 @@ export default {
       // margin-top: 20px;
       color: #7E8282;
       letter-spacing: .8px; /*px*/
-    }
-  }
-  .content {
-    // margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    height: 100%;
-    background-color: #FBFBFB;
-    border: 2px solid #BDBDBD; /*px*/
-    border-radius: 8px; /*px*/
-    .list {
-      display: flex;
-      align-items: center;
-      padding: 28px; /*px*/
-      padding-right: 0;
-      text-align: center;
-      border-bottom: 2px solid #BDBDBD; /*px*/
-      &:hover {
-        .operation i {
-          display: block;
-        }
-      }
-      &:last-child {
-        border-bottom: none;
-        border-bottom-left-radius: 8px; /*px*/
-        border-bottom-right-radius: 8px; /*px*/
-      }
-      .hole {
-        margin-right: 36px;
-        padding: 0;
-        flex: 0;
-        width: 18px;
-        height: 18px;
-        border: 2px solid #BDBDBD;
-        border-radius: 50%;
-
-        cursor: pointer;
-      }
-      .active {
-        background-color: #2E84fA;
-      }
-      .time {
-        font-size: 28px; /*px*/
-        color: #8590A6;
-      }
-      .operation {
-        display: flex;
-        justify-content: space-around;
-        flex: 0.5;
-        height: 44px; /*px*/
-        i {
-          display: none;
-          font-size: 36px; /*px*/
-          cursor: pointer;
-          &:first-child {
-            margin-left: 12px; /*px*/
-          }
-          &:last-child {
-            margin-right: 12px; /*px*/
-          }
-          &:hover {
-            color: #0077FF;
-          }
-        }
-      }
-      div, span {
-        flex: 1;
-        padding-left: 32px; /*px*/
-      }
-    }
-    .odd {
-      background-color: #FFF;
-    }
-    .header {
-      padding: 28px 0 28px 28px; /*px*/
-      background-color: #FBFBFB;
-      border-top-left-radius: 8px; /*px*/
-      border-top-right-radius: 8px; /*px*/
-      span {
-        border-left: 2px solid #BDBDBD; /*px*/
-      }
     }
   }
 }
