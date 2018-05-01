@@ -100,7 +100,7 @@ export default {
       }
       &.active {
         width: 55.3%;
-        padding-left: 72px; /*px*/
+        padding: 26px 120px 26px 72px; /*px*/
         color: #2E84fA;
         border-left: 8px solid #2E84fA; /*px*/
         background-color: #FBFBFB;

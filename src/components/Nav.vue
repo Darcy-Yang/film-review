@@ -77,13 +77,11 @@ export default {
   position: fixed;
   top: 0;
   display: flex;
-  padding: 20px 0;
+  padding: 40px 0;/*px*/
   width: 100%;
-  // height: 2rem;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  // background-color: rgba(61, 83, 99, .9);
   font-size: .28rem;
   background: linear-gradient(to bottom right, #6ABD78, #426ab3);
   box-shadow: 0 1px 2px #F3F3F3;
@@ -95,7 +93,6 @@ export default {
     color: #FFF;
     letter-spacing: .4px;
     text-decoration: none;
-    // border-radius: 4px;
     padding-bottom: 4px;
   }
   .avatar {
@@ -177,8 +174,6 @@ export default {
     }
   }
   .actived {
-    // color: #E77530;
-    // background-color: #0077FF;
     padding-bottom: 2px;
     border-bottom: 2px solid #6ABD78;
   }

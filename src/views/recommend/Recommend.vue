@@ -4,36 +4,29 @@
     <div class="recommend">
       <h3>为你推荐:</h3>
       <div class="recommend-list">
-        <div class="recommend-content" v-for="rank in ranks" :key="rank.id">
+        <div class="recommend-content" v-for="recommend in recommends" :key="recommend.id">
           <div class="poster">
-            <img :src="rank.img_src" alt="poster"/>
+            <img :src="recommend.img_src" alt="poster"/>
             <div class="shadow">
-              <span>{{ rank.quote }}</span>
+              <span>{{ recommend.quote }}</span>
             </div>
           </div>
-          <!-- <div class="name">
-            <span>{{ rank.title }}( {{ rank.area }} )</span>
-          </div>
-          <div class="bottom">
-            <span>{{ rank.star }}</span>
-            <span>{{ rank.type }}</span>
-          </div> -->
           <div class="info">
             <div class="arrow-up"></div>
             <div class="hole"></div>
             <div class="arrow-up media-arrow"></div>
             <div class="hole media-hole"></div>
-            <span>{{ rank.title }}</span>
-            <span>{{ rank.info }}</span>
+            <span>{{ recommend.title }}</span>
+            <span>{{ recommend.info }}</span>
             <div class="detail">
-              <span>{{ rank.area }}</span>
-              <span>{{ rank.time }}</span>
+              <span>{{ recommend.area }}</span>
+              <span>{{ recommend.time }}</span>
             </div>
             <div class="detail">
-              <span>{{ rank.star }}</span>
-              <span>{{ rank.type }}</span>
+              <span>{{ recommend.star }}</span>
+              <span>{{ recommend.type }}</span>
             </div>
-            <span>{{ rank.quote }}</span>
+            <span>{{ recommend.quote }}</span>
           </div>
         </div>
       </div>
@@ -45,6 +38,7 @@
 import Nav from '@/components/Nav';
 
 import request from '@/utils/request';
+import { getUser } from '@/utils/user';
 
 export default {
   name: 'Recommend',
@@ -53,22 +47,20 @@ export default {
   },
   data() {
     return {
-      ranks: [],
+      currentUser: null,
+      recommends: [],
     }
   },
   created() {
+    const { user } = getUser();
+    this.currentUser = user;
     this.getRecommend();
   },
   methods: {
     async getRecommend() {
       try {
-        const { ranks } = await request('GET', '/rank', {
-          limit: 10,
-          type: '全部',
-          area: '全部',
-          time: '全部'
-        });
-        this.ranks = ranks;
+        const { recommends } = await request('GET', `/rank/recommend/${this.currentUser.id}`);
+        this.recommends = recommends;
       } catch (err) {
         this.$message(err.message, 'error');
       }
@@ -81,15 +73,12 @@ export default {
 .recommend-main {
   min-height: 100vh;
   margin-top: 2rem;
-  // background-color: #3D5363;
-  // background: linear-gradient(to bottom right, #6ABD78, #426ab3);
   .recommend {
     margin: 65px auto 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 80%;
-    // color: #BDBDBD;
     h3 {
       padding: .1rem .2rem;
       width: 1.6rem;
@@ -152,31 +141,21 @@ export default {
           padding: 38px 12px 12px 16px;
           // display: flex;
           display: none;
-          // width: 80%;
-          // margin-left: 20px;
           flex-direction: column;
           align-items: center;
           color: #FFF;
-          // background-color: rgba(0, 0, 0, .6);
           background: linear-gradient(to bottom right, #6ABD78, #426ab3);
           border-radius: 4px;
           .arrow-up {
             position: absolute;
             top: -50px;
-            // left: 100px;
             width: 2px;
             height: 55px;
             background: linear-gradient(to bottom right, #6ABD78, #426ab3);
-            // border-left: 25px solid transparent;
-            // border-right: 40px solid transparent;
-            // border-bottom: 45px solid rgba(0, 0, 0, .6);
-            // border-bottom: 45px solid linear-gradient(to bottom right, #6ABD78, #426ab3);
-            // background: linear-gradient(to bottom right, #6ABD78, #426ab3);
           }
           .hole {
             position: absolute;
             top: 6px;
-            // left: 92px;
             width: 20px;
             height: 20px;
             border-radius: 50%;
@@ -192,6 +171,7 @@ export default {
             display: none;
           }
           .detail {
+            align-self: flex-start;
             span {
               margin-right: 20px;
             }

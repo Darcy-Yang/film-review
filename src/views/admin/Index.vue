@@ -17,7 +17,7 @@
           <button>
             <i class="iconfont icon-create"></i>创建用户
           </button>
-          <img src="static/images/avatar.jpg" alt="avatar"/>
+          <img :src="currentUser.avatar" alt="avatar"/>
         </div>
       </div>
       <router-view class="content"></router-view>
@@ -26,13 +26,24 @@
 </template>
 
 <script>
-import LeftBar from '@/components/AdminLeftBar'
+import LeftBar from '@/components/AdminLeftBar';
+
+import { getUser } from '@/utils/user';
 
 export default {
   name: 'Index',
   components: {
     LeftBar
-  }
+  },
+  data() {
+    return {
+      currentUser: null,
+    }
+  },
+  created() {
+    const { user } = getUser();
+    this.currentUser = user;
+  },
 }
 </script>
 

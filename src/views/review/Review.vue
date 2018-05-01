@@ -328,7 +328,7 @@ export default {
             line-height: 48px; /*px*/
           }
           .feature {
-            margin-top: 6px;
+            margin-top: 12px; /*px*/
             display: flex;
             justify-content: space-around;
             color: gray;
@@ -336,48 +336,48 @@ export default {
               cursor: pointer;
             }
             .icon-like {
-              font-size: 19px;
+              font-size: 38px; /*px*/
               font-weight: 600;
             }
             .icon-comment {
-              font-size: 18px;
+              font-size: 36px; /*px*/
               font-weight: 600;
             }
           }
           .comment-list {
-            margin-top: 10px;
+            margin-top: 20px; /*px*/
             display: flex;
             flex-direction: column;
             .comment-input {
-              margin-bottom: 12px;
+              margin-bottom: 24px; /*px*/
               display: flex;
               justify-content: space-between;
               textarea {
-                padding-left: 8px;
-                height: 24px;
-                font-size: 14px;
-                line-height: 22px;
+                padding-left: 16px; /*px*/
+                height: 48px; /*px*/
+                font-size: 28px; /*px*/
+                line-height: 44px; /*px*/
                 outline: none;
                 resize: none;
                 border: none;
                 color: inherit;
                 background-color: inherit;
-                border-bottom: 1px solid #BDBDBD;
+                border-bottom: 2px solid #BDBDBD; /*px*/
               }
               button {
-                padding: 3px 8px;
-                letter-spacing: .6px;
+                padding: 6px 16px; /*px*/
+                letter-spacing: 1.2px; /*px*/
                 color: #F6F6F6;
                 background-color: #0077FF;
-                border-radius: 4px;
+                border-radius: 8px; /*px*/
                 border: none;
                 outline: none;
                 cursor: pointer;
               }
             }
             .comments {
-              margin: 6px 0;
-              padding-bottom: 10px;
+              margin: 12px 0; /*px*/
+              padding-bottom: 20px; /*px*/
               display: flex;
               justify-content: space-between;
               align-items: center;
@@ -385,12 +385,12 @@ export default {
                 display: flex;
                 flex-direction: column;
                 .text {
-                  margin-left: 32px;
+                  margin-left: 64px; /*px*/
                 }
               }
               .time {
-                margin: 4px 0 0 32px;
-                font-size: 14px;
+                margin: 8px 0 0 64px; /*px*/
+                font-size: 28px; /*px*/
                 color: #8590A6;
               }
             }

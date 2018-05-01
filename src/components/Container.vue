@@ -41,29 +41,29 @@ export default {
 .container {
   display: flex;
   margin: 48px;
-  padding: 20px 12px;
+  padding: 40px 24px; /*px*/
   flex-direction: column;
 
   width: 25%;
   height: 100%;
   background-color: #FFF;
-  border-radius: 4px;
+  border-radius: 8px; /*px*/
   box-shadow: 0 1px 3px rgba(26, 26, 26, .3);
   .words-area {
-    margin: 4px 0 20px 0;
-    height: 210px;
-    font-size: 16px;
-    line-height: 24px;
+    margin: 8px 0 40px 0; /*px*/
+    height: 420px; /*px*/
+    font-size: 32px; /*px*/
+    line-height: 48px; /*px*/
   }
   .name-area {
-    height: 20px;
-    font-size: 18px;
+    height: 40px; /*px*/
+    font-size: 36px; /*px*/
     font-weight: 600;
-    line-height: 24px;
+    line-height: 48px; /*px*/
     border-bottom: 1px solid #D9D6CF;
   }
   textarea {
-    padding: 8px;
+    padding: 16px; /*px*/
     border: none;
     resize: none;
     outline: none;
@@ -81,12 +81,12 @@ export default {
       border: 1px solid #D9D6CF;
     }
     button {
-      width: 108px;
-      height: 30px;
-      font-size: 14px;
-      letter-spacing: 1px;
+      width: 216px; /*px*/
+      height: 60px; /*px*/
+      font-size: 28px; /*px*/
+      letter-spacing: 2px; /*px*/
       border: 1px solid #BDBDBD;
-      border-radius: 3px;
+      border-radius: 6px; /*px*/
       outline: none;
       cursor: pointer;
     }

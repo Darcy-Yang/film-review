@@ -367,13 +367,13 @@ export default {
             }
             .title {
               margin-top: 4px;
-              padding: 0 15px;
+              padding: 0 1rem 0 .2rem;
               font-size: .3rem;
               font-weight: 600;
               color: rgb(49, 56, 64);
             }
             .review-content {
-              margin: 0.1rem 0 0.2rem 0;
+              margin: 0.1rem 0 0.24rem 0;
               padding: 0 15px;
 
               display: -webkit-box;
