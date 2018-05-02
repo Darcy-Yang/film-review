@@ -112,8 +112,10 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
+
             width: 100%;
             height: 100%;
+            font-size: .3rem;
             color: #FFF;
             background-color: rgba(61, 83, 99, .7);
 

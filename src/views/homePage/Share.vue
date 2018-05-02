@@ -16,9 +16,9 @@ export default {
 <style lang="less" scoped>
 .share-main {
   .top {
-    padding: 20px;
+    padding: .3rem;
     padding-bottom: 0;
-    // height: 220px;
+    min-height: 440px; /*px*/
     // overflow: scroll;
     .explain {
       padding-bottom: 12px;

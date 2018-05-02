@@ -208,24 +208,24 @@ export default {
       .content {
         display: flex;
         .avatar {
-          margin-top: -80px;
+          margin-top: -1.3rem;
           position: relative;
 
           cursor: pointer;
           z-index: 2;
           img {
-            width: 160px;
-            height: 160px;
-            border: 3px solid #FFF;
+            width: 320px; /*px*/
+            height: 320px; /*px*/
+            border: 8px solid #FFF; /*px*/
             border-radius: 6px;
           }
           .hover-bg {
             display: none;
             position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 160px;
-            height: 160px;
+            top: 8px; /*px*/
+            left: 8px; /*px*/
+            width: 320px; /*px*/
+            height: 320px; /*px*/
             border-radius: 6px;
             background: rgba(26, 26, 26, 0.4);
             span {
@@ -284,9 +284,9 @@ export default {
       .status {
         margin-right: -22px;
         // padding: 0 12px;
-        width: 26%;
+        width: 32%;
         // height: 100%;
-        min-height: 300px;
+        min-height: 5.21rem;
         height: 100%;
         background-color: #FFF;
         // background: linear-gradient(to bottom right, #6ABD78, #426ab3);

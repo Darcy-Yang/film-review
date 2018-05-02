@@ -65,9 +65,9 @@ export default {
 <style lang="less" scoped>
 .like-main {
   .top {
-    padding: 20px;
+    padding: .3rem;
     padding-bottom: 0;
-    // height: 220px;
+    min-height: 440px; /*px*/
     // overflow: scroll;
     .explain {
       padding-bottom: 12px;
@@ -78,7 +78,7 @@ export default {
       border-top: 1px solid #BDBDBD;
     }
     .likes-content {
-      padding: 12px 0 8px 0;
+      padding: 24px 0 16px 0; /*px*/
       border-top: 1px solid #BDBDBD;
       .info {
         margin-bottom: 8px;

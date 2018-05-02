@@ -7,19 +7,19 @@
       </router-link>
       <router-link to="/homepage/review" active-class="active">
         <span>影评</span>
-        <span>{{ reviewNum }}</span>
+        <span class="num">{{ reviewNum }}</span>
       </router-link>
       <router-link to="/homepage/words" active-class="active">
         <span>台词</span>
-        <span>{{ wordsNum }}</span>
+        <span class="num">{{ wordsNum }}</span>
       </router-link>
       <router-link to="/homepage/like" active-class="active">
         <span>喜欢</span>
-        <span>{{ likeNum }}</span>
+        <span class="num">{{ likeNum }}</span>
       </router-link>
       <router-link to="/homepage/share" active-class="active">
         <span>收藏</span>
-        <span>0</span>
+        <span class="num">0</span>
       </router-link>
     </div>
   </div>
@@ -64,7 +64,7 @@ export default {
 
 <style lang="less" scoped>
 .bar-main {
-  padding: 20px;
+  padding: .3rem;
   padding-bottom: 0;
   border-bottom: 1px solid #BDBDBD;
   .tabs {
@@ -74,9 +74,15 @@ export default {
       padding-bottom: 12px;
       color: #000;
       text-decoration: none;
+      .num {
+        color: #999;
+      }
       &.active {
         border-bottom: 2px solid red;
         font-weight: 600;
+        .num {
+          font-weight: 400;
+        }
       }
     }
   }
