@@ -3,15 +3,23 @@
     <Nav v-on:search="search" :placeholder="placeholder"/>
     <div class="main">
       <div class="top">
-        <span :class="type.selected ? 'active' : ''" v-for="(type, index) in types" :key="index" @click="getReview(type)">
-          {{ type.name }}
-        </span>
+        <div class="selector">
+          <span :class="type.selected ? 'active' : ''" v-for="(type, index) in types" :key="index" @click="getReview(type)">
+            {{ type.name }}
+          </span>
+        </div>
+        <div class="bottom">
+          <div class="radio" v-for="(radio, index) in radios" :key="index">
+            <input type="radio" name="radio" checked="true" @click="sort(radio)"/>
+            <span>{{ radio.name }}</span>
+          </div>
+        </div>
       </div>
       <div class="left">
         <div class="content" v-for="review in reviews" :key="review.id">
           <div class="review-main">
             <div class="poster">
-              <img v-if="review.rank.img_src" :src="review.rank.img_src" alt="poster" @click="jumpToDetail(review)"/>
+              <img v-if="review.rank.poster" :src="review.rank.poster" alt="poster" @click="jumpToDetail(review)"/>
               <div class="preview" v-else @click="jumpToDetail(review)">
                 <span>{{ review.rank.title }}</span>
               </div>
@@ -81,6 +89,11 @@ export default {
         { name: '悬疑', selected: false },
         { name: '纪录片', selected: false }
       ],
+      radios: [
+        { name: '按点赞数排序', type: 'likeNum' },
+        { name: '按热度排序', type: 'commentNum' },
+        { name: '按时间排序', type: 'createdAt' }
+      ],
       reviewPage: 1,
       commentPage: 1,
       limit: 12,
@@ -94,6 +107,7 @@ export default {
       lastIndex: -1,
       count: [],
       type: '',
+      order: 'createdAt',
     }
   },
   created() {
@@ -103,10 +117,6 @@ export default {
     this.types[0].selected = true;
   },
   methods: {
-    search(val) {
-      this.searchWord = val;
-      this.getReview();
-    },
     async getReview(item) {
       if (item && item.selected) {
         item = null;
@@ -132,7 +142,8 @@ export default {
           page: this.reviewPage,
           limit: this.limit,
           searchWord: this.searchWord,
-          type: this.type
+          type: this.type,
+          order: this.order
         })
         reviews.forEach(review => {
           review.updatedAt = review.updatedAt.split(' ')[0];
@@ -151,7 +162,8 @@ export default {
         });
         await request('POST', '/user/favor', {}, {
           id: this.currentUser.id,
-          type: review.rank.type
+          type: review.rank.type,
+          movieId: review.rank.id
         });
         this.getReview();
       } catch (err) {
@@ -166,7 +178,8 @@ export default {
         });
         await request('POST', '/user/favor', {}, {
           id: this.currentUser.id,
-          type: review.rank.type
+          type: review.rank.type,
+          movieId: review.rank.id
         });
         this.getReview();
         this.$message('收藏成功');
@@ -204,6 +217,14 @@ export default {
         this.$message(err.message, 'error');
       }
     },
+    sort(radio) {
+      this.order = radio.type;
+      this.getReview();
+    },
+    search(val) {
+      this.searchWord = val;
+      this.getReview();
+    },
     showCommentBox(review, index) {
       this.$refs.commentBox[index].style.display = 'flex';
       if (this.lastIndex !== index && this.lastIndex === -1) {
@@ -227,7 +248,8 @@ export default {
     async jumpToDetail(review) {
       await request('POST', '/user/favor', {}, {
         id: this.currentUser.id,
-        type: review.rank.type
+        type: review.rank.type,
+        movieId: review.rank.id
       });
       this.$router.push({ name: 'Review', params: { review } });
     },
@@ -253,31 +275,33 @@ export default {
     align-items: center;
     .top {
       margin: .2rem 7.5% .45rem;
-      // padding: 4px 20px 4px 8px;
-      padding: .1rem;
+      padding: .3rem;
       display: flex;
+      flex-direction: column;
       justify-content: flex-end;
-      align-self: flex-end;
-      // padding: 10px 0 30px;
       width: auto;
+      color: #FFF;
       font-size: .28rem;
       line-height: 160%;
       background: linear-gradient(to bottom right, #6ABD78, #426ab3);
       border-radius: 4px;
-      span {
-        margin-left: 12px;
-        // color: #3D5363;
-        color: #FFF;
-        transition: all .2s ease-in;
-        cursor: pointer;
-        &:hover {
-          font-weight: 600;
+      .selector {
+        span {
+          margin-left: 12px;
+          transition: all .2s ease-in;
+          cursor: pointer;
+          &:hover {
+            font-weight: 600;
+          }
+        }
+        .active {
+          color: orange;
         }
       }
-      .active {
-        // font-size: 18px;
-        // font-weight: 600;
-        color: orange;
+      .bottom {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-around;
       }
     }
     .left {

@@ -56,7 +56,7 @@ export default {
         });
         for (let i = 0; i < 10; i += 1) {
           const num = Math.floor(Math.random() * 250);
-          ranks[num].style = `background: url(${ranks[num].img_src}); background-size: cover;`;
+          ranks[num].style = `background: url(${ranks[num].poster}); background-size: cover;`;
           this.ranks.push(ranks[num]);
         }
       } catch (err) {

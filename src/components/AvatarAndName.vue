@@ -52,8 +52,8 @@ export default {
     .avatar {
       position: relative;
       .show {
-        width: .46rem;
-        height: .46rem;
+        width: 60px; /*px*/
+        height: 60px; /*px*/
         border-radius: 50%;
         @media screen and (max-device-width: 800px) {
           width: .6rem;

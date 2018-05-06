@@ -15,7 +15,7 @@
         </span>
         <div class="operation">
           <i class="iconfont icon-browse"></i>
-          <i class="iconfont icon-delete" @click="deleteUser(user)"></i>
+          <i class="iconfont icon-delete" @click="deleteItem(item)"></i>
         </div>
       </div>
     </div>
@@ -46,6 +46,11 @@ export default {
   data() {
     return {
       avatarStyle: 'height: 36px; width: 36px;',
+    }
+  },
+  methods: {
+    deleteItem(item) {
+      this.$emit('delete', item);
     }
   },
 }

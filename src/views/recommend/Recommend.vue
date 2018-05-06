@@ -6,7 +6,7 @@
       <div class="recommend-list">
         <div class="recommend-content" v-for="recommend in recommends" :key="recommend.id">
           <div class="poster">
-            <img :src="recommend.img_src" alt="poster"/>
+            <img :src="recommend.poster" alt="poster"/>
             <div class="shadow">
               <span>{{ recommend.quote }}</span>
             </div>
@@ -17,7 +17,9 @@
             <div class="arrow-up media-arrow"></div>
             <div class="hole media-hole"></div>
             <span>{{ recommend.title }}</span>
-            <span>{{ recommend.info }}</span>
+            <span>{{ recommend.director }}</span>
+            <span>{{ recommend.writer }}</span>
+            <span>{{ recommend.actor }}</span>
             <div class="detail">
               <span>{{ recommend.area }}</span>
               <span>{{ recommend.time }}</span>
@@ -26,7 +28,6 @@
               <span>{{ recommend.star }}</span>
               <span>{{ recommend.type }}</span>
             </div>
-            <span>{{ recommend.quote }}</span>
           </div>
         </div>
       </div>

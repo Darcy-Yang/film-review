@@ -17,7 +17,7 @@
         <transition name="fade">
           <div class="movie-info" v-if="movie">
             <div class="poster">
-              <img class="poster" :src="movie.img_src" alt="poster"/>
+              <img class="poster" :src="movie.poster" alt="poster"/>
               <span>{{ movie.quote }}</span>
             </div>
             <div class="info">
@@ -125,7 +125,8 @@ export default {
         })
         await request('POST', '/user/favor', {}, {
           id: user.id,
-          type: movieType || this.movie.type
+          type: movieType || this.movie.type,
+          movieId: movieId || this.movie.id
         });
         this.$router.push('/index');
         this.$message('影评发布成功');

@@ -2,7 +2,7 @@
   <div class="user-main">
     <div class="top">
       <h3>用户管理 ( {{ allUser.length }} )</h3>
-      <List :descriptions="descriptions" :lists="allUser" :keys=keys>
+      <List :descriptions="descriptions" :lists="allUser" :keys=keys v-on:delete="deleteUser">
       </List>
     </div>
   </div>

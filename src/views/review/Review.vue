@@ -3,15 +3,22 @@
     <Nav/>
     <div class="content">
       <div class="left-content">
-        <img v-if="currentReview.rank.img_src" :src="currentReview.rank.img_src" alt="poster"/>
+        <img v-if="currentReview.rank.poster" :src="currentReview.rank.poster" alt="poster"/>
         <div class="poster" v-else>
           <span>{{ currentReview.rank.title }}</span>
         </div>
-        <span class="title">{{ currentReview.rank.title }}</span>
-        <span>{{ currentReview.rank.info }}</span>
-          <span>{{ currentReview.rank.type }}</span>
+        <div class="info">
+          <span class="title">{{ currentReview.rank.title }}</span>
+          <span>导演：{{ currentReview.rank.director }}</span>
+          <span>编剧：{{ currentReview.rank.writer }}</span>
+          <span>主演：{{ currentReview.rank.actor }}</span>
+          <span>类型：{{ currentReview.rank.type }}</span>
+          <span>地区：{{ currentReview.rank.area }}</span>
+          <span>上映时间：{{ currentReview.rank.time }}</span>
+          <span>片长：{{ currentReview.rank.runTime }}</span>
           <span>豆瓣评分: {{ currentReview.rank.star ? currentReview.rank.star : '暂无' }}</span>
-          <span class="quote">{{ currentReview.rank.quote }}</span>
+          <span class="summary">电影简介: {{ currentReview.rank.summary }}</span>
+        </div>
       </div>
       <div class="right-content">
         <h3>用户影评</h3>
@@ -113,6 +120,7 @@ export default {
       this.currentUser = user;
     }
     this.currentReview = this.$route.params.review ? this.$route.params.review : JSON.parse(localStorage.getItem('CURRENT_REVIEW'));
+    this.currentReview.rank.summary = this.currentReview.rank.summary.replace(/(^\s+)|(\s+$)/g, '');
     this.getReview();
   },
   methods: {
@@ -149,7 +157,8 @@ export default {
         });
         await request('POST', '/user/favor', {}, {
           id: this.currentUser.id,
-          type: this.currentReview.rank.type
+          type: this.currentReview.rank.type,
+          movieId: this.currentReview.rank.id
         });
         this.getReview();
       } catch (err) {
@@ -231,14 +240,17 @@ export default {
   .content {
     margin: 102px auto 0 auto;
     display: flex;
+    flex-direction: column;
     width: 80%;
     .left-content {
       position: relative;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      // flex-direction: column;
+      // justify-content: center;
+      align-items: center;
       flex-wrap: wrap;
       width: 4rem;
+      width: 100%;
       height: 100%;
       padding: 0 .3rem .6rem .36rem;
       color: #FFF;
@@ -246,9 +258,11 @@ export default {
       background: linear-gradient(to bottom right, #6ABD78, #426ab3);
       img {
         position: absolute;
-        top: -0.4rem;
+        // top: -0.4rem;
+        top: 0;
         width: 3.9rem;
         height: 6.4rem;
+        // height: 100%;
         box-shadow: 0 8px 12px rgba(26, 26, 26, .3);
       }
       .poster {
@@ -264,13 +278,24 @@ export default {
         background-color: #426AB3;
         box-shadow: 0 8px 12px rgba(26, 26, 26, .3);
       }
-      .title {
-        margin-top: 6.6rem;
-        font-size: .32rem;
-        font-weight: 600;
-      }
-      .quote {
-        font-style: italic;
+      .info {
+        margin-left: 4rem;
+        padding: .4rem;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        span {
+          margin-bottom: .2rem;
+        }
+        .title {
+          // margin-top: 6.6rem;
+          font-size: .32rem;
+          font-weight: 600;
+        }
+        .summary {
+          font-style: italic;
+        }
       }
     }
     .right-content {

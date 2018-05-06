@@ -146,15 +146,15 @@ export default {
       width: 4.8rem;
       height: 100%;
       word-break: break-all;
-      background-color: #F5DEB3;
+      background-color: #FFF;
       border-radius: 3px 3px 51px 3px;
       box-shadow: 0 4px 12px rgba(26, 26, 26, .3); /*px*/
       &:before{
         content:'';
-        width: 25px;
-        height: 20px;
+        width: .4rem;
+        height: .26rem;
         position: absolute;
-        bottom:0;
+        bottom: -3px; /*px*/
         right:0;
         -webkit-border-radius: 0 0 30px 0;
         -moz-border-radius: 0 0 30px 0;
@@ -170,8 +170,8 @@ export default {
       &:after{
         content: '';
         z-index: -1;
-        width: 100px;
-        height: 100px;
+        width: 1.5rem;
+        height: 1.5rem;
         position:absolute;
         bottom:0;
         right:0;

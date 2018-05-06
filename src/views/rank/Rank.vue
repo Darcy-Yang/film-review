@@ -26,12 +26,12 @@
         <div class="movies" v-for="(movie, index) in ranks" :key="index" @click="jumpToDetail(movie)">
           <div class="main-content">
             <div class="poster">
-              <img v-if="movie.img_src" :src='movie.img_src' alt="poster"/>
+              <img v-if="movie.poster" :src='movie.poster' alt="poster"/>
               <div class="preview" v-else>
                 <span>{{ movie.title }}</span>
               </div>
               <div class="hover-show">
-                <span>{{ movie.quote ? movie.quote : movie.title }}</span>
+                <span>{{ movie.title }}</span>
               </div>
             </div>
             <div class="info">
@@ -155,7 +155,8 @@ export default {
       review.movieId = movie.id;
       await request('POST', '/user/favor', {}, {
         id: this.currentUser.id,
-        type: movie.type
+        type: movie.type,
+        movieId: movie.id
       });
       this.$router.push({ name: 'Review', params: { review } });
     },
@@ -204,7 +205,7 @@ export default {
             cursor: pointer;
           }
           .actived {
-            padding: 2px 4px;
+            padding: 4px 8px; /*px*/
             color: #FFF;
             background-color: #2196FF;
             border-radius: 3px;
