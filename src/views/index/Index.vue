@@ -91,7 +91,8 @@ export default {
       ],
       radios: [
         { name: '按点赞数排序', type: 'likeNum' },
-        { name: '按热度排序', type: 'commentNum' },
+        { name: '按评论数排序', type: 'commentNum' },
+        { name: '按浏览数排序', type: 'reviewNum' },
         { name: '按时间排序', type: 'createdAt' }
       ],
       reviewPage: 1,
@@ -249,7 +250,9 @@ export default {
       await request('POST', '/user/favor', {}, {
         id: this.currentUser.id,
         type: review.rank.type,
-        movieId: review.rank.id
+        movieId: review.rank.id,
+        isReview: true,
+        reviewId: review.id
       });
       this.$router.push({ name: 'Review', params: { review } });
     },

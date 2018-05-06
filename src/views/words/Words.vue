@@ -1,5 +1,5 @@
 <template>
-  <div class="words-main">
+  <div class="words-main" :style="mainStyle">
     <Nav :placeholder="placeholder" v-on:search="search" v-on:addWords="openModal"/>
     <div class="content">
       <div class="words" v-for="word in words" :key="word.id">
@@ -20,10 +20,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="add-btn" @click="openModal">
-      <i class="iconfont icon-add"></i>
-      <span>添加</span>
     </div>
     <div class="modal" v-if="showModal">
       <container class="container" v-click-outside="closeModal" v-on:container="addWords"
@@ -49,6 +45,7 @@ export default {
   },
   data() {
     return {
+      mainStyle: '',
       placeholder: '台词／影名',
       searchWord: '',
       firstPlaceHolder: '台词',
@@ -112,6 +109,7 @@ export default {
       }
     },
     openModal() {
+      this.mainStyle = 'min-height: 0; height: calc(100vh - 2rem); overflow: hidden;';
       this.showModal = true;
       setTimeout(scrollTo(0, 0), 100);
     },

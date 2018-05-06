@@ -144,6 +144,7 @@ export default {
       this.movie = movie;
     },
     addMovie() {
+      this.movie = null;
       this.showSelect = false;
       this.showAddArea = true;
     },
@@ -261,9 +262,9 @@ export default {
           margin-right: 20px;
           border-radius: 4px;
           img {
-            width: 136px;
-            height: 190px;
-            box-shadow: 0 1px 2px rgba(26, 26, 26, .3);
+            width: 272px; /*px*/
+            height: 380px; /*px*/
+            box-shadow: 0 2px 4px rgba(26, 26, 26, .3); /*px*/
           }
           span {
             padding-left: 6px;
@@ -284,14 +285,14 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
-          padding: 12px;
-          width: 112px;
-          min-height: 176px;
+          padding: 24px; /*px*/
+          width: 224px; /*px*/
+          min-height: 352px; /*px*/
           color: #FAFBFB;
-          letter-spacing: .4px;
+          letter-spacing: .8px; /*px*/
           word-break: break-all;
           background-color: #426AB3;
-          border-radius: 4px;
+          border-radius: 8px; /*px*/
         }
         .add-info {
           margin-left: 12px;

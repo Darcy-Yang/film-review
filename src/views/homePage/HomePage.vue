@@ -41,7 +41,9 @@
         </div>
         <div class="status">
           <h3>个人状态 👤</h3>
-          <span>暂时还没想好...🤔</span>
+          <span>影评获得喜欢{{ reviewLikeNum }}次</span>
+          <span>台词获得喜欢{{ wordsLikeNum }}次</span>
+          <span>影评被阅读{{ reviewNum }}次</span>
         </div>
       </div>
     </div>
@@ -67,6 +69,9 @@ export default {
   data () {
     return {
       user: null,
+      reviewLikeNum: 0,
+      reviewNum: 0,
+      wordsLikeNum: 0,
     }
   },
   created() {
@@ -74,8 +79,15 @@ export default {
       const { user } = getUser();
       this.user = user;
     }
+    this.getDetail();
   },
   methods: {
+    async getDetail() {
+      const { reviewLikeNum, reviewNum, wordsLikeNum } = await request('GET', `/user/${this.user.id}`);
+      this.reviewLikeNum = reviewLikeNum;
+      this.reviewNum = reviewNum;
+      this.wordsLikeNum = wordsLikeNum;
+    },
     async uploadCover(e) {
       const file = e.target.files[0];
       const data = new FormData();
@@ -283,13 +295,12 @@ export default {
       }
       .status {
         margin-right: -22px;
-        // padding: 0 12px;
+        display: flex;
+        flex-direction: column;
         width: 32%;
-        // height: 100%;
         min-height: 5.21rem;
         height: 100%;
         background-color: #FFF;
-        // background: linear-gradient(to bottom right, #6ABD78, #426ab3);
         border-radius: 3px;
         box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
         h3 {
