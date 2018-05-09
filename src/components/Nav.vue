@@ -15,6 +15,16 @@
           <i class="iconfont icon-search" @click="search"></i>
           <input type="text" :placeholder="placeholder" v-model="searchWord" @keydown="goSearch"/>
         </div>
+        <div class="notice">
+          <i class="iconfont icon-notice"></i>
+          <span class="num" v-if="noticeCount > 0">{{ noticeCount }}</span>
+          <div class="notice-content" v-if="noticeCount > 0">
+            <div class="arrow"></div>
+            <div class="content" :class="!notice.checked ? 'actived' : ''" v-for="notice in noticeLike" :key="notice.id" @click="check(notice)">
+              <span>{{ notice.user.name }} 赞同了你的影评 {{ notice.review.title }}</span>
+            </div>
+          </div>
+        </div>
         <router-link class="avatar" to="/homepage">
           <img :src="user.avatar" alt="avatar"/>
           <span>{{ user.name }}</span>
@@ -25,6 +35,7 @@
 </template>
 
 <script>
+import request from '@/utils/request';
 import { getUser } from '@/utils/user';
 
 export default {
@@ -44,6 +55,8 @@ export default {
       ],
       searchWord: '',
       user: null,
+      noticeCount: 0,
+      noticeLike: [],
     }
   },
   created() {
@@ -51,8 +64,18 @@ export default {
       const { user } = getUser();
       this.user = user;
     }
+    this.getNotice();
   },
   methods: {
+    async getNotice() {
+      const { count, noticeLike } = await request('GET', `/user/notice/${this.user.id}`);
+      this.noticeCount = count;
+      this.noticeLike = noticeLike;
+    },
+    async check(notice) {
+      await request('POST', '/user/check', {}, { id: notice.id });
+      this.getNotice();
+    },
     goSearch(e) {
       if (e.keyCode === 13) this.search();
     },
@@ -86,7 +109,7 @@ export default {
   background: linear-gradient(to bottom right, #6ABD78, #426ab3);
   box-shadow: 0 1px 2px #F3F3F3;
   z-index: 3;
-  opacity: .9;
+  // opacity: .9;
   a{
     margin-right: 30px;
     padding: 2px 6px;
@@ -165,6 +188,67 @@ export default {
         color: #0077FF;
         line-height: 16px;
         cursor: pointer;
+      }
+      .notice {
+        position: relative;
+        margin: 0 24px; /*px*/
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        &:hover {
+          .notice-content {
+            display: block;
+          }
+        }
+        i {
+          padding: 0;
+          font-size: 48px; /*px*/
+          color: #FFF;
+
+          transition: all .4s;
+          &:hover {
+            color: #0077FF;
+          }
+        }
+        .num {
+          padding: 4px 16px; /*px*/
+          color: #FFF;
+          background-color: #0077FF;
+          border-radius: 50%;
+        }
+        .notice-content {
+          display: none;
+          padding: 0 24px; /*px*/
+          position: fixed;
+          top: 140px; /*px*/
+          right: 44px; /*px*/
+          background-color: #FFF;
+          border-radius: 8px; /*px*/
+          box-shadow: 0 2px 6px rgba(26, 26, 26, .3); /*px*/
+          .arrow {
+            position: absolute;
+            top: -40px; /*px*/
+            left: 43%;
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent; /*px*/
+            border-right: 20px solid transparent; /*px*/
+            border-bottom: 40px solid #FFF; /*px*/
+          }
+          .content {
+            margin: 4px 0; /*px*/
+            padding: 28px 0; /*px*/
+            width: 460px; /*px*/
+            border-bottom: 1px solid #EBEBEB;
+            &:last-child {
+              border: none;
+            }
+          }
+          .actived {
+            color: #0077FF;
+            // background-color: #BDBDBD;
+          }
+        }
       }
       img {
         width: .6rem;

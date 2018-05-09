@@ -1,5 +1,5 @@
 <template>
-  <div class="review-main">
+  <div class="review-main" :style="mainStyle">
     <Nav/>
     <div class="content">
       <div class="left-content">
@@ -29,7 +29,7 @@
               <span class="time">{{ review.updatedAt }}</span>
             </div>
             <span class="title">{{ review.title }}</span>
-            <span class="text">{{ review.content }}</span>
+            <span class="text" @click="showAll(review, index)">{{ review.content }}</span>
             <div class="feature">
               <div class="like btn" :class="review.isLiked ? 'actived' : ''" @click="operate(review, true)">
                 <i class="iconfont icon-like"></i>
@@ -91,6 +91,7 @@ export default {
   },
   data () {
     return {
+      mainStyle: '',
       avatarStyle: 'width: 30px; height: 30px;',
       entered: false,
       currentReview: null,
@@ -108,7 +109,7 @@ export default {
       showModal: false,
       showComment: false,
       firstPlaceHolder: '影评内容',
-      secondPlaceHolder: '标题',
+      secondPlaceHolder: '标题 (选填)',
     }
   },
   created() {
@@ -124,6 +125,15 @@ export default {
     this.getReview();
   },
   methods: {
+    showAll(review, index) {
+      if (!review.showAll) {
+        this.$refs.review[index].children[2].style = 'overflow: visible; height: 100%; -webkit-line-clamp: unset;';
+        review.showAll = true;
+      } else {
+        this.$refs.review[index].children[2].style = '';
+        review.showAll = false;
+      }
+    },
     async getReview() {
       try {
         const { count, reviews } = await request('GET', `/review/${this.currentUser.id}/movie/${this.currentReview.movieId}`, {
@@ -145,7 +155,7 @@ export default {
         this.commentCount = count;
         this.comments = comments;
       } catch (err) {
-        console.log(err);
+        this.$message(err.message, 'error');
       }
     },
     async operate(review, isLike) {
@@ -186,8 +196,7 @@ export default {
     },
     async addReview(title, content) {
       if (!title) {
-        this.$message('标题不能为空', 'warning');
-        return;
+        title = this.currentReview.rank.title;
       } else if (!content) {
         this.$message('内容不能为空', 'warning');
         return;
@@ -207,11 +216,13 @@ export default {
       }
     },
     openModal() {
+      this.mainStyle = 'min-height: 0; height: calc(100vh - 2rem); overflow: hidden;';
       this.showModal = true;
       setTimeout(scrollTo(0, 0), 100);
       this.reviews.forEach(review => review.showComment = false);
     },
     closeModal() {
+      this.mainStyle = '';
       this.showModal = false;
     },
     openComment(review, index) {
@@ -323,7 +334,7 @@ export default {
           margin: 0 0 0.34rem 0.28rem;
           display: flex;
           flex-direction: column;
-          min-width: 40%;
+          width: 40%;
           height: 100%;
           padding: 10px 20px;
           word-break: break-all;
@@ -349,8 +360,16 @@ export default {
             letter-spacing: 1.4px; /*px*/
           }
           .text {
+            display: -webkit-box;
+            overflow: hidden;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             letter-spacing: 1.2px; /*px*/
             line-height: 48px; /*px*/
+            height: 100px; /*px*/
+            text-indent: 24px; /*px*/
+
+            cursor: pointer;
           }
           .feature {
             margin-top: 12px; /*px*/
@@ -437,7 +456,6 @@ export default {
           justify-content: center;
           align-items: center;
           height: 132px;
-          cursor: pointer;
           .iconfont {
             margin-bottom: 2px;
             font-size: 18px;

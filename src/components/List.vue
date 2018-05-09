@@ -2,13 +2,14 @@
   <div class="content">
       <div class="header list">
         <div class="hole"></div>
-        <span v-for="(item, index) in descriptions" :key="index * -1">
+        <span class="batch" v-if="showBatch" @click="deleteBatch">批量删除</span>
+        <span v-else v-for="(item, index) in descriptions" :key="index * -1">
           {{ item }}
         </span>
         <span class="operation"></span>
       </div>
       <div class="list" v-for="(item, index) in lists" :class="index % 2 === 0 ? 'odd' : ''" :key="index">
-        <div class="hole" :class="item.selected ? 'active' : ''" @click="item.selected = !item.selected"></div>
+        <div class="hole" :class="item.selected ? 'active' : ''" @click="choose(item)"></div>
         <avatar-and-name v-if="!!item.avatar" :avatarStyle="avatarStyle" :avatar="item.avatar" :name="item.name"/>
         <span v-for="(key, index) in keys" :class="key === 'createdAt' || key === 'updatedAt' ? 'time' : ''" :key="index">
           {{ item[key] }}
@@ -46,12 +47,23 @@ export default {
   data() {
     return {
       avatarStyle: 'height: 36px; width: 36px;',
+      showBatch: false,
     }
   },
   methods: {
     deleteItem(item) {
       this.$emit('delete', item);
-    }
+    },
+    deleteBatch() {
+      const removeIds = [];
+      const removeList = this.lists.filter(list => list.selected);
+      removeList.forEach(remove => removeIds.push(remove.id));
+      this.$emit('deleteBatch', removeIds);
+    },
+    choose(item) {
+      item.selected = !item.selected;
+      this.showBatch = (this.lists.filter(list => list.selected)).length;
+    },
   },
 }
 </script>
@@ -136,6 +148,10 @@ export default {
     border-top-right-radius: 8px; /*px*/
     span {
       border-left: 2px solid #BDBDBD; /*px*/
+    }
+    .batch {
+      color: #0077FF;
+      cursor: pointer;
     }
   }
 }

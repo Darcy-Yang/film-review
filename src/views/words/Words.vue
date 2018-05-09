@@ -114,6 +114,7 @@ export default {
       setTimeout(scrollTo(0, 0), 100);
     },
     closeModal() {
+      this.mainStyle = '';
       this.showModal = false;
     },
   },

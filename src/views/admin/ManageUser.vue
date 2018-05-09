@@ -2,7 +2,7 @@
   <div class="user-main">
     <div class="top">
       <h3>用户管理 ( {{ allUser.length }} )</h3>
-      <List :descriptions="descriptions" :lists="allUser" :keys=keys v-on:delete="deleteUser">
+      <List :descriptions="descriptions" :lists="allUser" :keys=keys v-on:delete="deleteUser" v-on:deleteBatch="deleteBatch">
       </List>
     </div>
   </div>
@@ -60,9 +60,35 @@ export default {
           action: function () {
             confirm.closeConfirm().then(async function (res) {
               try {
-                await request('DELETE', `/delete/${user.id}`);
+                await request('DELETE', `/user/delete/${user.id}`);
                 that.getUser();
                 that.$message('删除成功');
+              } catch (err) {
+                that.$message(err.message, 'error');
+              }
+            });
+          }
+        }]
+      })
+    },
+    async deleteBatch(ids) {
+      const that = this;
+      const confirm = this.$confirm({
+        message: `确认删除选中吗?`,
+        buttons: [{
+          action: function () {
+            confirm.closeConfirm().then(function (res) {
+              return;
+            });
+          }
+        },
+        {
+          action: function () {
+            confirm.closeConfirm().then(async function (res) {
+              try {
+                await request('DELETE', `/user/delete/batch/${ids.join(' ')}`);
+                that.getUser();
+                that.$message('批量删除成功');
               } catch (err) {
                 that.$message(err.message, 'error');
               }

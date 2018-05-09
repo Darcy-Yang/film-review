@@ -18,12 +18,6 @@
           <div class="movie-info" v-if="movie">
             <div class="poster">
               <img class="poster" :src="movie.poster" alt="poster"/>
-              <span>{{ movie.quote }}</span>
-            </div>
-            <div class="info">
-              <span>{{ movie.title }}</span>
-              <span>{{ movie.info }}</span>
-              <span>{{ movie.movie_type }}</span>
             </div>
           </div>
           <div class="movie-info add-movie" v-else-if="showAddArea">
@@ -39,7 +33,7 @@
         </transition>
       </div>
       <div class="title-area">
-        <textarea placeholder="标题" v-model="title"></textarea>
+        <textarea placeholder="标题 (选填)" v-model="title"></textarea>
       </div>
       <div class="separator">
       </div>
@@ -47,7 +41,7 @@
         <textarea placeholder="正文" v-model="content"></textarea>
       </div>
       <div class="submit-area">
-        <button :class="movie || (director && player && type) && title && content ? 'finish' : 'disabled'" @click="submit">完成</button>
+        <button :class="movie  && content || (director && player && type) && content ? 'finish' : 'disabled'" @click="submit">完成</button>
       </div>
     </div>
   </div>
@@ -89,8 +83,7 @@ export default {
         this.$message('请选择电影', 'warning');
         return;
       } else if (!this.title) {
-        this.$message('请填写标题', 'warning');
-        return;
+        this.title = this.searchWord || this.movie.title;
       } else if (!this.content) {
         this.$message('请填写内容', 'warning');
         return;
@@ -263,22 +256,12 @@ export default {
           border-radius: 4px;
           img {
             width: 272px; /*px*/
-            height: 380px; /*px*/
+            height: 404px; /*px*/
             box-shadow: 0 2px 4px rgba(26, 26, 26, .3); /*px*/
           }
           span {
             padding-left: 6px;
             font-style: italic;
-          }
-        }
-        .info {
-          display: flex;
-          flex-direction: column;
-          span {
-            margin-bottom: 8px;
-            &:first-child {
-              font-size: 36px; /*px*/
-            }
           }
         }
         .preview {

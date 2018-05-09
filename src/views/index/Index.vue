@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div class="left">
+      <div class="left" v-if="reviews.length">
         <div class="content" v-for="review in reviews" :key="review.id">
           <div class="review-main">
             <div class="poster">
@@ -53,6 +53,9 @@
         <div class="pagination">
           <pagination v-if="pageCount > 1" :pageCount="pageCount"/>
         </div>
+      </div>
+      <div class="no-result" v-else>
+        <h2>抱歉，暂无搜索结果</h2>
       </div>
     </div>
   </div>
@@ -305,6 +308,9 @@ export default {
         display: flex;
         flex-direction: row-reverse;
         justify-content: space-around;
+        input {
+          cursor: pointer;
+        }
       }
     }
     .left {
@@ -402,6 +408,7 @@ export default {
             .review-content {
               margin: 0.1rem 0 0.24rem 0;
               padding: 0 15px;
+              height: 124px; /*px*/
 
               display: -webkit-box;
               overflow: hidden;
@@ -456,6 +463,9 @@ export default {
         justify-content: center;
         width: 100%;
       }
+    }
+    .no-result {
+      color: gray;
     }
     @media screen and (max-device-width: 800px) {
       margin-top: 2.2rem;
