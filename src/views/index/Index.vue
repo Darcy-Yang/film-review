@@ -271,7 +271,6 @@ export default {
 
 <style lang="less" scoped>
 .index-main {
-  // margin-top: 82px;
   margin-top: 1.3rem;
   .main {
     margin-top: 34px;
@@ -280,17 +279,14 @@ export default {
     justify-content: center;
     align-items: center;
     .top {
-      // margin: 0 7.5% .45rem;
       margin-bottom: .3rem;
       padding: .3rem 0;
       display: flex;
-      // flex-direction: column;
       justify-content: center;
       width: 100%;
       color: gray;
       font-size: .28rem;
       line-height: 160%;
-      // background: linear-gradient(to bottom right, #6ABD78, #426ab3);
       border-radius: 4px;
       .selector {
         span {
@@ -327,18 +323,24 @@ export default {
         margin: 0 0 24px 32px;
         display: flex;
         flex-direction: column;
-        // width: 88%;
         width: 3.8rem;
         .review-main {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          // width: 220px;
           flex-wrap: wrap;
 
-          border-radius: 6px;
+          // border-radius: 6px;
           background-color: #FFF;
-          box-shadow: 0 0 3px rgba(26, 26, 26, 0.4);
+          // box-shadow: 0 0 3px rgba(26, 26, 26, 0.4);
+          cursor: pointer;
+
+          transition: all .3s;
+          &:hover {
+            border-radius: 6px;
+            transform: translateY(-20px); /*px*/
+            box-shadow: 0 10px 16px rgba(26, 26, 26, 0.12) /*px*/
+          }
           .poster {
             position: relative;
             flex: 1;
@@ -348,7 +350,6 @@ export default {
             border-top-right-radius: 6px;
             cursor: pointer;
             img {
-              // width: 220px;
               width: 100%;
               height: 100%;
               border-top-left-radius: 6px;
@@ -433,6 +434,7 @@ export default {
               color: gray;
               border-top: 1px dashed #70757B;
               .comment {
+                cursor: default;
                 .iconfont {
                   font-size: .3rem;
                   font-weight: 600;

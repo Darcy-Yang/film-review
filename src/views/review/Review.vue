@@ -53,7 +53,7 @@
                 <div class="comments" v-for="comment in comments" :key="comment.id">
                   <div class="comment-content">
                     <avatar-and-name :name="comment.user.name" :avatar="comment.user.avatar"/>
-                    <span class="text">{{ comment.content }}</span>
+                    <span class="comment">{{ comment.content }}</span>
                     <span class="time">{{ comment.updatedAt }}</span>
                   </div>
                 </div>
@@ -297,10 +297,11 @@ export default {
         height: 100%;
         span {
           margin-bottom: .2rem;
+          font-size: .3rem;
         }
         .title {
           // margin-top: 6.6rem;
-          font-size: .48rem;
+          font-size: .48rem; /*em*/
           font-weight: 600;
         }
         .explain {
@@ -367,7 +368,8 @@ export default {
             overflow: hidden;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
-            letter-spacing: 1.2px; /*px*/
+            font-size: .3rem;
+            letter-spacing: .01rem;
             line-height: 48px; /*px*/
             height: 100px; /*px*/
             text-indent: 24px; /*px*/
@@ -432,12 +434,16 @@ export default {
               .comment-content {
                 display: flex;
                 flex-direction: column;
-                .text {
+                width: 100%;
+                .comment {
                   margin-left: 64px; /*px*/
+                  font-size: .3rem;
+                  text-indent: 24px; /*px*/
                 }
               }
               .time {
                 margin: 8px 0 0 64px; /*px*/
+                align-self: flex-end;
                 font-size: 28px; /*px*/
                 color: #8590A6;
               }
@@ -460,6 +466,8 @@ export default {
           justify-content: center;
           align-items: center;
           height: 132px;
+
+          cursor: pointer;
           .iconfont {
             margin-bottom: 2px;
             font-size: 18px;
