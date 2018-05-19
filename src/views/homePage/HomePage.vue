@@ -41,9 +41,18 @@
         </div>
         <div class="status">
           <h3>个人状态 👤</h3>
-          <span>影评获得喜欢{{ reviewLikeNum }}次</span>
-          <span>台词获得喜欢{{ wordsLikeNum }}次</span>
-          <span>影评被阅读{{ reviewNum }}次</span>
+          <div class="description">
+            <i class="iconfont icon-like"></i>
+            <span>影评获得喜欢{{ reviewLikeNum }}次</span>
+          </div>
+          <div class="description">
+            <i class="iconfont icon-like"></i>
+            <span>台词获得喜欢{{ wordsLikeNum }}次</span>
+          </div>
+          <div class="description">
+            <i class="iconfont icon-liulan"></i>
+            <span>影评被阅读{{ reviewNum }}次</span>
+          </div>
         </div>
       </div>
     </div>
@@ -307,8 +316,12 @@ export default {
           padding: 0 12px 8px 12px;
           border-bottom: 1px solid #BDBDBD;
         }
-        span {
+        .description {
           padding: 0 12px;
+          color: #646464;
+          i {
+            font-size: 48px; /*px*/
+          }
         }
       }
     }

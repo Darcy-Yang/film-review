@@ -9,7 +9,7 @@
       <div class="item" :class="item.selected || inited && item.index === 1 ? 'actived' : ''" v-for="item in topHalf" :key="item.index + 3" @click="turning(item.index, item)">
         <span>{{ item.index }}</span>
       </div>
-      <div class="item">
+      <div class="item rest">
         <span>...</span>
       </div>
       <div class="item" :class="item.selected ? 'actived' : ''" v-for="item in lastHalf" :key="item.index" @click="turning(pageCount - item.index, item)">
@@ -98,6 +98,12 @@ export default {
     &:hover {
       border-color: #0077FF;
     }
+  }
+  .rest {
+    letter-spacing: 1px;
+    background-color: inherit;
+    border: none;
+    cursor: default;
   }
   .jump {
     float: left;

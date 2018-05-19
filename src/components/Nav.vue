@@ -15,10 +15,10 @@
           <i class="iconfont icon-search" @click="search"></i>
           <input type="text" :placeholder="placeholder" v-model="searchWord" @keydown="goSearch"/>
         </div>
-        <div class="notice">
+        <div class="notice" @click="openNotice" v-click-outside="closeNotice">
           <i class="iconfont icon-notice"></i>
           <span class="num" v-if="noticeCount > 0">{{ noticeCount }}</span>
-          <div class="notice-content" v-if="noticeCount > 0">
+          <div class="notice-content" v-if="noticeCount > 0 && showNotice">
             <div class="arrow"></div>
             <div class="content" :class="!notice.checked ? 'actived' : ''" v-for="notice in noticeLike" :key="notice.id" @click="check(notice)">
               <span>{{ notice.user.name }} 赞同了你的影评 {{ notice.review.title }}</span>
@@ -57,6 +57,7 @@ export default {
       user: null,
       noticeCount: 0,
       noticeLike: [],
+      showNotice: false,
     }
   },
   created() {
@@ -75,6 +76,12 @@ export default {
     async check(notice) {
       await request('POST', '/user/check', {}, { id: notice.id });
       this.getNotice();
+    },
+    openNotice() {
+      this.showNotice = !this.showNotice;
+    },
+    closeNotice() {
+      this.showNotice = false;
     },
     goSearch(e) {
       if (e.keyCode === 13) this.search();
@@ -195,11 +202,6 @@ export default {
         display: flex;
         align-items: center;
         cursor: pointer;
-        &:hover {
-          .notice-content {
-            display: block;
-          }
-        }
         i {
           padding: 0;
           font-size: 48px; /*px*/
@@ -217,7 +219,6 @@ export default {
           border-radius: 50%;
         }
         .notice-content {
-          display: none;
           padding: 0 24px; /*px*/
           position: fixed;
           top: 140px; /*px*/

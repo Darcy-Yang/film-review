@@ -172,7 +172,6 @@ export default {
 
 <style lang="less" scoped>
 .rank-main {
-  // margin-top: 82px;
   margin-top: 2rem;
   min-height: 100vh;
   .content {
@@ -185,14 +184,8 @@ export default {
       margin-bottom: 36px;
       padding: 20px;
       padding-top: 0;
-      // width: 66%;
-      color: #FFF;
+      color: gray;
       flex-direction: column;
-
-      // background-color: #FFF;
-      background: linear-gradient(to bottom right, #6ABD78, #426ab3);
-      border-radius: 3px;
-      box-shadow: 0 1px 3px rgba(26, 26, 26, .4);
       .classify {
         display: flex;
         margin-top: 20px;
@@ -200,15 +193,12 @@ export default {
           span {
             margin-left: 30px;
             padding: 2px 4px;
-            // color: gray;
-            color: #FFF;
+            color: gray;
             cursor: pointer;
           }
           .actived {
-            padding: 4px 8px; /*px*/
-            color: #FFF;
-            background-color: #2196FF;
-            border-radius: 3px;
+            color: #2196FF;
+            border-bottom: 2px solid #BDBDBD;
           }
         }
       }
@@ -220,22 +210,18 @@ export default {
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      // align-items: flex-start;
       .movies {
         position: relative;
         display: flex;
         margin: .16rem .6rem .16rem 0;
         border-radius: 3px;
-        // box-shadow: 0 1px 3px rgba(26, 26, 26, 0.3);
         cursor: pointer;
         .main-content {
-          // position: relative;
           display: flex;
           flex-direction: column;
           .poster {
             position: relative;
             img {
-              // width: 160px;
               width: 3.2rem;
               height: 4.8rem;
               border-radius: 4px;
@@ -250,8 +236,6 @@ export default {
               padding: 12px;
               width: 136px;
               height: 200px;
-              // width: 3.2rem;
-              // height: 100%;
               color: #FFF;
               background-color: #426AB3;
               border-radius: 4px;
@@ -267,8 +251,6 @@ export default {
               flex-wrap: wrap;
               padding: 0 20px;
 
-              // width: 120px;
-              // height: 224px;
               width: 2.667rem;
               height: 4.8rem;
               color: #FFF;

@@ -9,15 +9,15 @@
         </div>
         <div class="info">
           <span class="title">{{ currentReview.rank.title }}</span>
-          <span>导演：{{ currentReview.rank.director }}</span>
-          <span>编剧：{{ currentReview.rank.writer }}</span>
-          <span>主演：{{ currentReview.rank.actor }}</span>
-          <span>类型：{{ currentReview.rank.type }}</span>
-          <span>地区：{{ currentReview.rank.area }}</span>
-          <span>上映时间：{{ currentReview.rank.time }}</span>
-          <span>片长：{{ currentReview.rank.runTime }}</span>
-          <span>豆瓣评分: {{ currentReview.rank.star ? currentReview.rank.star : '暂无' }}</span>
-          <span class="summary">电影简介: {{ currentReview.rank.summary }}</span>
+          <span><span class="explain">导演：</span>{{ currentReview.rank.director }}</span>
+          <span><span class="explain">编剧：</span>{{ currentReview.rank.writer }}</span>
+          <span><span class="explain">主演：</span>{{ currentReview.rank.actor }}</span>
+          <span><span class="explain">类型：</span>{{ currentReview.rank.type }}</span>
+          <span><span class="explain">地区：</span>{{ currentReview.rank.area }}</span>
+          <span><span class="explain">上映时间：</span>{{ currentReview.rank.time }}</span>
+          <span><span class="explain">片长：</span>{{ currentReview.rank.runTime }}</span>
+          <span><span class="explain">电影简介: </span>{{ currentReview.rank.summary }}</span>
+          <span class="score">豆瓣评分: {{ currentReview.rank.star ? currentReview.rank.star : '暂无' }}</span>
         </div>
       </div>
       <div class="right-content">
@@ -226,7 +226,6 @@ export default {
       this.showModal = false;
     },
     openComment(review, index) {
-      const width = Math.floor(this.$refs.review[index].getBoundingClientRect().width);
       this.comment = '';
       this.comments = [];
       if (review.showComment) {
@@ -235,8 +234,6 @@ export default {
       }
       this.reviews.forEach(review => review.showComment = false);
       review.showComment = true;
-      this.commentStyle = `width: ${width - 40}px;`;
-      this.inputStyle = `width: ${width - 100}px`;
       this.getComment(review);
     },
   },
@@ -267,14 +264,16 @@ export default {
       color: #FFF;
       // background-color: #F0D165;
       background: linear-gradient(to bottom right, #6ABD78, #426ab3);
+      border-radius: 8px; /*px*/
       img {
         position: absolute;
         // top: -0.4rem;
-        top: 0;
+        top: .5rem;
         width: 3.9rem;
         height: 6.4rem;
-        // height: 100%;
-        box-shadow: 0 8px 12px rgba(26, 26, 26, .3);
+        border-bottom-left-radius: 8px; /*px*/
+        border-bottom-right-radius: 8px; /*px*/
+        box-shadow: 0 16px 24px rgba(26, 26, 26, .3); /*px*/
       }
       .poster {
         display: flex;
@@ -301,11 +300,15 @@ export default {
         }
         .title {
           // margin-top: 6.6rem;
-          font-size: .32rem;
+          font-size: .48rem;
           font-weight: 600;
         }
-        .summary {
-          font-style: italic;
+        .explain {
+          font-size: 36px; /*px*/
+          color: #D9D6CF;
+        }
+        .score {
+          color: orange;
         }
       }
     }
@@ -334,7 +337,7 @@ export default {
           margin: 0 0 0.34rem 0.28rem;
           display: flex;
           flex-direction: column;
-          width: 40%;
+          width: 45%;
           height: 100%;
           padding: 10px 20px;
           word-break: break-all;
@@ -398,6 +401,7 @@ export default {
               justify-content: space-between;
               textarea {
                 padding-left: 16px; /*px*/
+                width: 86%;
                 height: 48px; /*px*/
                 font-size: 28px; /*px*/
                 line-height: 44px; /*px*/

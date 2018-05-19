@@ -55,7 +55,7 @@
         </div>
       </div>
       <div class="no-result" v-else>
-        <h2>抱歉，暂无搜索结果</h2>
+        <h2>抱歉，暂无结果</h2>
       </div>
     </div>
   </div>
@@ -280,16 +280,17 @@ export default {
     justify-content: center;
     align-items: center;
     .top {
-      margin: .2rem 7.5% .45rem;
-      padding: .3rem;
+      // margin: 0 7.5% .45rem;
+      margin-bottom: .3rem;
+      padding: .3rem 0;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      width: auto;
-      color: #FFF;
+      // flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      color: gray;
       font-size: .28rem;
       line-height: 160%;
-      background: linear-gradient(to bottom right, #6ABD78, #426ab3);
+      // background: linear-gradient(to bottom right, #6ABD78, #426ab3);
       border-radius: 4px;
       .selector {
         span {
@@ -305,11 +306,15 @@ export default {
         }
       }
       .bottom {
+        margin-left: 40px; /*px*/
         display: flex;
         flex-direction: row-reverse;
         justify-content: space-around;
-        input {
-          cursor: pointer;
+        .radio {
+          margin-right: 12px; /*px*/
+          input {
+            cursor: pointer;
+          }
         }
       }
     }
